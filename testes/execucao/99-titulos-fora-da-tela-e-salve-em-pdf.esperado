@@ -1,0 +1,13 @@
+# Auditoria de setembro
+Introdução
+## Vendas por filial
+[tabela 2 de 2] filial | total
+  Iguatu | 22436.63
+  Crato | 30695.4
+# 42 notas
+[arquivo achados.pdf, 3 linhas]
+[arquivo resumo.pdf]
+[arquivo lista.pdf]
+[conteúdo de achados.pdf] tabela nota | desconto + 3 linhas, origem da primeira: vendas_exemplo.csv, linha 7
+[conteúdo de resumo.pdf] texto "Tudo certo"
+[conteúdo de lista.pdf] texto "um" · texto "dois"

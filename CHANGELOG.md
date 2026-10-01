@@ -2,6 +2,25 @@
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [versionamento semântico](https://semver.org/lang/pt-BR/). Antes da 1.0, uma versão nova pode mudar a linguagem; toda mudança assim fica registrada aqui.
 
+## [0.8.0] — 2026-10-01
+
+### Adicionado
+- Brasil: feriados nacionais do calendário dos bancos (Anbima) e dias úteis, com `feriados(ano)`, `dia.útil`, `dia.feriado`, `dia.próximo_dia_útil`, `dia.mais_dias_úteis(n)` e `a.dias_úteis_até(b)`. Feriados da cidade entram como uma lista de datas.
+- `cpf_válido(x)` e `cnpj_válido(x)`, inclusive o CNPJ com letras que a Receita Federal começou a emitir em julho de 2026; `texto.só_números`.
+- `nota_fiscal("nota.xml")` lê o XML de uma NF-e ou NFC-e: número, série, chave, emissão, emitente, destinatário, totais, impostos, autorização e itens.
+- `tabela("extrato.ofx")` lê o extrato OFX do banco (versões 1 e 2): data, valor, tipo, histórico, documento e identificador de cada lançamento, com a linha do arquivo como origem.
+- Relatório em PDF: o botão PDF do editor e `cordel rodar … --pdf relatório.pdf` geram um relatório com tudo o que o programa mostrou (textos, tabelas, gráficos, testes e erro), com data, versão e a origem de cada valor. `salve("nome.pdf", lista)` grava uma tabela em PDF. Sem dependências: o PDF é montado pela própria Cordel.
+- `título` e `subtítulo` fora de uma tela destacam a saída e abrem seções no relatório.
+- Celular: o editor publicado no site pode ser instalado como app, abre sem internet e recebe planilhas, extratos, notas e programas compartilhados por outros apps (no Android) ou abertos pelo sistema (no computador).
+- Exemplo de conferência de nota fiscal, com `nota_exemplo.xml` e `extrato_exemplo.ofx`.
+- Guia e referência: Brasil e relatório em PDF.
+
+### Mudado
+- No editor, os arquivos de exemplo só aparecem em Arquivos quando o programa os cita.
+- `tabela` com um arquivo XML explica que nota fiscal se lê com `nota_fiscal`.
+- `npm run configurar` só põe os selos do npm e do Marketplace no README com `--selos npm,vscode`, depois de publicar.
+- Ações do GitHub e dependências de desenvolvimento atualizadas (Playwright 1.63, vsce 4).
+
 ## [0.7.0] — 2026-09-28
 
 ### Adicionado

@@ -35,6 +35,8 @@ Opções de "rodar" e "testar":
   --agora <data e hora>    momento usado por agora(), como "2026-09-26 14:30"
   --origens                mostra de onde veio cada valor (células das planilhas,
                            endereços da internet, índices do Banco Central)
+  --pdf <arquivo.pdf>      grava também um relatório em PDF com tudo o que o
+                           programa mostrou (títulos, textos, tabelas, gráficos)
 
 Opções de "formatar":
   --escrever               grava o resultado nos próprios arquivos
@@ -57,6 +59,7 @@ function opcoes(args) {
     else if (a === '--agora') o.agora = val();
     else if (a === '--escrever') o.escrever = true;
     else if (a === '--origens') o.origens = true;
+    else if (a === '--pdf') o.pdf = val();
     else if (a === '--checar') o.checar = true;
     else if (a === '-o' || a === '--para') o.para = val();
     else if (a.startsWith('--')) falhar('Opção desconhecida: ' + a + '. Veja: cordel ajuda');
@@ -150,6 +153,14 @@ async function rodar(o) {
   if (r.ui) console.log(e.cinza('(este programa tem uma tela; para usá-la, gere o app: cordel app ' + arq + ')'));
   if (!gravar(r.files, o.saida)) process.exitCode = 1;
   if (r.tests) console.log(T.testes(r.tests, e));
+  if (o.pdf) {
+    // o relatório leva também o erro e os testes, se houver
+    const destino = path.resolve(o.pdf.toLowerCase().endsWith('.pdf') ? o.pdf : o.pdf + '.pdf');
+    try {
+      fs.writeFileSync(destino, require('../lib/relatorio.js').daSaida(r, { titulo: path.basename(arq).replace(/\.cordel$/i, ''), programa: path.basename(arq), versao: Cordel.version, origens: true }));
+      console.log(e.verde('✓') + ' relatório ' + path.relative(process.cwd(), destino));
+    } catch (err) { console.error(ee.vermelho('Não consegui gravar o relatório ' + destino + ': ' + err.message)); process.exitCode = 1; }
+  }
   if (r.error) { console.error(T.erro(r.error, ee, arq)); process.exit(1); }
   if (r.tests && r.tests.some(t => !t.ok)) process.exit(1);
 }

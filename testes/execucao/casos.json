@@ -960,5 +960,12 @@
       "extrato_v2.ofx",
       "nao_nfe.xml"
     ]
+  },
+  {
+    "nome": "títulos fora da tela e salve em PDF",
+    "arquivo": "99-titulos-fora-da-tela-e-salve-em-pdf.cordel",
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
   }
 ]

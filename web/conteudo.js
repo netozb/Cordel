@@ -315,11 +315,20 @@ mostre novo.dinheiro, "·", novo.origem
 mostre cotação("dólar", data("28/08/2026"))`,
   acoes: [['índice(nome)', 'IPCA, IGP-M, INPC, Selic ou CDI'], ['.acumulado(de, até)', 'variação acumulada no período, em %'], ['.fator(de, até)', 'o multiplicador: 1 + acumulado ÷ 100'], ['.série(de, até)', 'lista de {data, valor}'], ['valor.corrigido(índice, de, até)', 'o valor corrigido pelo índice'], ['cotação(moeda, dia)', 'dólar ou euro, cotação de venda']] },
 { id: 'salvar', titulo: 'Salvar resultados',
-  texto: '<p><code>salve("nome.xlsx", lista)</code> gera um arquivo com o resultado. Tabelas saem em <code>.xlsx</code> ou <code>.csv</code> (no padrão do Excel brasileiro); textos em <code>.txt</code> ou <code>.md</code>; dados em <code>.json</code>. No editor, aparece um botão para baixar ou copiar.</p>',
+  texto: '<p><code>salve("nome.xlsx", lista)</code> gera um arquivo com o resultado. Tabelas saem em <code>.xlsx</code> ou <code>.csv</code> (no padrão do Excel brasileiro); textos em <code>.txt</code> ou <code>.md</code>; dados em <code>.json</code>; tabelas e textos também em <code>.pdf</code>, prontos para entregar. No editor, aparece um botão para baixar ou copiar.</p>',
   codigo: `vendas = tabela("vendas_exemplo.csv")
 grandes = vendas.filtre(v => v.total > 3000)
 salve("vendas_grandes.xlsx", grandes)
 salve("notas.txt", grandes.transforme(v => v.nota))` },
+{ id: 'relatorio', titulo: 'Relatório em PDF',
+  texto: '<p>Fora de uma tela, <code>título</code> e <code>subtítulo</code> dividem a saída em seções. O botão <b>PDF</b>, em cima da saída, baixa um relatório com tudo o que o programa mostrou: títulos, textos, tabelas, gráficos, testes e erros, com a data, a versão e a origem de cada valor. É o papel para entregar ao cliente ou anexar à auditoria. Na linha de comando, use <code>cordel rodar programa.cordel --pdf relatório.pdf</code>.</p>',
+  codigo: `título "Auditoria de setembro"
+vendas = tabela("vendas_exemplo.csv")
+mostre "Total vendido: {vendas.soma(v => v.total).dinheiro}"
+subtítulo "As cinco maiores vendas"
+mostre vendas.ordenada(v => v.total).invertida.pegue(5).transforme(v => {nota: v.nota, filial: v.filial, total: v.total})
+salve("maiores.pdf", vendas.filtre(v => v.total > 4000))`,
+  acoes: [['título "…" · subtítulo "…"', 'seções da saída e do relatório'], ['botão PDF', 'baixa o relatório desta execução'], ['salve("x.pdf", lista)', 'uma tabela (ou textos) em PDF'], ['--pdf arquivo.pdf', 'o relatório pela linha de comando']] },
 { id: 'erros', titulo: 'Erros e testes',
   texto: '<p><code>falhe</code> interrompe com uma mensagem; <code>tente … falhou</code> trata o problema. <code>teste</code> agrupa verificações que rodam depois do programa, e cada <code>confira</code> mostra os dois lados quando falha.</p>',
   codigo: `função sacar(saldo, valor)
@@ -400,7 +409,7 @@ CONTEUDO.docFuncoes = {
   'leia': ['leia(arquivo)', 'O conteúdo de um arquivo de texto ou CSV, como texto.'],
   'tabela': ['tabela(arquivo[, aba]) · tabela("https://…")', 'Lê uma planilha CSV ou Excel como lista de registros; com um endereço, lê um CSV (ou um JSON com uma lista de registros) da internet.'],
   'busque': ['busque(endereço[, {cabeçalhos: {…}}])', 'Lê um endereço da internet: JSON vira registros, listas e números exatos; o resto vira texto.'],
-  'salve': ['salve(nome, valor)', 'Gera um arquivo .xlsx, .csv, .txt, .md ou .json para baixar.'],
+  'salve': ['salve(nome, valor)', 'Gera um arquivo .xlsx, .csv, .txt, .md, .json ou .pdf para baixar.'],
   'concilie': ['concilie(a, b, {por, folga_de_dias, folga_de_valor, compare})', 'Casa cada registro de a com no máximo um de b. Devolve {resumo, pares, com_diferença, só_no_primeiro, só_no_segundo}.'],
   'índice': ['índice(nome)', 'Um índice oficial do Banco Central (IPCA, IGP-M, INPC, Selic, CDI), com .acumulado(de, até), .fator(de, até) e .série(de, até).'],
   'feriados': ['feriados(ano)', 'Os feriados nacionais do ano, do calendário dos bancos (Anbima): lista de {data, nome, tipo}, com tipo "nacional" ou "bancário" (Carnaval e Corpus Christi).'],
@@ -601,6 +610,14 @@ argumentos    = expressão { "," expressão } [ "," ] ;`,
 <li><code>nota_fiscal(arquivo)</code> lê o XML de NF-e (modelo 55) e NFC-e (65), com ou sem o protocolo de autorização. Campos: <code>chave</code>, <code>número</code>, <code>série</code>, <code>modelo</code>, <code>emissão</code> (data com a hora como está no XML), <code>natureza</code>, <code>tipo</code> ("entrada" ou "saída"), <code>emitente</code> {cnpj, nome, fantasia, município, uf}, <code>destinatário</code> {documento, nome, município, uf}, <code>valor_produtos</code>, <code>desconto</code>, <code>frete</code>, <code>icms</code>, <code>ipi</code>, <code>valor_total</code>, <code>autorizada</code>, <code>protocolo</code>, <code>situação</code> e <code>itens</code> (lista de {item, código, descrição, ncm, cfop, unidade, quantidade, valor_unitário, valor, desconto}). Valores exatos, com origem. Um XML de evento (cancelamento, carta de correção) é erro com explicação.</li>
 <li><code>tabela("extrato.ofx")</code> lê extratos OFX (versão 1, SGML, e 2, XML): um registro por lançamento, com <code>data</code>, <code>valor</code> (negativo nos débitos), <code>tipo</code> ("crédito" ou "débito"), <code>histórico</code>, <code>documento</code> e <code>id</code>. A origem aponta a linha do arquivo de cada lançamento.</li>
 </ul>`,
+  relatorio: `<ul class="ref-lista">
+<li>Fora de uma tela, <code>título</code> e <code>subtítulo</code> mostram um texto de destaque na saída e abrem uma seção no relatório. O primeiro <code>título</code> vira o título do relatório; sem ele, vale o nome do programa.</li>
+<li>O relatório (botão PDF no editor, <code>--pdf</code> na linha de comando) traz o que o programa mostrou, na ordem: textos, tabelas (até 500 linhas, como na saída), gráficos de barras, arquivos gerados, testes e o erro, se houver. Embaixo de cada valor e numa coluna das tabelas vai a origem; se todas as linhas vêm da mesma planilha, o nome dela fica na nota da tabela e a coluna mostra só a linha.</li>
+<li><code>salve("nome.pdf", valor)</code>: lista de registros vira tabela (todas as linhas); qualquer outro valor vira texto, um item por parágrafo.</li>
+<li>Colunas de dinheiro saem com duas casas (389,90) e milhar com ponto. Tabelas longas continuam na página seguinte com o cabeçalho repetido; colunas largas demais são encurtadas com reticências.</li>
+<li>Página A4, letra Helvetica, que todo leitor de PDF tem. Letras com acento do português saem certas; setas e símbolos viram equivalentes simples (→ vira ->) e emojis viram <code>?</code>.</li>
+<li>Apps (programas com <code>tela</code>) não geram relatório: a tela muda a cada toque.</li>
+</ul>`,
   telas: `<ul class="ref-lista">
 <li>O bloco <code>tela</code> é executado depois do programa e de novo a cada interação; o resultado substitui a tela anterior, preservando o foco e o texto sendo digitado.</li>
 <li><code>botão</code> guarda o seu bloco e o escopo em que foi desenhado; o bloco roda no toque.</li>
@@ -649,6 +666,7 @@ argumentos    = expressão { "," expressão } [ "," ] ;`,
     ['Ctrl + Enter', 'Rodar'], ['Shift + Alt + F', 'Formatar'], ['Ctrl + S', 'Salvar agora'], ['Tab', 'Recuo, ou aceitar a sugestão'], ['Esc', 'Fechar sugestões e menus'],
   ],
   novidades: [
+    ['0.8.0', '01/10/2026', 'Brasil de fábrica: feriados e dias úteis, CPF e CNPJ com letras, XML de NF-e e extrato OFX; relatório em PDF com a origem de cada valor; editor instalável no celular, que funciona sem internet e recebe arquivos compartilhados.'],
     ['0.7.0', '28/09/2026', 'Origem dos valores: toque num número e veja as células e linhas de onde ele veio; concilie para casar duas tabelas; reparta sem perder centavo; índices e cotações do Banco Central.'],
     ['0.6.0', '28/09/2026', 'Datas com hora e agora(); módulos com use; busque(…) para consultar a internet, também em apps; editor que funciona fora do Claude; pronto para publicar no GitHub, npm e lojas de extensões.'],
     ['0.5.0', '26/09/2026', 'Diagnóstico sem rodar (todos os erros de sintaxe de uma vez e avisos de qualidade), painel Problemas e barra de status; formatador oficial; Meus programas com abrir e salvar arquivos; referência formal; visual novo; pacote para computador com linha de comando e extensão para o VS Code.'],

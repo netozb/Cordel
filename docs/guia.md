@@ -558,7 +558,7 @@ mostre cotação("dólar", data("28/08/2026"))
 
 ## Salvar resultados
 
-`salve("nome.xlsx", lista)` gera um arquivo com o resultado. Tabelas saem em `.xlsx` ou `.csv` (no padrão do Excel brasileiro); textos em `.txt` ou `.md`; dados em `.json`. No editor, aparece um botão para baixar ou copiar.
+`salve("nome.xlsx", lista)` gera um arquivo com o resultado. Tabelas saem em `.xlsx` ou `.csv` (no padrão do Excel brasileiro); textos em `.txt` ou `.md`; dados em `.json`; tabelas e textos também em `.pdf`, prontos para entregar. No editor, aparece um botão para baixar ou copiar.
 
 ```cordel
 vendas = tabela("vendas_exemplo.csv")
@@ -566,6 +566,26 @@ grandes = vendas.filtre(v => v.total > 3000)
 salve("vendas_grandes.xlsx", grandes)
 salve("notas.txt", grandes.transforme(v => v.nota))
 ```
+
+## Relatório em PDF
+
+Fora de uma tela, `título` e `subtítulo` dividem a saída em seções. O botão PDF, em cima da saída, baixa um relatório com tudo o que o programa mostrou: títulos, textos, tabelas, gráficos, testes e erros, com a data, a versão e a origem de cada valor. É o papel para entregar ao cliente ou anexar à auditoria. Na linha de comando, use `cordel rodar programa.cordel --pdf relatório.pdf`.
+
+```cordel
+título "Auditoria de setembro"
+vendas = tabela("vendas_exemplo.csv")
+mostre "Total vendido: {vendas.soma(v => v.total).dinheiro}"
+subtítulo "As cinco maiores vendas"
+mostre vendas.ordenada(v => v.total).invertida.pegue(5).transforme(v => {nota: v.nota, filial: v.filial, total: v.total})
+salve("maiores.pdf", vendas.filtre(v => v.total > 4000))
+```
+
+| Ação | O que faz |
+|---|---|
+| título "…" · subtítulo "…" | seções da saída e do relatório |
+| botão PDF | baixa o relatório desta execução |
+| salve("x.pdf", lista) | uma tabela (ou textos) em PDF |
+| --pdf arquivo.pdf | o relatório pela linha de comando |
 
 ## Erros e testes
 

@@ -79,7 +79,7 @@ Uma função rápida pode devolver um registro: `vendas.transforme(v => {nome: v
 - Datas com hora: `agora()`, `data("03/09/2026 14:30")`, `data(2026, 9, 3, 14, 30)`, `data(dia, "14:30")`. Ações: `hora`, `minuto`, `segundo`, `horário` (texto "14:30"), `sem_hora`, `mais_horas(n)`, `mais_minutos(n)`, `minutos_até(outra)`, `horas_até(outra)`, `dias_até(outra)`. Não existe `+ horas`: use `mais_horas`.
 
 ## Funções prontas
-`número(texto)` (entende "1.234,56" e "R$ 10,50"), `texto(x)`, `tipo(x)`, `aleatório(a, b)`, `intervalo(a, b)`, `pergunte("…")` (só em programas sem tela), `tabela("arquivo.csv")` ou `tabela("planilha.xlsx", "Aba")` (lê planilhas como listas de registros; cada coluna vira um campo em minúsculas, com espaços trocados por _), `abas(arquivo)`, `leia(arquivo)`, `arquivos()`, `salve("resultado.xlsx", lista)` (também .csv, .txt, .json), `guarde("chave", valor)` e `guardado("chave", padrão)` (memória do app; só em programas com tela).
+`número(texto)` (entende "1.234,56" e "R$ 10,50"), `texto(x)`, `tipo(x)`, `aleatório(a, b)`, `intervalo(a, b)`, `pergunte("…")` (só em programas sem tela), `tabela("arquivo.csv")` ou `tabela("planilha.xlsx", "Aba")` (lê planilhas como listas de registros; cada coluna vira um campo em minúsculas, com espaços trocados por _), `abas(arquivo)`, `leia(arquivo)`, `arquivos()`, `salve("resultado.xlsx", lista)` (também .csv, .txt, .json e .pdf), `guarde("chave", valor)` e `guardado("chave", padrão)` (memória do app; só em programas com tela).
 
 ## Origem e conciliação
 Todo valor lido de planilha lembra de onde veio: `total.origem` (texto, como "42 células de vendas.csv (coluna Total; linhas 2 a 43)") e `total.linhas_de_origem` (as linhas da planilha). Vale para números, datas, registros e listas; textos não guardam origem sozinhos. Não é preciso guardar número de linha à mão.
@@ -98,7 +98,9 @@ Todo valor lido de planilha lembra de onde veio: `total.origem` (texto, como "42
 `use "nome"` (no começo do programa, fora de blocos) traz as funções e os nomes de outro programa do usuário; `use "nome" como m` deixa tudo em `m` (`m.função(x)`). Nomes que começam com `_` não são trazidos. Só use módulos que o pedido mencionar.
 
 ## Saída, gráficos, erros e testes
+Fora de uma tela, `título "…"` e `subtítulo "…"` dividem a saída em seções; o botão PDF do editor (ou `cordel rodar programa.cordel --pdf relatório.pdf`) transforma a saída num relatório. Use-os quando o pedido for um relatório ou uma auditoria.
 ```cordel
+título "Vendas de setembro"
 vendas = [{filial: "Crato", total: 1500.5}, {filial: "Iguatu", total: 980}]
 mostre "Total:", vendas.soma(v => v.total).dinheiro
 mostre vendas

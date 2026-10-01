@@ -1,4 +1,4 @@
-# Cordel 0.7.0
+# Cordel 0.8.0
 <!-- configurar:links -->
 [![Testes](https://github.com/netozb/Cordel/actions/workflows/testes.yml/badge.svg)](https://github.com/netozb/Cordel/actions/workflows/testes.yml)
 
@@ -30,6 +30,8 @@ fim
 - **Índices oficiais.** `aluguel.corrigido("IGP-M", de, até)`, `índice("IPCA").acumulado(de, até)` e `cotação("dólar", dia)`, direto do Banco Central.
 - **Erros que ensinam.** Linha, seta e uma dica de correção em português; o diagnóstico aponta todos os problemas antes de rodar.
 - **Planilhas de verdade.** CSV e Excel com números e datas no formato brasileiro; `salve` grava `.xlsx`, `.csv`, `.json` e mais.
+- **Brasil de fábrica.** Feriados nacionais e dias úteis, CPF e CNPJ (inclusive o novo, com letras), XML de NF-e com `nota_fiscal("nota.xml")` e extrato OFX do banco com `tabela("extrato.ofx")`.
+- **Relatório para entregar.** `título` e `subtítulo` organizam a saída; um toque no botão PDF (ou `--pdf` na linha de comando) gera o relatório com data, versão e a origem de cada valor.
 - **Datas com hora.** `data("03/09/2026 08:15").minutos_até(saida)`, dias úteis, meses e horários sem fuso para confundir.
 - **Módulos.** `use "regras"` traz as funções de outro arquivo, e o erro aponta o arquivo e a linha certos.
 - **Internet.** `busque("https://…")` devolve registros prontos de JSON ou CSV, com números exatos.
@@ -51,10 +53,10 @@ npm install -g cordel
 cordel --versao
 ```
 
-Com o pacote baixado da página de versões (`cordel-0.7.0.zip`), descompacte e, dentro da pasta:
+Com o pacote baixado da página de versões (`cordel-0.8.0.zip`), descompacte e, dentro da pasta:
 
 ```sh
-npm install -g ./cordel-0.7.0.tgz
+npm install -g ./cordel-0.8.0.tgz
 ```
 
 Para desinstalar: `npm uninstall -g cordel`.
@@ -64,7 +66,7 @@ Para desinstalar: `npm uninstall -g cordel`.
 Procure **Cordel** na aba Extensões (Visual Studio Marketplace ou Open VSX), ou instale o arquivo do pacote:
 
 ```sh
-code --install-extension cordel-0.7.0.vsix
+code --install-extension cordel-0.8.0.vsix
 ```
 
 A extensão traz destaque de sintaxe, erros e avisos enquanto você digita, formatação oficial (Shift+Alt+F), explicações ao passar o mouse, sugestões depois do ponto, a estrutura do arquivo e três comandos: **Rodar programa** (Ctrl+Enter, com o resultado no painel Saída), **Rodar no terminal** e **Gerar app (.html)**. Detalhes em [`editores/vscode/README.md`](editores/vscode/README.md).
@@ -90,6 +92,7 @@ cordel rodar exemplos/pergunte.cordel               # pergunte(…) lê do tecla
 cordel rodar exemplos/pergunte.cordel --respostas respostas.txt
 cordel rodar exemplos/auditoria.cordel              # usa o módulo regras.cordel e a planilha da pasta
 cordel rodar exemplos/conciliacao.cordel --origens  # e mostra de onde veio cada valor
+cordel rodar exemplos/auditoria.cordel --pdf auditoria.pdf  # e grava o relatório em PDF
 cordel testar exemplos/testes.cordel
 cordel verificar exemplos/*.cordel
 cordel formatar --escrever meu_programa.cordel
@@ -106,7 +109,8 @@ Opções de `rodar` e `testar`:
 | `--semente <n>` | Sorteios de `aleatório(…)` repetíveis. |
 | `--hoje <aaaa-mm-dd>` | A data usada por `hoje()` e `agora()`. |
 | `--agora <data e hora>` | O momento usado por `agora()`, como `"2026-09-26 14:30"`. |
-| `--origens` | Mostra de onde veio cada valor: abaixo de cada linha e numa coluna de cada tabela. |
+| `--origens` | Só em `rodar`: mostra de onde veio cada valor: abaixo de cada linha e numa coluna de cada tabela. |
+| `--pdf <arquivo>` | Só em `rodar`: grava também um relatório em PDF com o que o programa mostrou, a data, a versão e a origem de cada valor. |
 
 Módulos (`use "nome"`) são procurados na pasta do programa, pelo nome do arquivo `.cordel`, sem diferença de acentos e maiúsculas.
 

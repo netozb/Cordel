@@ -34,6 +34,7 @@ function descreverSaidas(out) {
   const L = [];
   for (const o of out || []) {
     if (o.kind === 'out') L.push(o.text);
+    else if (o.kind === 'titulo') L.push((o.nivel === 1 ? '# ' : '## ') + o.text);
     else if (o.kind === 'ask') L.push('? ' + o.text);
     else if (o.kind === 'answer') L.push('› ' + o.text);
     else if (o.kind === 'table') {
@@ -57,7 +58,8 @@ function descreverExecucao(r) {
   L.push(...descreverErro(r.error));
   for (const t of r.tests || []) L.push('[teste ' + (t.ok ? '✓' : '✗') + '] ' + t.name + (t.ok ? '' : ' — ' + t.msg + ' (linha ' + t.line + ')'));
   for (const f of r.files || []) {
-    if (f.text != null) L.push('[conteúdo de ' + f.name + ']', ...f.text.replace(/\n$/, '').split('\n').map(l => '  ' + l));
+    if (f.ext === 'pdf') L.push('[conteúdo de ' + f.name + '] ' + f.blocos.map(b => b.tipo === 'tabela' ? 'tabela ' + (b.cols || []).join(' | ') + ' + ' + b.rows.length + ' linhas' + (b.origens && b.origens.some(Boolean) ? ', origem da primeira: ' + b.origens.find(Boolean).curto : '') : b.tipo + ' ' + JSON.stringify(b.texto)).join(' · '));
+    else if (f.text != null) L.push('[conteúdo de ' + f.name + ']', ...f.text.replace(/\n$/, '').split('\n').map(l => '  ' + l));
     else L.push('[conteúdo de ' + f.name + '] ' + (f.cols || []).join(' | ') + ' + ' + (f.rows || []).length + ' linhas');
   }
   if (r.ui) L.push(...descreverTela(r.ui));
@@ -302,6 +304,48 @@ secao('origem na saída', () => {
   return n + ' verificações';
 });
 
+// O relatório em PDF: estrutura válida (cada objeto onde o índice diz), páginas, textos e tabelas.
+secao('relatório em PDF', () => {
+  let n = 0;
+  const caso = (nome, ok, detalhe) => { conferir('relatório › ' + nome, ok, detalhe); n++; };
+  const R = require(path.join(RAIZ, 'lib', 'relatorio.js'));
+  const lerPDF = bytes => {
+    const s = Buffer.from(bytes).toString('latin1');
+    const xref = Number(/startxref\n(\d+)\n%%EOF\n$/.exec(s)[1]);
+    const linhas = s.slice(xref).split('\n'), qtd = Number(linhas[1].split(' ')[1]);
+    const offsets = linhas.slice(3, 2 + qtd).map(l => Number(l.slice(0, 10)));
+    const objetosOk = offsets.every((o, i) => s.startsWith((i + 1) + ' 0 obj', o));
+    const comprimentosOk = [...s.matchAll(/<< \/Length (\d+) >>\nstream\n/g)].every(m => s.slice(m.index + m[0].length + Number(m[1]), m.index + m[0].length + Number(m[1]) + 10) === '\nendstream');
+    const paginas = Number(/\/Type \/Pages \/Kids \[[^\]]*\] \/Count (\d+)/.exec(s)[1]);
+    // os textos desenhados, já sem os escapes do PDF
+    const textos = [...s.matchAll(/\((.*?)\) Tj/g)].map(m => m[1].replace(/\\([0-7]{3})/g, (x, o) => String.fromCharCode(parseInt(o, 8))).replace(/\\([()\\])/g, '$1'));
+    return { s, objetosOk, comprimentosOk, paginas, textos, ascii: /^[\x00-\x7f]*$/.test(s.slice(15)) };
+  };
+  const files = lerPlanilhas(['vendas_exemplo.csv']);
+  const r = Cordel.run([
+    'título "Auditoria de setembro"', 'vendas = tabela("vendas_exemplo.csv")', 'mostre "Total: {vendas.soma(v => v.total).dinheiro} → conferido"',
+    'subtítulo "Todas as notas"', 'mostre vendas', 'gráfico "Por filial" de vendas.agrupe(v => v.filial).transforme(g => {filial: g.chave, total: g.itens.soma(v => v.total)}) por total',
+    'x = 1 / 0',
+  ].join('\n'), { files });
+  const pdf = lerPDF(R.daSaida(r, { titulo: 'auditoria', programa: 'auditoria.cordel', versao: Cordel.version, quando: new Date(2026, 9, 1, 9, 30) }));
+  caso('começa e termina como PDF 1.4, só com ASCII depois do cabeçalho', pdf.s.startsWith('%PDF-1.4\n') && pdf.s.endsWith('%%EOF\n') && pdf.ascii);
+  caso('índice de objetos e tamanhos dos conteúdos corretos', pdf.objetosOk && pdf.comprimentosOk);
+  caso('tabela longa vira mais de uma página, com rodapé numerado', pdf.paginas >= 2 && pdf.textos.includes('Página 1 de ' + pdf.paginas) && pdf.textos.includes('Página ' + pdf.paginas + ' de ' + pdf.paginas), pdf.paginas);
+  caso('o primeiro título vira o título do relatório, com data e versão', pdf.textos[0] === 'Auditoria de setembro' && pdf.textos[1] === 'Programa auditoria.cordel · Gerado pela Cordel ' + Cordel.version + ' em 01/10/2026 às 09:30', pdf.textos.slice(0, 2).join(' | '));
+  caso('acentos em WinAnsi e símbolos sem equivalente trocados', pdf.textos.includes('Total: R$ 106.358,33 -> conferido'), pdf.textos.find(t => t.startsWith('Total')));
+  caso('a origem de cada valor vai junto (planilha única: o nome na nota, a linha na coluna)', pdf.textos.includes('Origem: 42 células de vendas_exemplo.csv (coluna Total; linhas 2 a 43)') && pdf.textos.includes('linha 2') && pdf.textos.includes('42 linhas · origem: vendas_exemplo.csv'));
+  caso('dinheiro com duas casas e milhar (também na coluna Valor só com 1 casa)', pdf.textos.includes('2.249,91') && pdf.textos.includes('249,99') && pdf.textos.includes('0,00') && pdf.textos.includes('2.499,90') && pdf.textos.includes('30.695,40'));
+  const longa = lerPDF(R.gerar({ titulo: 'Longa', blocos: [{ tipo: 'tabela', cols: ['Item', 'Peso'], rows: Array.from({ length: 150 }, (_, i) => ['item ' + (i + 1), { n: (i + 0.5) + '' }]), total: 150,
+    origens: Array.from({ length: 150 }, (_, i) => ({ curto: (i % 2 ? 'a.csv' : 'b.csv') + ', linha ' + (i + 2) })) }] }));
+  const cabecalhos = longa.textos.filter(t => t === 'Peso').length;
+  caso('cabeçalho da tabela repetido em cada página', longa.paginas >= 3 && cabecalhos === longa.paginas, cabecalhos + ' cabeçalhos, ' + longa.paginas + ' páginas');
+  caso('origens de planilhas diferentes ficam inteiras na coluna; número comum sem casas a mais', longa.textos.includes('b.csv, linha 2') && longa.textos.includes('a.csv, linha 3') && longa.textos.includes('150 linhas') && longa.textos.includes('0,5'));
+  caso('gráfico e erro do programa no relatório', pdf.textos.includes('Por filial') && pdf.textos.includes('O programa parou com erro na linha 7.') && pdf.textos.includes('Divisão por zero.'));
+  const curto = lerPDF(R.gerar({ titulo: 'Só texto', blocos: [{ tipo: 'texto', texto: 'linha' }] }));
+  caso('relatório pequeno: uma página válida', curto.paginas === 1 && curto.objetosOk && curto.comprimentosOk);
+  return n + ' verificações';
+});
+
 secao('linha de comando', () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'cordel-teste-'));
   const escreve = (nome, txt) => { const p = path.join(tmp, nome); fs.writeFileSync(p, txt); return p; };
@@ -319,6 +363,9 @@ secao('linha de comando', () => {
 
     r = cli(['rodar', ex('dinheiro.cordel')]);
     caso('rodar um exemplo', r.codigo === 0 && r.saida.trim().length > 0 && !r.erro, mostra(r));
+    const pdf = path.join(tmp, 'auditoria.pdf');
+    r = cli(['rodar', ex('auditoria.cordel'), '--pdf', pdf, '--saida', tmp]);
+    caso('--pdf grava o relatório da execução', r.codigo === 0 && fs.existsSync(pdf) && fs.readFileSync(pdf, 'latin1').startsWith('%PDF-1.4') && r.saida.includes('relatório'), mostra(r));
     r = cli(['rodar', ex('notas.cordel')]);
     caso('acha sozinho o XML da nota citado em nota_fiscal', r.codigo === 0 && r.saida.includes('NF-e 4180 de MÓVEIS MANDACARU LTDA') && r.saida.includes('Vencimento: 16/09/2026'), mostra(r));
     r = cli(['rodar', ex('conciliacao.cordel'), '--origens']);

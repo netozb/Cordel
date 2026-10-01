@@ -1,0 +1,9 @@
+título "Auditoria de setembro"
+mostre "Introdução"
+subtítulo "Vendas por filial"
+vendas = tabela("vendas_exemplo.csv")
+mostre vendas.agrupe(v => v.filial).transforme(g => {filial: g.chave, total: g.itens.soma(v => v.total)}).pegue(2)
+título "{vendas.tamanho} notas"
+salve("achados.pdf", vendas.filtre(v => v.desconto > 500).transforme(v => {nota: v.nota, desconto: v.desconto}))
+salve("resumo.pdf", "Tudo certo")
+salve("lista.pdf", ["um", "dois"])

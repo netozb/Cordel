@@ -101,6 +101,19 @@ const subirServidor = () => new Promise((res, rej) => {
     await p.fill('#codigo', 'tela "Oi"\n  mostre "olá"\nfim\n'); await p.click('#rodar'); await p.waitForTimeout(600);
     const [baixado] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('text=Baixar app').catch(() => null)]);
     confira('fora do Claude, Baixar app baixa o arquivo', baixado && baixado.suggestedFilename() === 'oi.html', baixado && baixado.suggestedFilename());
+    confira('relatório: sem botão PDF para apps', await p.$eval('#relatorio', b => b.hidden));
+
+    // ── relatório em PDF: o botão da saída e salve("….pdf")
+    await p.fill('#codigo', 'título "Vendas de setembro"\nvendas = tabela("vendas_exemplo.csv")\nmostre vendas.pegue(5)\nsalve("resumo.pdf", vendas.pegue(3))\n');
+    await p.click('#rodar'); await p.waitForTimeout(700);
+    confira('relatório: título aparece na saída', (await p.textContent('#console .c-titulo')) === 'Vendas de setembro', await p.textContent('#console'));
+    const lerBaixado = async d => d ? fs.readFileSync(await d.path()).toString('latin1') : '';
+    const [pdfBotao] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#relatorio').catch(() => null)]);
+    const pb = await lerBaixado(pdfBotao);
+    confira('relatório: o botão PDF baixa o relatório da execução', pdfBotao && pdfBotao.suggestedFilename().endsWith('.pdf') && pb.startsWith('%PDF-1.4') && pb.includes('(Vendas de setembro) Tj') && pb.includes('(linha 6) Tj'), pdfBotao && pdfBotao.suggestedFilename());
+    const [pdfSalvo] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#console .c-arq .so-baixar').catch(() => null)]);
+    const ps = await lerBaixado(pdfSalvo);
+    confira('relatório: salve("resumo.pdf", …) baixa a tabela em PDF', pdfSalvo && pdfSalvo.suggestedFilename() === 'resumo.pdf' && ps.startsWith('%PDF-1.4') && ps.includes('(004182) Tj') && !ps.includes('(004183) Tj'), pdfSalvo && pdfSalvo.suggestedFilename());
     await p.context().close();
 
     // ── módulos entre programas guardados

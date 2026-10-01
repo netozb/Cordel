@@ -1,4 +1,4 @@
-# Referência da linguagem Cordel 0.7.0
+# Referência da linguagem Cordel 0.8.0
 
 Arquivos `.cordel` são texto UTF-8. Esta referência descreve a linguagem implementada pelo interpretador de referência (`lib/cordel.js`), o mesmo usado no editor do navegador, na linha de comando e na extensão do VS Code.
 
@@ -15,6 +15,7 @@ Arquivos `.cordel` são texto UTF-8. Esta referência descreve a linguagem imple
 - [Telas](#telas)
 - [Planilhas](#planilhas)
 - [Brasil](#brasil)
+- [Relatório em PDF](#relatório-em-pdf)
 - [Origem dos valores](#origem-dos-valores)
 - [Conciliação](#conciliação)
 - [Internet](#internet)
@@ -152,7 +153,7 @@ De contexto (têm sentido especial só em certas posições e podem ser usadas c
 | `leia(arquivo)` | O conteúdo de um arquivo de texto ou CSV, como texto. |
 | `tabela(arquivo[, aba])` · `tabela("https://…")` | Lê uma planilha CSV ou Excel como lista de registros; com um endereço, lê um CSV (ou um JSON com uma lista de registros) da internet. |
 | `busque(endereço[, {cabeçalhos: {…}}])` | Lê um endereço da internet: JSON vira registros, listas e números exatos; o resto vira texto. |
-| `salve(nome, valor)` | Gera um arquivo .xlsx, .csv, .txt, .md ou .json para baixar. |
+| `salve(nome, valor)` | Gera um arquivo .xlsx, .csv, .txt, .md, .json ou .pdf para baixar. |
 | `concilie(a, b, {por, folga_de_dias, folga_de_valor, compare})` | Casa cada registro de a com no máximo um de b. Devolve {resumo, pares, com_diferença, só_no_primeiro, só_no_segundo}. |
 | `índice(nome)` | Um índice oficial do Banco Central (IPCA, IGP-M, INPC, Selic, CDI), com .acumulado(de, até), .fator(de, até) e .série(de, até). |
 | `feriados(ano)` | Os feriados nacionais do ano, do calendário dos bancos (Anbima): lista de {data, nome, tipo}, com tipo "nacional" ou "bancário" (Carnaval e Corpus Christi). |
@@ -310,6 +311,15 @@ Feriados e dias úteis, CPF e CNPJ, notas fiscais (NF-e) e extratos (OFX).
 - `cpf_válido` e `cnpj_válido` aceitam texto (pontos, traços, barra e espaços são ignorados) ou número inteiro (completado com zeros à esquerda). Sequências repetidas, como 111.111.111-11, são inválidas. No CNPJ, as 12 primeiras posições podem ter letras: cada caractere vale o código ASCII menos 48 no cálculo dos dígitos.
 - `nota_fiscal(arquivo)` lê o XML de NF-e (modelo 55) e NFC-e (65), com ou sem o protocolo de autorização. Campos: `chave`, `número`, `série`, `modelo`, `emissão` (data com a hora como está no XML), `natureza`, `tipo` ("entrada" ou "saída"), `emitente` {cnpj, nome, fantasia, município, uf}, `destinatário` {documento, nome, município, uf}, `valor_produtos`, `desconto`, `frete`, `icms`, `ipi`, `valor_total`, `autorizada`, `protocolo`, `situação` e `itens` (lista de {item, código, descrição, ncm, cfop, unidade, quantidade, valor_unitário, valor, desconto}). Valores exatos, com origem. Um XML de evento (cancelamento, carta de correção) é erro com explicação.
 - `tabela("extrato.ofx")` lê extratos OFX (versão 1, SGML, e 2, XML): um registro por lançamento, com `data`, `valor` (negativo nos débitos), `tipo` ("crédito" ou "débito"), `histórico`, `documento` e `id`. A origem aponta a linha do arquivo de cada lançamento.
+
+## Relatório em PDF
+
+- Fora de uma tela, `título` e `subtítulo` mostram um texto de destaque na saída e abrem uma seção no relatório. O primeiro `título` vira o título do relatório; sem ele, vale o nome do programa.
+- O relatório (botão PDF no editor, `--pdf` na linha de comando) traz o que o programa mostrou, na ordem: textos, tabelas (até 500 linhas, como na saída), gráficos de barras, arquivos gerados, testes e o erro, se houver. Embaixo de cada valor e numa coluna das tabelas vai a origem; se todas as linhas vêm da mesma planilha, o nome dela fica na nota da tabela e a coluna mostra só a linha.
+- `salve("nome.pdf", valor)`: lista de registros vira tabela (todas as linhas); qualquer outro valor vira texto, um item por parágrafo.
+- Colunas de dinheiro saem com duas casas (389,90) e milhar com ponto. Tabelas longas continuam na página seguinte com o cabeçalho repetido; colunas largas demais são encurtadas com reticências.
+- Página A4, letra Helvetica, que todo leitor de PDF tem. Letras com acento do português saem certas; setas e símbolos viram equivalentes simples (→ vira ->) e emojis viram `?`.
+- Apps (programas com `tela`) não geram relatório: a tela muda a cada toque.
 
 ## Origem dos valores
 

@@ -109,8 +109,8 @@
     "maxPassos": 5000000
   },
   {
-    "nome": "erro: título fora",
-    "arquivo": "09-erro-titulo-fora.cordel",
+    "nome": "título fora da tela: destaque na saída",
+    "arquivo": "09-titulo-fora-da-tela.cordel",
     "memoria": "test3",
     "maxPassos": 5000000
   },

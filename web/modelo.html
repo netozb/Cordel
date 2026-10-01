@@ -321,6 +321,13 @@ body:not(.pode-baixar) .so-baixar { display: none; }
 .c-testes .porque { grid-column: 2; font-family: var(--mono); font-size: 13px; color: var(--err); overflow-wrap: anywhere; }
 
 .estado { font-variant-numeric: tabular-nums; }
+.btn-pdf { margin-left: auto; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 3px 10px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; }
+.btn-pdf:hover { border-color: var(--accent); color: var(--accent); }
+.btn-pdf + .estado { margin-left: 10px; }
+.c-titulo { margin: 10px 0 2px; font-family: var(--body); font-weight: 700; line-height: 1.3; }
+.c-titulo.n1 { font-size: 18px; }
+.c-titulo.n2 { font-size: 15.5px; color: var(--ink); }
+.c-titulo:first-child { margin-top: 0; }
 .estado.erro { color: var(--err); font-weight: 700; }
 .estado.ok { color: var(--ok); font-weight: 700; }
 
@@ -552,6 +559,7 @@ body:not(.pode-baixar) .so-baixar { display: none; }
             <button class="tab-s" role="tab" id="tab-saida" aria-selected="true" aria-controls="console" type="button">Saída</button>
             <button class="tab-s" role="tab" id="tab-prob" aria-selected="false" aria-controls="problemas" type="button">Problemas <span class="cont" id="cont-prob">0</span></button>
           </div>
+          <button class="btn-pdf" id="relatorio" type="button" hidden title="Baixar um relatório em PDF com tudo o que o programa mostrou">PDF</button>
           <span class="estado" id="estado"></span>
         </div>
         <div class="console" id="console" aria-live="polite"></div>
@@ -613,6 +621,9 @@ body:not(.pode-baixar) .so-baixar { display: none; }
 </script>
 <script>
 /*@PLANILHA@*/
+</script>
+<script>
+/*@RELATORIO@*/
 </script>
 <script>
 (function () {
@@ -1072,6 +1083,7 @@ async function baixarApp(html, nome, btn) {
 }
 function rodarApp() {
   document.body.style.overflow = '';
+  ultimoResultado = null; $('#relatorio').hidden = true; // relatório em PDF é para programas sem tela
   const box = $('#console'); box.innerHTML = '';
   const area = el('div', 'app-area'), acoes = el('div', 'app-acoes'), moldura = el('div', 'app-moldura'), cons = el('div', 'app-console');
   acoes.appendChild(el('span', 'rotulo-app', 'Seu app'));
@@ -1181,9 +1193,23 @@ function arquivoSaida(o, f, interativo) {
   bb.addEventListener('click', () => baixar(f, bb));
   const bc = el('button', 'btn', f.ext === 'xlsx' ? 'Copiar tabela' : 'Copiar'); bc.type = 'button';
   bc.addEventListener('click', () => copiar(f.ext === 'xlsx' || (f.ext === 'csv' && !document.body.classList.contains('pode-baixar')) ? paraTSV(f) : f.text, bc, bc.textContent));
-  acoes.appendChild(bb); acoes.appendChild(bc); d.appendChild(acoes);
+  acoes.appendChild(bb); if (f.ext !== 'pdf') acoes.appendChild(bc); d.appendChild(acoes);
   return d;
 }
+// O relatório em PDF da última execução (o botão PDF da saída).
+let ultimoResultado = null;
+$('#relatorio').addEventListener('click', async () => {
+  if (!ultimoResultado) return;
+  const b = $('#relatorio'), rot = b.textContent;
+  if (!downloads && !baixarDireto) { b.textContent = 'Sem download aqui'; setTimeout(() => { b.textContent = rot; }, 2000); return; }
+  try {
+    const nome = nomeAtual();
+    const pdf = CordelRelatorio.daSaida(ultimoResultado, { titulo: nome, programa: nome, versao: Cordel.version, origens: true });
+    await entregarArquivo(slug(nome) + '.pdf', pdf);
+    b.textContent = 'Baixado';
+  } catch (e) { b.textContent = e && e.code === 'declined' ? rot : 'Não deu'; }
+  setTimeout(() => { b.textContent = rot; }, 2000);
+});
 function copiar(texto, btn, rotulo) {
   const done = t => { btn.textContent = t; setTimeout(() => { btn.textContent = rotulo; }, 1600); };
   const falhou = () => { const ta2 = document.createElement('textarea'); ta2.value = texto; ta2.style.position = 'fixed'; ta2.style.opacity = '0'; document.body.appendChild(ta2); ta2.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta2.remove(); done(ok ? 'Copiado' : 'Não deu'); };
@@ -1196,8 +1222,8 @@ if (baixarDireto) document.body.classList.add('pode-baixar');
 async function entregarArquivo(nome, data) {
   if (downloads) return downloads.save({ filename: nome, data });
   if (!baixarDireto) throw Object.assign(new Error('Baixar não está disponível aqui.'), { code: 'unavailable' });
-  const tipos = { html: 'text/html', csv: 'text/csv', json: 'application/json', md: 'text/markdown', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' };
-  const blob = new Blob([data], { type: (tipos[nome.split('.').pop()] || 'text/plain') + ';charset=utf-8' });
+  const tipos = { html: 'text/html;charset=utf-8', csv: 'text/csv;charset=utf-8', json: 'application/json;charset=utf-8', md: 'text/markdown;charset=utf-8', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', pdf: 'application/pdf' };
+  const blob = new Blob([data], { type: tipos[nome.split('.').pop()] || 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob), a = document.createElement('a');
   a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 30000);
@@ -1223,7 +1249,8 @@ async function baixar(f, btn) {
       ws['!cols'] = (aoa[0] || []).map((_, i) => ({ wch: Math.min(48, Math.max(8, ...aoa.slice(0, 200).map(r => String(r[i] == null ? '' : r[i]).length + 2))) }));
       const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'Cordel');
       data = X.write(wb, { type: 'array', bookType: 'xlsx' });
-    } else data = (f.ext === 'csv' ? '﻿' : '') + f.text;
+    } else if (f.ext === 'pdf') data = CordelRelatorio.gerar({ titulo: f.name.replace(/\.pdf$/i, ''), rodape: f.name, blocos: f.blocos });
+    else data = (f.ext === 'csv' ? '﻿' : '') + f.text;
     await entregarArquivo(f.name, data);
     btn.textContent = 'Baixado';
   } catch (e) {
@@ -1454,7 +1481,9 @@ function mostrarResultado(box, r, interativo, modoApp) {
   box.innerHTML = '';
   const nada = !modoApp && !r.out.length && !r.error && (r.ask === null || r.ask === undefined) && !r.tests;
   if (nada) box.appendChild(el('div', 'c-vazio', 'O programa rodou sem mostrar nada. Use <code>mostre</code> para exibir valores.'));
+  if (interativo && !modoApp) { ultimoResultado = r; $('#relatorio').hidden = !(r.out.length || r.error || (r.tests && r.tests.length)); }
   for (const o of r.out) {
+    if (o.kind === 'titulo') { box.appendChild(el(o.nivel === 1 ? 'h3' : 'h4', 'c-titulo n' + o.nivel, esc(o.text))); continue; }
     if (o.kind === 'table') { box.appendChild(tabelaHTML(o)); continue; }
     if (o.kind === 'chart') { const w = el('div', 'cx-host'); w.appendChild(CordelApp.grafico(o)); box.appendChild(w); continue; }
     if (o.kind === 'file') { box.appendChild(arquivoSaida(o, (r.files || []).find(f => f.name === o.name), interativo)); continue; }
@@ -1682,6 +1711,7 @@ function montarReferencia() {
   sec('telas', 'Telas', R.telas);
   sec('planilhas', 'Planilhas', R.planilhas);
   sec('brasil', 'Brasil: feriados, documentos, notas e extratos', R.brasil);
+  sec('relatorio', 'Relatório em PDF', R.relatorio);
   sec('origem', 'Origem dos valores', R.origem);
   sec('conciliacao', 'Conciliação', R.conciliacao);
   sec('internet', 'Internet', R.internet);

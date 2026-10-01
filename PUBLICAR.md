@@ -40,7 +40,7 @@ npm ci && npm ci --prefix editores/vscode
 npm run construir && npm test
 git init -b main
 git add .
-git commit -m "Cordel 0.7.0"
+git commit -m "Cordel 0.8.0"
 git remote add origin https://github.com/usuario/cordel.git
 git push -u origin main
 ```
@@ -78,7 +78,7 @@ O npm recomenda a **publicação confiável** (trusted publishing): o GitHub pro
 ```sh
 npm login
 npm run pacote
-npm publish dist/cordel-0.7.0.tgz --access public
+npm publish dist/cordel-0.8.0.tgz --access public
 ```
 
 3. No npm, abra o pacote › **Settings › Trusted Publisher › GitHub Actions** e preencha: o seu usuário, o repositório `cordel`, o fluxo `publicar.yml` e o ambiente `publicacao`.
@@ -90,7 +90,7 @@ A partir da próxima versão, o npm recebe cada etiqueta sozinho, com o selo de 
 ## 6. Visual Studio Marketplace
 
 1. Entre em <https://marketplace.visualstudio.com/manage> com uma conta Microsoft e crie o publicador com o **mesmo identificador** que você passou em `--editor`.
-2. Primeira publicação, pela própria página: rode `npm run pacote`, clique em **New extension › Visual Studio Code** e envie `dist/cordel-0.7.0.vsix`. A verificação da Microsoft leva alguns minutos.
+2. Primeira publicação, pela própria página: rode `npm run pacote`, clique em **New extension › Visual Studio Code** e envie `dist/cordel-0.8.0.vsix`. A verificação da Microsoft leva alguns minutos.
 
 Para as próximas versões irem sozinhas, o jeito atual é o **Microsoft Entra ID**, sem senha guardada. Os tokens pessoais (PAT) do Azure DevOps, usados até agora, deixam de funcionar em 1º de dezembro de 2026.
 

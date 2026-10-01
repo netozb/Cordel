@@ -75,7 +75,7 @@ const conteudo = le('web/conteudo.js') +
   '\nCONTEUDO.manualIA = ' + JSON.stringify(le('web/manual-ia.md')).replace(/</g, '\\u003c') + ';\n';
 let pagina = le('web/modelo.html').replace(/(id="versao">)v[^<]*/, '$1v' + V);
 for (const [marca, fonte, texto] of [
-  ['/*@CORE@*/', 'lib/cordel.js'], ['/*@CONTENT@*/', 'web/conteudo.js', conteudo], ['/*@PLANILHA@*/', 'lib/planilha.js'],
+  ['/*@CORE@*/', 'lib/cordel.js'], ['/*@CONTENT@*/', 'web/conteudo.js', conteudo], ['/*@PLANILHA@*/', 'lib/planilha.js'], ['/*@RELATORIO@*/', 'lib/relatorio.js'],
   ['/*@APPJS@*/', 'lib/app.js'], ['/*@APPCSS@*/', 'lib/app.css'],
 ]) {
   if (!pagina.includes(marca)) throw new Error('web/modelo.html não tem a marca ' + marca);
@@ -140,7 +140,7 @@ escreve('docs/referencia.md', [
   '# Referência da linguagem Cordel ' + V, '',
   'Arquivos `.cordel` são texto UTF-8. Esta referência descreve a linguagem implementada pelo interpretador de referência (`lib/cordel.js`), o mesmo usado no editor do navegador, na linha de comando e na extensão do VS Code.', '',
   '## Sumário', '',
-  ...['Gramática', 'Precedência de operadores', 'Tipos', 'Nomes e escopo', 'Palavras', 'Funções prontas', 'Ações por tipo', 'Módulos', 'Telas', 'Planilhas', 'Brasil', 'Origem dos valores', 'Conciliação', 'Internet', 'Índices e cotações', 'Diagnóstico', 'Limites']
+  ...['Gramática', 'Precedência de operadores', 'Tipos', 'Nomes e escopo', 'Palavras', 'Funções prontas', 'Ações por tipo', 'Módulos', 'Telas', 'Planilhas', 'Brasil', 'Relatório em PDF', 'Origem dos valores', 'Conciliação', 'Internet', 'Índices e cotações', 'Diagnóstico', 'Limites']
     .map(t => '- [' + t + '](#' + t.toLowerCase().replace(/ /g, '-').replace(/[^\p{L}\p{N}-]/gu, '') + ')'), '',
   '## Gramática', '', 'Notação EBNF. Palavras entre aspas são literais; acentos e maiúsculas não importam em nomes nem em palavras.', '', '```ebnf', R.gramatica.replace(/\s+$/, ''), '```', '',
   '## Precedência de operadores', '', tabelaMd(['Nível', 'Operadores', 'Significado', 'Associatividade'], R.precedencia), '',
@@ -155,6 +155,7 @@ escreve('docs/referencia.md', [
   '## Telas', '', md(R.telas), '',
   '## Planilhas', '', md(R.planilhas), '',
   '## Brasil', '', 'Feriados e dias úteis, CPF e CNPJ, notas fiscais (NF-e) e extratos (OFX).', '', md(R.brasil), '',
+  '## Relatório em PDF', '', md(R.relatorio), '',
   '## Origem dos valores', '', md(R.origem), '',
   '## Conciliação', '', md(R.conciliacao), '',
   '## Internet', '', md(R.internet), '',
@@ -191,7 +192,7 @@ const docs = { funcoes: K.docFuncoes, metodos: K.docMetodos, palavras: {} };
 for (const [p, d] of Object.entries(K.docPalavras)) docs.palavras[C.norm(p)] = [p, d];
 for (const k of C.KW) if (!docs.palavras[k]) throw new Error('palavra reservada sem explicação em docPalavras: ' + k);
 escreve(EXT + 'lib/docs.json', JSON.stringify(docs), false);
-for (const f of ['cordel.js', 'terminal.js', 'arquivos.js', 'gerar-app.js', 'planilha.js', 'app.js', 'app.css', 'buscar.js']) copia('lib/' + f, EXT + 'lib/' + f);
+for (const f of ['cordel.js', 'terminal.js', 'arquivos.js', 'gerar-app.js', 'planilha.js', 'app.js', 'app.css', 'buscar.js', 'relatorio.js']) copia('lib/' + f, EXT + 'lib/' + f);
 copia('LICENSE', EXT + 'LICENSE');
 copia('CHANGELOG.md', EXT + 'CHANGELOG.md');
 const pacoteExt = JSON.parse(le(EXT + 'package.json'));
