@@ -519,8 +519,8 @@ body:not(.pode-baixar) .so-baixar { display: none; }
       <span class="arquivos-titulo">Arquivos</span>
       <span id="arq-lista" style="display:contents"></span>
       <label class="arq-add" for="arq-input">+ Planilha</label>
-      <input type="file" id="arq-input" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods" multiple hidden>
-      <span class="arquivos-nota">CSV ou Excel · lidos só neste aparelho, nada é enviado</span>
+      <input type="file" id="arq-input" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods,.ofx,.xml" multiple hidden>
+      <span class="arquivos-nota">CSV, Excel, extrato OFX ou XML de nota · lidos só neste aparelho, nada é enviado</span>
       <div class="arquivos-erro" id="arq-erro" role="alert"></div>
     </div>
     <div class="oficina">
@@ -856,7 +856,7 @@ function nomesDoCodigo(src) {
 function camposConhecidos(src) {
   const campos = new Set();
   for (const m of src.matchAll(new RegExp('[{,][ \\t\\n]*(' + RE_ID + ')[ \\t]*:', 'gu'))) campos.add(m[1]);
-  for (const f of arquivos) { if (!f.campos) f.campos = Cordel.camposDeArquivo(f).map(c => c.toLocaleLowerCase('pt-BR')); f.campos.forEach(c => campos.add(c)); }
+  for (const f of arquivosVisiveis()) { if (!f.campos) f.campos = Cordel.camposDeArquivo(f).map(c => c.toLocaleLowerCase('pt-BR')); f.campos.forEach(c => campos.add(c)); }
   ['chave', 'quantidade', 'itens'].forEach(c => campos.add(c));
   return [...campos];
 }
@@ -940,7 +940,7 @@ function criarWorker() {
     return w;
   } catch (e) { semWorker = true; return null; }
 }
-function rodarNovo() { abaSaida('saida'); sairPassos(); if (appAtual) { appAtual.desmontar(); appAtual = null; } if (ehApp(ta.value)) { if (rodando) parar(); rodarApp(); return; } sessao = { src: ta.value, answers: [], seed: (Math.random() * 2 ** 31) | 0, files: arquivos.map(f => f.sheets ? { name: f.name, sheets: f.sheets } : { name: f.name, text: f.text }), modulos: modulosDisponiveis() }; executar(); }
+function rodarNovo() { abaSaida('saida'); sairPassos(); if (appAtual) { appAtual.desmontar(); appAtual = null; } if (ehApp(ta.value)) { if (rodando) parar(); rodarApp(); return; } sessao = { src: ta.value, answers: [], seed: (Math.random() * 2 ** 31) | 0, files: arquivosAtuais(), modulos: modulosDisponiveis() }; executar(); }
 function executar() {
   rodando = true; setEstado('Rodando…', '');
   clearTimeout(lentoT); lentoT = setTimeout(() => { if (rodando) { btnRodar.classList.add('parando'); btnRodar.querySelector('span').textContent = 'Parar'; } }, 250);
@@ -1049,7 +1049,7 @@ const appCss = document.getElementById('cx-css').textContent;
 const ehApp = src => /^[ \t]*tela(?![\p{L}\p{N}_])/imu.test(src);
 const memApp = CordelApp.memoriaLocal('cordel.app:');
 let appAtual = null;
-const arquivosAtuais = () => arquivos.map(f => f.sheets ? { name: f.name, sheets: f.sheets } : { name: f.name, text: f.text });
+const arquivosAtuais = () => arquivosParaRodar().map(f => f.sheets ? { name: f.name, sheets: f.sheets } : { name: f.name, text: f.text });
 function slug(t) { return (Cordel.norm(t || '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'app').slice(0, 40); }
 const jsLit = v => JSON.stringify(v).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 function htmlDoApp(src, titulo, files) {
@@ -1262,8 +1262,9 @@ function extrairCodigo(texto, parcial) {
   return parcial ? '' : texto.trim();
 }
 function descreverArquivos() {
-  if (!arquivos.length) return 'Nenhuma planilha adicionada.';
-  return arquivos.map(f => '- "' + f.name + '"' + (f.sheets && f.sheets.length > 1 ? ' (abas: ' + f.sheets.map(s => s.name).join(', ') + ')' : '') + ': ' + Cordel.camposComTipo(f).map(([n, t]) => n.toLocaleLowerCase('pt-BR') + ' (' + t + ')').join(', ')).join('\n');
+  const lista = arquivosVisiveis();
+  if (!lista.length) return 'Nenhuma planilha adicionada. Para exemplos, existem ' + ARQS_EXEMPLO.map(f => '"' + f.name + '"').join(', ') + '.';
+  return lista.map(f => '- "' + f.name + '"' + (f.sheets && f.sheets.length > 1 ? ' (abas: ' + f.sheets.map(s => s.name).join(', ') + ')' : '') + ': ' + Cordel.camposComTipo(f).map(([n, t]) => n.toLocaleLowerCase('pt-BR') + ' (' + t + ')').join(', ')).join('\n');
 }
 function validarCodigo(codigo) {
   const app = ehApp(codigo);
@@ -1333,9 +1334,17 @@ function corrigirComClaude(e) {
 }
 
 // ── arquivos ──
+// Os arquivos de exemplo estão sempre à mão dos programas; no painel, aparecem só quando o código os cita.
 const ARQS_EXEMPLO = K.arquivosExemplo.map(f => ({ name: f.name, text: f.text, exemplo: true }));
-let arquivos = ARQS_EXEMPLO.slice();
+let arquivos = []; // os que a pessoa adicionou
+const mesmoArquivo = (a, b) => Cordel.norm(a) === Cordel.norm(b);
+const exemplosLivres = () => ARQS_EXEMPLO.filter(e => !arquivos.some(u => mesmoArquivo(u.name, e.name)));
+const arquivosParaRodar = () => arquivos.concat(exemplosLivres());
+const citaArquivo = (src, nome) => { const t = Cordel.norm(src); return t.includes(Cordel.norm(nome)) || t.includes('"' + Cordel.norm(nome.replace(/\.[^.]+$/, '')) + '"'); };
+const arquivosVisiveis = () => arquivos.concat(exemplosLivres().filter(e => citaArquivo(ta.value, e.name)));
+let chaveVisiveis = '';
 function infoArquivo(f) {
+  const especial = Cordel.infoDeArquivo(f); if (especial) return especial;
   const cheias = r => r.reduce((n, c) => n + (String(c).trim() !== '' ? 1 : 0), 0);
   const conta = rows => {
     rows = rows.filter(r => cheias(r) > 0); if (!rows.length) return 0;
@@ -1348,19 +1357,27 @@ function infoArquivo(f) {
 }
 function desenharArquivos() {
   const lista = $('#arq-lista'); lista.innerHTML = '';
-  for (const f of arquivos) {
-    const chip = el('span', 'arq');
+  const visiveis = arquivosVisiveis(); chaveVisiveis = visiveis.map(f => f.name).join('|');
+  for (const f of visiveis) {
+    const chip = el('span', 'arq' + (f.exemplo ? ' arq-exemplo' : ''));
+    const funcao = /\.xml$/i.test(f.name) ? 'nota_fiscal' : 'tabela';
     const usar = el('button', 'arq-usar'); usar.type = 'button';
-    usar.title = 'Inserir tabela("' + f.name + '") no código';
+    usar.title = 'Inserir ' + funcao + '("' + f.name + '") no código';
     usar.appendChild(el('span', 'arq-nome', esc(f.name)));
     usar.appendChild(el('span', 'arq-info', esc((f.exemplo ? 'exemplo · ' : '') + (f.info || (f.info = infoArquivo(f))))));
     usar.addEventListener('pointerdown', ev => ev.preventDefault());
-    usar.addEventListener('click', () => insertSnippet('tabela("' + f.name + '")§'));
-    const tirar = el('button', 'arq-tirar', '×'); tirar.type = 'button'; tirar.setAttribute('aria-label', 'Remover ' + f.name);
-    tirar.addEventListener('click', () => { arquivos = arquivos.filter(x => x !== f); desenharArquivos(); });
-    chip.appendChild(usar); chip.appendChild(tirar); lista.appendChild(chip);
+    usar.addEventListener('click', () => insertSnippet(funcao + '("' + f.name + '")§'));
+    chip.appendChild(usar);
+    if (!f.exemplo) {
+      const tirar = el('button', 'arq-tirar', '×'); tirar.type = 'button'; tirar.setAttribute('aria-label', 'Remover ' + f.name);
+      tirar.addEventListener('click', () => { arquivos = arquivos.filter(x => x !== f); desenharArquivos(); });
+      chip.appendChild(tirar);
+    }
+    lista.appendChild(chip);
   }
 }
+// Mostra ou esconde os arquivos de exemplo conforme o código os cita.
+function conferirArquivosCitados() { if (arquivosVisiveis().map(f => f.name).join('|') !== chaveVisiveis) desenharArquivos(); }
 async function lerArquivo(file) {
   const ext = (file.name.split('.').pop() || '').toLowerCase();
   const buf = await file.arrayBuffer();
@@ -1618,6 +1635,7 @@ function montarReferencia() {
   if (R.modulos) sec('modulos', 'Módulos', R.modulos);
   sec('telas', 'Telas', R.telas);
   sec('planilhas', 'Planilhas', R.planilhas);
+  sec('brasil', 'Brasil: feriados, documentos, notas e extratos', R.brasil);
   sec('origem', 'Origem dos valores', R.origem);
   sec('conciliacao', 'Conciliação', R.conciliacao);
   sec('internet', 'Internet', R.internet);
@@ -1648,7 +1666,7 @@ let diagT = null;
 function diagnosticarJa() {
   clearTimeout(diagT);
   let r; try { r = Cordel.verificar(ta.value, { modulos: modulosDisponiveis() }); } catch (e) { r = { problemas: [] }; }
-  problemasAtuais = r.problemas; desenharProblemas(); refreshGutter();
+  problemasAtuais = r.problemas; desenharProblemas(); refreshGutter(); conferirArquivosCitados();
 }
 function diagnosticar() { clearTimeout(diagT); diagT = setTimeout(diagnosticarJa, 350); }
 ta.addEventListener('input', diagnosticar);

@@ -64,14 +64,14 @@ escreve('exemplos/LEIA-ME.md', [
       : '`cordel rodar ' + arq + '`';
     return '| `' + e.id + '.cordel` | ' + oque + ' | ' + como + ' |';
   }),
-  '', 'As planilhas `vendas_exemplo.csv` e `extrato_exemplo.csv` ficam nesta mesma pasta, e os exemplos as acham sozinhos.', '',
+  '', 'Os arquivos de exemplo (`vendas_exemplo.csv`, `extrato_exemplo.csv`, `nota_exemplo.xml` e `extrato_exemplo.ofx`) ficam nesta mesma pasta, e os exemplos os acham sozinhos.', '',
 ].join('\n'), true);
 
 // ───────── editor no navegador ─────────
 const semScript = (nome, s) => { if (/<\/script/i.test(s)) throw new Error(nome + ' contém </script'); return s; };
 const conteudo = le('web/conteudo.js') +
   '\nCONTEUDO.exemplos = ' + JSON.stringify(exemplos) + ';' +
-  '\nCONTEUDO.arquivosExemplo = ' + JSON.stringify(['vendas_exemplo.csv', 'extrato_exemplo.csv'].map(name => ({ name, text: le('exemplos/' + name) }))) + ';' +
+  '\nCONTEUDO.arquivosExemplo = ' + JSON.stringify(['vendas_exemplo.csv', 'extrato_exemplo.csv', 'nota_exemplo.xml', 'extrato_exemplo.ofx'].map(name => ({ name, text: le('exemplos/' + name) }))) + ';' +
   '\nCONTEUDO.manualIA = ' + JSON.stringify(le('web/manual-ia.md')).replace(/</g, '\\u003c') + ';\n';
 let pagina = le('web/modelo.html').replace(/(id="versao">)v[^<]*/, '$1v' + V);
 for (const [marca, fonte, texto] of [
@@ -111,7 +111,7 @@ escreve('docs/referencia.md', [
   '# Referência da linguagem Cordel ' + V, '',
   'Arquivos `.cordel` são texto UTF-8. Esta referência descreve a linguagem implementada pelo interpretador de referência (`lib/cordel.js`), o mesmo usado no editor do navegador, na linha de comando e na extensão do VS Code.', '',
   '## Sumário', '',
-  ...['Gramática', 'Precedência de operadores', 'Tipos', 'Nomes e escopo', 'Palavras', 'Funções prontas', 'Ações por tipo', 'Módulos', 'Telas', 'Planilhas', 'Origem dos valores', 'Conciliação', 'Internet', 'Índices e cotações', 'Diagnóstico', 'Limites']
+  ...['Gramática', 'Precedência de operadores', 'Tipos', 'Nomes e escopo', 'Palavras', 'Funções prontas', 'Ações por tipo', 'Módulos', 'Telas', 'Planilhas', 'Brasil', 'Origem dos valores', 'Conciliação', 'Internet', 'Índices e cotações', 'Diagnóstico', 'Limites']
     .map(t => '- [' + t + '](#' + t.toLowerCase().replace(/ /g, '-').replace(/[^\p{L}\p{N}-]/gu, '') + ')'), '',
   '## Gramática', '', 'Notação EBNF. Palavras entre aspas são literais; acentos e maiúsculas não importam em nomes nem em palavras.', '', '```ebnf', R.gramatica.replace(/\s+$/, ''), '```', '',
   '## Precedência de operadores', '', tabelaMd(['Nível', 'Operadores', 'Significado', 'Associatividade'], R.precedencia), '',
@@ -125,6 +125,7 @@ escreve('docs/referencia.md', [
   '## Módulos', '', md(R.modulos), '',
   '## Telas', '', md(R.telas), '',
   '## Planilhas', '', md(R.planilhas), '',
+  '## Brasil', '', 'Feriados e dias úteis, CPF e CNPJ, notas fiscais (NF-e) e extratos (OFX).', '', md(R.brasil), '',
   '## Origem dos valores', '', md(R.origem), '',
   '## Conciliação', '', md(R.conciliacao), '',
   '## Internet', '', md(R.internet), '',

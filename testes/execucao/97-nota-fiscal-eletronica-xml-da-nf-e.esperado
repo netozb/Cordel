@@ -1,0 +1,19 @@
+23260911222333000181550010000041801123456780 4180 1 NF-e saída
+01/09/2026 10:15 10:15 VENDA DE MERCADORIA
+{cnpj: "11222333000181", nome: "MÓVEIS MANDACARU LTDA", fantasia: "Mandacaru", município: "Iguatu", uf: "CE"}
+{documento: "52998224725", nome: "MARIA DAS GRAÇAS SILVA", município: "Iguatu", uf: "CE"}
+2959.7 249.99 80 541.94 0 2789.71
+verdadeiro 323260000012345 Autorizado o uso da NF-e
+[tabela 2 de 2] item | código | descrição | ncm | cfop | unidade | quantidade | valor_unitário | valor | desconto
+  1 | SOF3L | Sofá 3 lugares | 94016100 | 5102 | UN | 1 | 2499.9 | 2499.9 | 249.99
+  2 | VENT40 | Ventilador de coluna | 84145190 | 5102 | UN | 2 | 229.9 | 459.8 | 0
+verdadeiro
+nota_exemplo.xml: valor_total
+nota_exemplo.xml › itens, item 2, campo valor
+2 valores de nota_exemplo.xml › itens (campo quantidade; itens 1 e 2)
+verdadeiro
+"evento_cancelamento.xml" é um evento da nota (cancelamento ou carta de correção), não a NF-e.
+"nao_nfe.xml" não é uma NF-e: não achei o grupo infNFe.
+"ruim.xml" não é um XML válido.
+"vendas_exemplo.csv" não é uma NF-e: não achei o grupo infNFe.
+"nota_exemplo.xml" é um XML, não uma planilha.

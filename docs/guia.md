@@ -110,7 +110,7 @@ mostre vencimento.fim_do_mês, vencimento.útil
 | formatada · por_extenso | "31/01/2026", "31 de janeiro de 2026" |
 | início_do_mês · fim_do_mês | os limites do mês |
 | mais_meses(n) | soma meses, respeitando o fim do mês |
-| útil | verdadeiro de segunda a sexta |
+| útil · feriado | dia útil (sem fim de semana e feriado nacional) e o nome do feriado |
 
 ## Datas com hora
 
@@ -485,6 +485,34 @@ por_filial = vendas.agrupe(v => v.filial).transforme(g => {
 })
 gráfico "Vendas por filial" de por_filial.ordenada(f => f.total).invertida por total
 ```
+
+## Feriados, CPF, CNPJ, notas e extratos
+
+Os dias úteis seguem o calendário dos bancos: fim de semana e feriado nacional não contam, inclusive Carnaval, Paixão de Cristo e Corpus Christi. `vencimento.mais_dias_úteis(5)` anda cinco dias úteis, `emissão.dias_úteis_até(pagamento)` conta os dias úteis entre duas datas e `dia.próximo_dia_útil` empurra um vencimento que cai em feriado. Para feriados da sua cidade, passe uma lista de datas: `dia.útil(locais)`. `feriados(2026)` lista os do ano.
+
+`cpf_válido` e `cnpj_válido` conferem os dígitos, com ou sem pontuação, inclusive o CNPJ com letras que começou em julho de 2026. `nota_fiscal("nota.xml")` lê o XML de uma NF-e ou NFC-e, com emitente, destinatário, totais e itens; `tabela("extrato.ofx")` lê o extrato que o banco oferece para programas financeiros, um lançamento por linha, pronto para `concilie`.
+
+```cordel
+mostre data("02/04/2026").mais_dias_úteis(5), data("21/11/2026").próximo_dia_útil
+mostre data("16/02/2026").feriado, cnpj_válido("11.222.333/0001-81"), cpf_válido("529.982.247-24")
+nota = nota_fiscal("nota_exemplo.xml")
+mostre nota.número, nota.emitente.nome, nota.valor_total.dinheiro, nota.itens.tamanho
+extrato = tabela("extrato_exemplo.ofx")
+mostre extrato.filtre(l => l.tipo == "crédito").soma(l => l.valor).dinheiro
+```
+
+| Ação | O que faz |
+|---|---|
+| dia.útil · dia.útil(locais) | verdadeiro em dia útil; locais é uma lista de feriados da cidade |
+| dia.mais_dias_úteis(n) | anda n dias úteis (para trás, se n é negativo) |
+| a.dias_úteis_até(b) | quantos dias úteis depois de a, até b |
+| dia.próximo_dia_útil | o próprio dia, ou o próximo dia útil |
+| dia.feriado | o nome do feriado, ou "" |
+| feriados(ano) | lista de {data, nome, tipo} |
+| cpf_válido(x) · cnpj_válido(x) | confere os dígitos verificadores |
+| texto.só_números | tira pontos, traços e espaços |
+| nota_fiscal(arquivo) | o XML de uma NF-e como registro |
+| tabela("extrato.ofx") | lançamentos {data, valor, tipo, histórico, documento, id} |
 
 ## Dados da internet
 

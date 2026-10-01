@@ -14,6 +14,7 @@ Arquivos `.cordel` são texto UTF-8. Esta referência descreve a linguagem imple
 - [Módulos](#módulos)
 - [Telas](#telas)
 - [Planilhas](#planilhas)
+- [Brasil](#brasil)
 - [Origem dos valores](#origem-dos-valores)
 - [Conciliação](#conciliação)
 - [Internet](#internet)
@@ -154,6 +155,10 @@ De contexto (têm sentido especial só em certas posições e podem ser usadas c
 | `salve(nome, valor)` | Gera um arquivo .xlsx, .csv, .txt, .md ou .json para baixar. |
 | `concilie(a, b, {por, folga_de_dias, folga_de_valor, compare})` | Casa cada registro de a com no máximo um de b. Devolve {resumo, pares, com_diferença, só_no_primeiro, só_no_segundo}. |
 | `índice(nome)` | Um índice oficial do Banco Central (IPCA, IGP-M, INPC, Selic, CDI), com .acumulado(de, até), .fator(de, até) e .série(de, até). |
+| `feriados(ano)` | Os feriados nacionais do ano, do calendário dos bancos (Anbima): lista de {data, nome, tipo}, com tipo "nacional" ou "bancário" (Carnaval e Corpus Christi). |
+| `cpf_válido(x)` | verdadeiro se os dígitos verificadores do CPF conferem. Aceita texto com ou sem pontuação, ou número. |
+| `cnpj_válido(x)` | verdadeiro se os dígitos verificadores do CNPJ conferem, inclusive o CNPJ alfanumérico (com letras, desde julho de 2026). |
+| `nota_fiscal(arquivo)` | Lê o XML de uma NF-e ou NFC-e: chave, número, série, emissão, emitente, destinatário, totais, autorização e itens. |
 | `cotação(moeda, dia)` | A cotação de venda do dólar ou do euro no dia (ou no último dia útil antes), pelo Banco Central. |
 
 ## Ações por tipo
@@ -209,6 +214,7 @@ Ações são chamadas com ponto: `lista.soma`, `texto.maiúsculas`, `vencimento.
 | `termina_com(t)` | verdadeiro se termina com t. |
 | `divida(separador)` | Lista dos pedaços entre os separadores. |
 | `troque(a, b)` | Troca todo a por b. |
+| `só_números` | Só os dígitos: "(88) 9 9999-0000" vira "88999990000". |
 
 ### Números
 
@@ -242,7 +248,11 @@ Ações são chamadas com ponto: `lista.soma`, `texto.maiúsculas`, `vencimento.
 | `início_do_mês` | Primeiro dia do mês. |
 | `fim_do_mês` | Último dia do mês. |
 | `mais_meses(n)` | Soma n meses; se o dia não existir no mês de destino, usa o último. |
-| `útil` | verdadeiro de segunda a sexta (não considera feriados). |
+| `útil[(locais)]` | verdadeiro em dia útil: de segunda a sexta, fora dos feriados nacionais do calendário dos bancos e dos feriados locais passados numa lista. |
+| `feriado` | O nome do feriado nacional naquele dia, ou "". |
+| `próximo_dia_útil[(locais)]` | O próprio dia, se for útil; senão, o próximo dia útil. |
+| `mais_dias_úteis(n[, locais])` | Anda n dias úteis (para trás, se n é negativo), mantendo a hora. |
+| `dias_úteis_até(outra[, locais])` | Quantos dias úteis há depois desta data até a outra (negativo se a outra vem antes). |
 | `hora` | Hora (0 a 23); 0 numa data sem hora. |
 | `minuto` | Minuto (0 a 59). |
 | `segundo` | Segundo (0 a 59). |
@@ -290,6 +300,16 @@ Ações são chamadas com ponto: `lista.soma`, `texto.maiúsculas`, `vencimento.
 - Nomes de coluna viram campos: espaços e sinais viram `_`; nomes repetidos ganham `_2`, `_3`…
 - Cada coluna é convertida por inteiro: vira número se todos os valores preenchidos forem números (formato brasileiro preferido); vira data se todos forem datas (com ou sem hora, como 03/09/2026 14:30); senão fica texto. Códigos com zero à esquerda e sequências de 12+ dígitos (CPF, CNPJ, chaves) ficam texto.
 - Células vazias viram `""`.
+
+## Brasil
+
+Feriados e dias úteis, CPF e CNPJ, notas fiscais (NF-e) e extratos (OFX).
+
+- Feriados nacionais do calendário da Anbima, o mesmo dos bancos: 1º de janeiro, Carnaval (segunda e terça), Paixão de Cristo, Tiradentes, Dia do Trabalho, Corpus Christi, Independência, Nossa Senhora Aparecida (desde 1980), Finados, Proclamação da República, Consciência Negra (desde 2024) e Natal. As datas móveis vêm da Páscoa. Carnaval e Corpus Christi têm tipo `"bancário"`: são ponto facultativo, mas os bancos fecham. De 1900 a 2199.
+- Dia útil é de segunda a sexta, fora desses feriados e dos feriados locais passados como lista de datas no último valor de `útil`, `próximo_dia_útil`, `mais_dias_úteis` e `dias_úteis_até`. Datas com hora mantêm a hora.
+- `cpf_válido` e `cnpj_válido` aceitam texto (pontos, traços, barra e espaços são ignorados) ou número inteiro (completado com zeros à esquerda). Sequências repetidas, como 111.111.111-11, são inválidas. No CNPJ, as 12 primeiras posições podem ter letras: cada caractere vale o código ASCII menos 48 no cálculo dos dígitos.
+- `nota_fiscal(arquivo)` lê o XML de NF-e (modelo 55) e NFC-e (65), com ou sem o protocolo de autorização. Campos: `chave`, `número`, `série`, `modelo`, `emissão` (data com a hora como está no XML), `natureza`, `tipo` ("entrada" ou "saída"), `emitente` {cnpj, nome, fantasia, município, uf}, `destinatário` {documento, nome, município, uf}, `valor_produtos`, `desconto`, `frete`, `icms`, `ipi`, `valor_total`, `autorizada`, `protocolo`, `situação` e `itens` (lista de {item, código, descrição, ncm, cfop, unidade, quantidade, valor_unitário, valor, desconto}). Valores exatos, com origem. Um XML de evento (cancelamento, carta de correção) é erro com explicação.
+- `tabela("extrato.ofx")` lê extratos OFX (versão 1, SGML, e 2, XML): um registro por lançamento, com `data`, `valor` (negativo nos débitos), `tipo` ("crédito" ou "débito"), `histórico`, `documento` e `id`. A origem aponta a linha do arquivo de cada lançamento.
 
 ## Origem dos valores
 

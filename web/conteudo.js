@@ -10,6 +10,7 @@ exemplos: [
   { id: 'prazos', nome: 'Prazos e vencimentos' },
   { id: 'auditoria', nome: 'Auditoria de planilha' },
   { id: 'conciliacao', nome: 'Conciliação de vendas com o extrato' },
+  { id: 'notas', nome: 'Conferência de nota fiscal (XML da NF-e)' },
   { id: 'horarios', nome: 'Horários na auditoria' },
   { id: 'regras', nome: 'Módulo: regras de auditoria' },
   { id: 'cnpj', nome: 'App: consulta de CNPJ (internet)' },
@@ -78,7 +79,7 @@ mostre vencimento.mais_meses(1)
 mostre data("26/09/2026") - vencimento, "dias"
 mostre vencimento.dia_da_semana, vencimento.nome_do_mês
 mostre vencimento.fim_do_mês, vencimento.útil`,
-  acoes: [['dia · mês · ano', 'as partes da data'], ['dia_da_semana · nome_do_mês', 'por extenso: "sábado", "janeiro"'], ['mês_ano · trimestre', 'para agrupar: "2026-01", 1'], ['formatada · por_extenso', '"31/01/2026", "31 de janeiro de 2026"'], ['início_do_mês · fim_do_mês', 'os limites do mês'], ['mais_meses(n)', 'soma meses, respeitando o fim do mês'], ['útil', 'verdadeiro de segunda a sexta']] },
+  acoes: [['dia · mês · ano', 'as partes da data'], ['dia_da_semana · nome_do_mês', 'por extenso: "sábado", "janeiro"'], ['mês_ano · trimestre', 'para agrupar: "2026-01", 1'], ['formatada · por_extenso', '"31/01/2026", "31 de janeiro de 2026"'], ['início_do_mês · fim_do_mês', 'os limites do mês'], ['mais_meses(n)', 'soma meses, respeitando o fim do mês'], ['útil · feriado', 'dia útil (sem fim de semana e feriado nacional) e o nome do feriado']] },
 { id: 'horas', titulo: 'Datas com hora',
   texto: '<p><code>agora()</code> dá a data e a hora deste instante, e <code>data("03/09/2026 14:30")</code> cria uma data com hora (também aceita <code>"03/09/2026 às 14h30"</code> e <code>"2026-09-03T14:30:00"</code>). As contas são exatas, ao segundo: <code>minutos_até</code>, <code>horas_até</code> e <code>dias_até</code> medem o tempo entre dois momentos, e <code>mais_horas</code> e <code>mais_minutos</code> andam no tempo, virando o dia quando precisa. Nas planilhas, colunas como 03/09/2026 08:15 chegam como datas com hora, prontas para achar vendas fora do horário ou cancelamentos minutos depois da venda.</p>',
   codigo: `entrada = data("03/09/2026 08:15")
@@ -288,6 +289,15 @@ por_filial = vendas.agrupe(v => v.filial).transforme(g => {
   total: g.itens.soma(v => v.total),
 })
 gráfico "Vendas por filial" de por_filial.ordenada(f => f.total).invertida por total` },
+{ id: 'brasil', titulo: 'Feriados, CPF, CNPJ, notas e extratos',
+  texto: '<p>Os dias úteis seguem o calendário dos bancos: fim de semana e feriado nacional não contam, inclusive Carnaval, Paixão de Cristo e Corpus Christi. <code>vencimento.mais_dias_úteis(5)</code> anda cinco dias úteis, <code>emissão.dias_úteis_até(pagamento)</code> conta os dias úteis entre duas datas e <code>dia.próximo_dia_útil</code> empurra um vencimento que cai em feriado. Para feriados da sua cidade, passe uma lista de datas: <code>dia.útil(locais)</code>. <code>feriados(2026)</code> lista os do ano.</p><p><code>cpf_válido</code> e <code>cnpj_válido</code> conferem os dígitos, com ou sem pontuação, inclusive o CNPJ com letras que começou em julho de 2026. <code>nota_fiscal("nota.xml")</code> lê o XML de uma NF-e ou NFC-e, com emitente, destinatário, totais e itens; <code>tabela("extrato.ofx")</code> lê o extrato que o banco oferece para programas financeiros, um lançamento por linha, pronto para <code>concilie</code>.</p>',
+  codigo: `mostre data("02/04/2026").mais_dias_úteis(5), data("21/11/2026").próximo_dia_útil
+mostre data("16/02/2026").feriado, cnpj_válido("11.222.333/0001-81"), cpf_válido("529.982.247-24")
+nota = nota_fiscal("nota_exemplo.xml")
+mostre nota.número, nota.emitente.nome, nota.valor_total.dinheiro, nota.itens.tamanho
+extrato = tabela("extrato_exemplo.ofx")
+mostre extrato.filtre(l => l.tipo == "crédito").soma(l => l.valor).dinheiro`,
+  acoes: [['dia.útil · dia.útil(locais)', 'verdadeiro em dia útil; locais é uma lista de feriados da cidade'], ['dia.mais_dias_úteis(n)', 'anda n dias úteis (para trás, se n é negativo)'], ['a.dias_úteis_até(b)', 'quantos dias úteis depois de a, até b'], ['dia.próximo_dia_útil', 'o próprio dia, ou o próximo dia útil'], ['dia.feriado', 'o nome do feriado, ou ""'], ['feriados(ano)', 'lista de {data, nome, tipo}'], ['cpf_válido(x) · cnpj_válido(x)', 'confere os dígitos verificadores'], ['texto.só_números', 'tira pontos, traços e espaços'], ['nota_fiscal(arquivo)', 'o XML de uma NF-e como registro'], ['tabela("extrato.ofx")', 'lançamentos {data, valor, tipo, histórico, documento, id}']] },
 { id: 'internet', titulo: 'Dados da internet', internet: true,
   texto: '<p><code>busque("https://…")</code> lê um endereço da internet. Respostas em JSON, o formato da maioria das APIs, viram registros, listas e números exatos (sem arredondar nenhuma casa); o resto chega como texto. <code>tabela("https://…")</code> lê uma planilha CSV publicada, como uma planilha do Google publicada na web. Numa execução, cada endereço é buscado uma vez; nos apps, a tela não trava enquanto a resposta não chega. No computador, com <code>cordel rodar</code>, qualquer endereço funciona; no navegador, só os de sites que permitem acesso de outras páginas, como a BrasilAPI.</p>',
   codigo: `empresa = busque("https://brasilapi.com.br/api/cnpj/v1/00000000000191")
@@ -393,6 +403,10 @@ CONTEUDO.docFuncoes = {
   'salve': ['salve(nome, valor)', 'Gera um arquivo .xlsx, .csv, .txt, .md ou .json para baixar.'],
   'concilie': ['concilie(a, b, {por, folga_de_dias, folga_de_valor, compare})', 'Casa cada registro de a com no máximo um de b. Devolve {resumo, pares, com_diferença, só_no_primeiro, só_no_segundo}.'],
   'índice': ['índice(nome)', 'Um índice oficial do Banco Central (IPCA, IGP-M, INPC, Selic, CDI), com .acumulado(de, até), .fator(de, até) e .série(de, até).'],
+  'feriados': ['feriados(ano)', 'Os feriados nacionais do ano, do calendário dos bancos (Anbima): lista de {data, nome, tipo}, com tipo "nacional" ou "bancário" (Carnaval e Corpus Christi).'],
+  'cpf_válido': ['cpf_válido(x)', 'verdadeiro se os dígitos verificadores do CPF conferem. Aceita texto com ou sem pontuação, ou número.'],
+  'cnpj_válido': ['cnpj_válido(x)', 'verdadeiro se os dígitos verificadores do CNPJ conferem, inclusive o CNPJ alfanumérico (com letras, desde julho de 2026).'],
+  'nota_fiscal': ['nota_fiscal(arquivo)', 'Lê o XML de uma NF-e ou NFC-e: chave, número, série, emissão, emitente, destinatário, totais, autorização e itens.'],
   'cotação': ['cotação(moeda, dia)', 'A cotação de venda do dólar ou do euro no dia (ou no último dia útil antes), pelo Banco Central.'],
 };
 CONTEUDO.docMetodos = {
@@ -421,6 +435,7 @@ CONTEUDO.docMetodos = {
   'texto:contém': ['(t)', 'verdadeiro se t aparece no texto.'], 'texto:começa_com': ['(t)', 'verdadeiro se começa com t.'],
   'texto:termina_com': ['(t)', 'verdadeiro se termina com t.'], 'texto:divida': ['(separador)', 'Lista dos pedaços entre os separadores.'],
   'texto:troque': ['(a, b)', 'Troca todo a por b.'],
+  'texto:só_números': ['', 'Só os dígitos: "(88) 9 9999-0000" vira "88999990000".'],
   'número:arredondado': ['[(casas)]', 'Arredondado (metade para longe do zero); sem casas, para inteiro.'],
   'número:absoluto': ['', 'Sem sinal.'], 'número:inteiro': ['', 'A parte inteira (corta os decimais).'],
   'número:raiz': ['', 'Raiz quadrada; exata para quadrados perfeitos, senão com 12 casas.'],
@@ -435,7 +450,11 @@ CONTEUDO.docMetodos = {
   'data:formatada': ['', '"dd/mm/aaaa".'], 'data:por_extenso': ['', '"26 de setembro de 2026".'],
   'data:início_do_mês': ['', 'Primeiro dia do mês.'], 'data:fim_do_mês': ['', 'Último dia do mês.'],
   'data:mais_meses': ['(n)', 'Soma n meses; se o dia não existir no mês de destino, usa o último.'],
-  'data:útil': ['', 'verdadeiro de segunda a sexta (não considera feriados).'],
+  'data:útil': ['[(locais)]', 'verdadeiro em dia útil: de segunda a sexta, fora dos feriados nacionais do calendário dos bancos e dos feriados locais passados numa lista.'],
+  'data:feriado': ['', 'O nome do feriado nacional naquele dia, ou "".'],
+  'data:próximo_dia_útil': ['[(locais)]', 'O próprio dia, se for útil; senão, o próximo dia útil.'],
+  'data:mais_dias_úteis': ['(n[, locais])', 'Anda n dias úteis (para trás, se n é negativo), mantendo a hora.'],
+  'data:dias_úteis_até': ['(outra[, locais])', 'Quantos dias úteis há depois desta data até a outra (negativo se a outra vem antes).'],
   'data:hora': ['', 'Hora (0 a 23); 0 numa data sem hora.'], 'data:minuto': ['', 'Minuto (0 a 59).'], 'data:segundo': ['', 'Segundo (0 a 59).'],
   'data:horário': ['', 'O horário como texto: "14:30", ou "14:30:15" quando há segundos.'],
   'data:sem_hora': ['', 'Só o dia, sem a hora: bom para agrupar e comparar por data.'],
@@ -574,6 +593,13 @@ argumentos    = expressão { "," expressão } [ "," ] ;`,
 <li><code>fator</code> é o produto de (1 + taxa ÷ 100), exato; <code>acumulado</code> é (fator − 1) × 100; <code>valor.corrigido(índice, de, até)</code> é valor × fator. Nada é arredondado: use <code>.arredondado(2)</code> ou <code>.dinheiro</code>.</li>
 <li><code>cotação(moeda, dia)</code>: dólar (série 1) ou euro (21619), cotação de venda. Sem cotação no dia (fim de semana, feriado), usa a do último dia útil antes, até dez dias.</li>
 <li>Os dados vêm de <code>https://api.bcb.gov.br</code> com as mesmas regras de <code>busque</code>: cada consulta é feita uma vez por execução, e séries diárias vão em pedaços de até cinco anos.</li>
+</ul>`,
+  brasil: `<ul class="ref-lista">
+<li>Feriados nacionais do calendário da Anbima, o mesmo dos bancos: 1º de janeiro, Carnaval (segunda e terça), Paixão de Cristo, Tiradentes, Dia do Trabalho, Corpus Christi, Independência, Nossa Senhora Aparecida (desde 1980), Finados, Proclamação da República, Consciência Negra (desde 2024) e Natal. As datas móveis vêm da Páscoa. Carnaval e Corpus Christi têm tipo <code>"bancário"</code>: são ponto facultativo, mas os bancos fecham. De 1900 a 2199.</li>
+<li>Dia útil é de segunda a sexta, fora desses feriados e dos feriados locais passados como lista de datas no último valor de <code>útil</code>, <code>próximo_dia_útil</code>, <code>mais_dias_úteis</code> e <code>dias_úteis_até</code>. Datas com hora mantêm a hora.</li>
+<li><code>cpf_válido</code> e <code>cnpj_válido</code> aceitam texto (pontos, traços, barra e espaços são ignorados) ou número inteiro (completado com zeros à esquerda). Sequências repetidas, como 111.111.111-11, são inválidas. No CNPJ, as 12 primeiras posições podem ter letras: cada caractere vale o código ASCII menos 48 no cálculo dos dígitos.</li>
+<li><code>nota_fiscal(arquivo)</code> lê o XML de NF-e (modelo 55) e NFC-e (65), com ou sem o protocolo de autorização. Campos: <code>chave</code>, <code>número</code>, <code>série</code>, <code>modelo</code>, <code>emissão</code> (data com a hora como está no XML), <code>natureza</code>, <code>tipo</code> ("entrada" ou "saída"), <code>emitente</code> {cnpj, nome, fantasia, município, uf}, <code>destinatário</code> {documento, nome, município, uf}, <code>valor_produtos</code>, <code>desconto</code>, <code>frete</code>, <code>icms</code>, <code>ipi</code>, <code>valor_total</code>, <code>autorizada</code>, <code>protocolo</code>, <code>situação</code> e <code>itens</code> (lista de {item, código, descrição, ncm, cfop, unidade, quantidade, valor_unitário, valor, desconto}). Valores exatos, com origem. Um XML de evento (cancelamento, carta de correção) é erro com explicação.</li>
+<li><code>tabela("extrato.ofx")</code> lê extratos OFX (versão 1, SGML, e 2, XML): um registro por lançamento, com <code>data</code>, <code>valor</code> (negativo nos débitos), <code>tipo</code> ("crédito" ou "débito"), <code>histórico</code>, <code>documento</code> e <code>id</code>. A origem aponta a linha do arquivo de cada lançamento.</li>
 </ul>`,
   telas: `<ul class="ref-lista">
 <li>O bloco <code>tela</code> é executado depois do programa e de novo a cada interação; o resultado substitui a tela anterior, preservando o foco e o texto sendo digitado.</li>

@@ -28,7 +28,7 @@ Com os nomes escolhidos, rode na pasta do projeto:
 npm run configurar -- --github usuario/cordel --editor seu-publicador --autor "Seu Nome"
 ```
 
-Isso atualiza, de uma vez, o `package.json`, o manifesto da extensão (inclusive o formatador padrão, que depende do publicador), a licença e o README (com os selos de testes, npm e VS Code e o endereço do editor). Use `--npm @usuario/cordel` se precisar de outro nome no npm, e `--email` para pôr o e-mail no pacote. Rodar sem opções mostra a configuração atual.
+Isso atualiza, de uma vez, o `package.json`, o manifesto da extensão (inclusive o formatador padrão, que depende do publicador), a licença e o README (com o selo dos testes e o endereço do editor). Use `--npm @usuario/cordel` se precisar de outro nome no npm, e `--email` para pôr o e-mail no pacote. Depois de publicar no npm e no Marketplace, `npm run configurar -- --github usuario/cordel --selos npm,vscode` põe também os selos com a versão de cada um. Rodar sem opções mostra a configuração atual.
 
 ## 2. Pôr o código no GitHub
 

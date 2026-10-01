@@ -75,9 +75,12 @@ const subirServidor = () => new Promise((res, rej) => {
     confira('origem: fechar', !(await p.$('#console .c-orig-painel')));
     await p.click('#console tr.c-tr-orig >> nth=1'); await p.waitForTimeout(200);
     confira('origem: tocar numa linha da tabela', (await p.textContent('#console .c-orig-painel .c-orig-texto')) === 'vendas_exemplo.csv, linha 3 (coluna Total)', await p.textContent('#console .c-orig-painel'));
-    confira('arquivos de exemplo: vendas e extrato', (await p.$$eval('.arq-nome', x => x.map(e => e.textContent))).join(',') === 'vendas_exemplo.csv,extrato_exemplo.csv');
+    confira('arquivos de exemplo: só o que o código cita aparece', (await p.$$eval('.arq-nome', x => x.map(e => e.textContent))).join(',') === 'vendas_exemplo.csv');
     await p.selectOption('#programa', { label: 'Conciliação de vendas com o extrato' }); await p.waitForTimeout(800);
     confira('exemplo de conciliação roda', (await p.textContent('#console .c-out')) === '40 pares (1 com diferença), 2 só no primeiro e 2 só no segundo', await p.textContent('#console'));
+    confira('arquivos de exemplo: vendas e extrato', (await p.$$eval('.arq-nome', x => x.map(e => e.textContent))).join(',') === 'vendas_exemplo.csv,extrato_exemplo.csv');
+    await p.selectOption('#programa', { label: 'Conferência de nota fiscal (XML da NF-e)' }); await p.waitForTimeout(800);
+    confira('nota fiscal: lê o XML de exemplo', (await p.textContent('#console .c-out')) === 'NF-e 4180 de MÓVEIS MANDACARU LTDA' && (await p.textContent('.arq-info')).includes('NF-e 4180'), await p.textContent('#console'));
 
     // ── baixar direto (fora do Claude, sem o recurso de downloads)
     await p.fill('#codigo', 'tela "Oi"\n  mostre "olá"\nfim\n'); await p.click('#rodar'); await p.waitForTimeout(600);

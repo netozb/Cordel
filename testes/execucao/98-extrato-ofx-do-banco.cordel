@@ -1,0 +1,15 @@
+extrato = tabela("extrato_exemplo.ofx")
+mostre extrato
+mostre extrato.soma(l => l.valor), extrato.filtre(l => l.tipo == "débito").soma(l => l.valor)
+mostre extrato[2].origem, "·", extrato.soma(l => l.valor).origem
+v2 = tabela("extrato_v2.ofx")
+mostre v2
+vendas = [{nota: "1", data: data("01/09/2026"), total: 2249.91}, {nota: "2", data: data("01/09/2026"), total: 4749.81}]
+r = concilie(vendas, extrato, {por: {total: "valor", data: "data"}, folga_de_dias: 2})
+mostre r.resumo
+mostre r.pares.transforme(p => {nota: p.primeiro.nota, histórico: p.segundo.histórico, dias: p.dias})
+tente
+  mostre tabela("nao_nfe.xml")
+falhou erro
+  mostre erro
+fim

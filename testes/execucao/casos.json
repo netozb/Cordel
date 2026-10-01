@@ -932,5 +932,33 @@
         "texto": "[]"
       }
     }
+  },
+  {
+    "nome": "feriados e dias úteis",
+    "arquivo": "95-feriados-e-dias-uteis.cordel"
+  },
+  {
+    "nome": "CPF e CNPJ, inclusive alfanumérico",
+    "arquivo": "96-cpf-e-cnpj-inclusive-alfanumerico.cordel"
+  },
+  {
+    "nome": "nota fiscal eletrônica (XML da NF-e)",
+    "arquivo": "97-nota-fiscal-eletronica-xml-da-nf-e.cordel",
+    "planilhas": [
+      "nota_exemplo.xml",
+      "evento_cancelamento.xml",
+      "nao_nfe.xml",
+      "ruim.xml",
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "extrato OFX do banco",
+    "arquivo": "98-extrato-ofx-do-banco.cordel",
+    "planilhas": [
+      "extrato_exemplo.ofx",
+      "extrato_v2.ofx",
+      "nao_nfe.xml"
+    ]
   }
 ]

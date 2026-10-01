@@ -3,5 +3,6 @@
 # Resultados esperados e planilhas guardam os finais de linha exatos (CSV gravado usa CRLF): nunca converter.
 *.esperado -text
 *.csv -text
+*.ofx -text
 *.png binary
 *.xlsx binary

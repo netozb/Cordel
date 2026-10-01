@@ -1,0 +1,24 @@
+para cada ano em [2024, 2025, 2026]
+  mostre ano, feriados(ano).transforme(f => f.data.formatada).junte(" ")
+fim
+mostre feriados(2023).conte(f => f.nome.contém("Zumbi")), feriados(1979).conte(f => f.nome.contém("Aparecida"))
+mostre feriados(2026).filtre(f => f.tipo == "bancário").transforme(f => f.nome)
+mostre data("16/02/2026").útil, data("16/02/2026").feriado, data("18/02/2026").útil, data("18/02/2026").feriado == ""
+mostre data("07/09/2026").feriado, data("05/09/2026").útil, data("08/09/2026").útil
+mostre data("03/04/2026").mais_dias_úteis(1), data("02/04/2026").mais_dias_úteis(5), data("06/04/2026").mais_dias_úteis(-1)
+mostre data("02/04/2026").dias_úteis_até(data("10/04/2026")), data("10/04/2026").dias_úteis_até(data("02/04/2026")), data("02/04/2026").dias_úteis_até(data("02/04/2026"))
+locais = [data("19/03/2026"), data("25/03/2026")]
+mostre data("18/03/2026").mais_dias_úteis(1, locais), data("19/03/2026").útil(locais), data("19/03/2026").útil
+mostre data("18/03/2026").dias_úteis_até(data("26/03/2026"), locais), data("18/03/2026").dias_úteis_até(data("26/03/2026"))
+mostre data("21/11/2026").próximo_dia_útil, data("23/11/2026").próximo_dia_útil, data("24/03/2026").próximo_dia_útil(locais)
+mostre data("03/09/2026 14:30").mais_dias_úteis(2), data("20/11/2026 09:00").útil
+tente
+  mostre data("18/03/2026").útil([1, 2])
+falhou erro
+  mostre erro
+fim
+tente
+  mostre feriados(1800)
+falhou erro
+  mostre erro
+fim

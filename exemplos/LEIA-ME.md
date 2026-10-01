@@ -13,6 +13,7 @@ Programas prontos para rodar, estudar e modificar. Todos seguem o formato oficia
 | `prazos.cordel` | Prazos e vencimentos | `cordel rodar exemplos/prazos.cordel` |
 | `auditoria.cordel` | Auditoria de planilha | `cordel rodar exemplos/auditoria.cordel` |
 | `conciliacao.cordel` | Conciliação de vendas com o extrato | `cordel rodar exemplos/conciliacao.cordel` |
+| `notas.cordel` | Conferência de nota fiscal (XML da NF-e) | `cordel rodar exemplos/notas.cordel` |
 | `horarios.cordel` | Horários na auditoria | `cordel rodar exemplos/horarios.cordel` |
 | `regras.cordel` | Regras de auditoria | módulo: `use "regras"` em `auditoria.cordel` |
 | `cnpj.cordel` | Consulta de CNPJ (app, usa a internet) | `cordel app exemplos/cnpj.cordel` |
@@ -24,4 +25,4 @@ Programas prontos para rodar, estudar e modificar. Todos seguem o formato oficia
 | `estrofe.cordel` | Estrofe de cordel | `cordel rodar exemplos/estrofe.cordel` |
 | `erros.cordel` | Erros que ensinam | `cordel verificar exemplos/erros.cordel` |
 
-As planilhas `vendas_exemplo.csv` e `extrato_exemplo.csv` ficam nesta mesma pasta, e os exemplos as acham sozinhos.
+Os arquivos de exemplo (`vendas_exemplo.csv`, `extrato_exemplo.csv`, `nota_exemplo.xml` e `extrato_exemplo.ofx`) ficam nesta mesma pasta, e os exemplos os acham sozinhos.

@@ -1,0 +1,30 @@
+# Confere uma nota fiscal eletrônica a partir do XML da NF-e.
+# No editor, adicione os XMLs das suas notas em Arquivos.
+nota = nota_fiscal("nota_exemplo.xml")
+mostre "{nota.modelo} {nota.número} de {nota.emitente.nome}"
+mostre "Emitida em {nota.emissão} ({nota.emissão.dia_da_semana}) · {nota.situação}"
+mostre nota.itens.transforme(i => {produto: i.descrição, qtd: i.quantidade, valor: i.valor, desconto: i.desconto})
+
+var problemas = []
+se não cnpj_válido(nota.emitente.cnpj)
+  problemas.adicione("CNPJ do emitente inválido")
+fim
+doc = nota.destinatário.documento
+se não (cpf_válido(doc) ou cnpj_válido(doc))
+  problemas.adicione("documento do destinatário inválido")
+fim
+calculado = nota.itens.soma(i => i.valor - i.desconto) + nota.frete
+se calculado != nota.valor_total
+  problemas.adicione("total da nota difere da soma dos itens em {(nota.valor_total - calculado).dinheiro}")
+fim
+se não nota.autorizada
+  problemas.adicione("nota sem autorização da Sefaz")
+fim
+
+# Pagamento combinado para 10 dias úteis depois da emissão
+vencimento = nota.emissão.sem_hora.mais_dias_úteis(10)
+mostre "Vencimento: {vencimento.formatada} · total {nota.valor_total.dinheiro}"
+mostre "Problemas: {problemas.tamanho}"
+para cada p em problemas
+  mostre "· {p}"
+fim

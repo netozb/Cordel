@@ -1,0 +1,25 @@
+nota = nota_fiscal("nota_exemplo.xml")
+mostre nota.chave, nota.número, nota.série, nota.modelo, nota.tipo
+mostre nota.emissão, nota.emissão.horário, nota.natureza
+mostre nota.emitente
+mostre nota.destinatário
+mostre nota.valor_produtos, nota.desconto, nota.frete, nota.icms, nota.ipi, nota.valor_total
+mostre nota.autorizada, nota.protocolo, nota.situação
+mostre nota.itens
+mostre nota.itens.soma(i => i.valor - i.desconto) + nota.frete == nota.valor_total
+mostre nota.valor_total.origem
+mostre nota.itens[2].valor.origem
+mostre nota.itens.soma(i => i.quantidade).origem
+mostre nota_fiscal("nota_exemplo") == nota
+para cada arq em ["evento_cancelamento.xml", "nao_nfe.xml", "ruim.xml", "vendas_exemplo.csv"]
+  tente
+    mostre nota_fiscal(arq)
+  falhou erro
+    mostre erro
+  fim
+fim
+tente
+  mostre tabela("nota_exemplo.xml")
+falhou erro
+  mostre erro
+fim

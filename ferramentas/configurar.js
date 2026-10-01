@@ -9,6 +9,7 @@
 //   --autor    nome que aparece como autor e na licença
 //   --email    e-mail do autor (opcional)
 //   --npm      nome do pacote no npm, se "cordel" não estiver livre (ex.: @usuario/cordel)
+//   --selos    selos de versão no README depois de publicar: npm, vscode ou npm,vscode
 //
 // Sem opções, mostra a configuração atual.
 const fs = require('fs');
@@ -29,11 +30,12 @@ function opcoes(args) {
     o[m[1]] = m[2] !== undefined ? m[2] : args[++i];
     if (o[m[1]] === undefined) throw new Error('falta o valor de --' + m[1]);
   }
-  for (const k of Object.keys(o)) if (!['github', 'editor', 'autor', 'email', 'npm'].includes(k)) throw new Error('opção desconhecida: --' + k);
+  for (const k of Object.keys(o)) if (!['github', 'editor', 'autor', 'email', 'npm', 'selos'].includes(k)) throw new Error('opção desconhecida: --' + k);
   if (o.github && !/^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\/[A-Za-z0-9._-]+$/.test(o.github)) throw new Error('--github deve ser usuario/repositorio');
   if (o.editor && !/^[A-Za-z0-9][A-Za-z0-9-]*$/.test(o.editor)) throw new Error('--editor deve ter só letras, números e hífens');
   if (o.npm && !/^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(o.npm)) throw new Error('--npm: nome de pacote inválido (use minúsculas, como cordel ou @usuario/cordel)');
   if (o.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email)) throw new Error('--email inválido');
+  if (o.selos && !o.selos.split(',').every(x => ['npm', 'vscode'].includes(x.trim()))) throw new Error('--selos aceita npm, vscode ou npm,vscode');
   return o;
 }
 
@@ -115,10 +117,15 @@ function principal(args) {
   const repo = p.repository && String(p.repository.url || '').replace(/^git\+https:\/\/github\.com\/|\.git$/g, '');
   if (repo) {
     const [dono, nome] = repo.split('/');
+    // os selos do npm e do VS Code só depois de publicar (antes, mostrariam "não encontrado")
+    const atual = (/<!-- configurar:links -->([\s\S]*?)<!-- \/configurar:links -->/.exec(leia) || [])[1] || '';
+    const selos = new Set((o.selos || '').split(',').map(x => x.trim()).filter(Boolean));
+    if (atual.includes('img.shields.io/npm/')) selos.add('npm');
+    if (atual.includes('visual-studio-marketplace')) selos.add('vscode');
     const links = [
       '[![Testes](https://github.com/' + repo + '/actions/workflows/testes.yml/badge.svg)](https://github.com/' + repo + '/actions/workflows/testes.yml)',
-      '[![npm](https://img.shields.io/npm/v/' + p.name + '?label=npm)](https://www.npmjs.com/package/' + p.name + ')',
-      '[![VS Code](https://img.shields.io/visual-studio-marketplace/v/' + e.publisher + '.' + e.name + '?label=VS%20Code)](https://marketplace.visualstudio.com/items?itemName=' + e.publisher + '.' + e.name + ')',
+      ...(selos.has('npm') ? ['[![npm](https://img.shields.io/npm/v/' + p.name + '?label=npm)](https://www.npmjs.com/package/' + p.name + ')'] : []),
+      ...(selos.has('vscode') ? ['[![VS Code](https://img.shields.io/visual-studio-marketplace/v/' + e.publisher + '.' + e.name + '?label=VS%20Code)](https://marketplace.visualstudio.com/items?itemName=' + e.publisher + '.' + e.name + ')'] : []),
       '', '**Experimente no navegador:** https://' + dono.toLowerCase() + '.github.io/' + nome + '/',
     ].join('\n');
     leia = marcas(leia, 'links', links);

@@ -1,0 +1,7 @@
+mostre cpf_válido("529.982.247-25"), cpf_válido("52998224725"), cpf_válido(52998224725)
+mostre cpf_válido("529.982.247-24"), cpf_válido("111.111.111-11"), cpf_válido("123"), cpf_válido(""), cpf_válido(12.5)
+mostre cpf_válido(1234567890), cpf_válido(01234567890) == cpf_válido("01234567890")
+mostre cnpj_válido("11.222.333/0001-81"), cnpj_válido("11222333000181"), cnpj_válido(11222333000181), cnpj_válido("11.222.333/0001-82")
+mostre cnpj_válido("12.ABC.345/01DE-35"), cnpj_válido("12abc34501de35"), cnpj_válido("12ABC34501DE36"), cnpj_válido("00000000000000")
+mostre cnpj_válido(verdadeiro), cpf_válido([1])
+mostre "(88) 9 9999-0000".só_números, "11.222.333/0001-81".só_números, "sem números".só_números == ""

@@ -1,0 +1,15 @@
+[tabela 4 de 4] data | valor | tipo | histórico | documento | id
+  02/09/2026 | 2249.91 | crédito | PIX RECEBIDO - MARIA SILVA | 004180 | 202609020001
+  03/09/2026 | 4749.81 | crédito | CRED CARTAO REDE |  | 202609030001
+  05/09/2026 | -89.9 | débito | TARIFA PACOTE |  | 202609050001
+  12/09/2026 | 350 | crédito | DEPOSITO NAO IDENTIFICADO |  | 202609120001
+7259.82 -89.9
+extrato_exemplo.ofx, linha 24 · 4 células de extrato_exemplo.ofx (coluna valor; linhas 16, 24, 31 e 38)
+[tabela 2 de 2] data | valor | tipo | histórico | documento | id
+  10/09/2026 | -1500 | débito | PAGTO FORNECEDOR & CIA | 778 | A1
+  11/09/2026 | 2599.9 | crédito | TED RECEBIDA |  | A2
+2 pares, 0 só no primeiro e 2 só no segundo
+[tabela 2 de 2] nota | histórico | dias
+  1 | PIX RECEBIDO - MARIA SILVA | 1
+  2 | CRED CARTAO REDE | 2
+"nao_nfe.xml" é um XML, não uma planilha.

@@ -244,7 +244,7 @@ const RESPOSTAS = { 'pergunte.cordel': ['Maria', '40'], 'adivinha.cordel': Array
 secao('exemplos', () => {
   const pasta = path.join(RAIZ, 'exemplos');
   const arquivos = fs.readdirSync(pasta).filter(f => f.endsWith('.cordel'));
-  const planilhas = fs.readdirSync(pasta).filter(f => /\.(csv|txt)$/i.test(f)).map(f => ({ name: f, text: fs.readFileSync(path.join(pasta, f), 'utf8') }));
+  const planilhas = fs.readdirSync(pasta).filter(f => /\.(csv|txt|xml|ofx)$/i.test(f)).map(f => ({ name: f, text: fs.readFileSync(path.join(pasta, f), 'utf8') }));
   for (const f of arquivos) {
     const src = fs.readFileSync(path.join(pasta, f), 'utf8');
     const ps = Cordel.verificar(src, { modulos: lerModulos.exemplos() }).problemas;
@@ -319,6 +319,8 @@ secao('linha de comando', () => {
 
     r = cli(['rodar', ex('dinheiro.cordel')]);
     caso('rodar um exemplo', r.codigo === 0 && r.saida.trim().length > 0 && !r.erro, mostra(r));
+    r = cli(['rodar', ex('notas.cordel')]);
+    caso('acha sozinho o XML da nota citado em nota_fiscal', r.codigo === 0 && r.saida.includes('NF-e 4180 de MÓVEIS MANDACARU LTDA') && r.saida.includes('Vencimento: 16/09/2026'), mostra(r));
     r = cli(['rodar', ex('conciliacao.cordel'), '--origens']);
     caso('--origens: a origem abaixo das linhas e numa coluna das tabelas', r.codigo === 0 && r.saida.includes('Falta receber: R$ 2.239,99\n  ↳ 2 células de vendas_exemplo.csv (coluna Total; linhas 21 e 29)') && r.saida.includes('de onde veio') && r.saida.includes('extrato_exemplo.csv, linha 22'), mostra(r));
     r = cli([ex('dinheiro.cordel')]);

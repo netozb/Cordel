@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+    <infNFe Id="NFe23260911222333000181550010000041801123456780" versao="4.00">
+      <ide>
+        <cUF>23</cUF><cNF>12345678</cNF><natOp>VENDA DE MERCADORIA</natOp><mod>55</mod><serie>1</serie><nNF>4180</nNF>
+        <dhEmi>2026-09-01T10:15:00-03:00</dhEmi><tpNF>1</tpNF><idDest>1</idDest><cMunFG>2305506</cMunFG><tpImp>1</tpImp><tpEmis>1</tpEmis>
+        <cDV>0</cDV><tpAmb>2</tpAmb><finNFe>1</finNFe><indFinal>1</indFinal><indPres>1</indPres><procEmi>0</procEmi><verProc>exemplo</verProc>
+      </ide>
+      <emit>
+        <CNPJ>11222333000181</CNPJ><xNome>MÓVEIS MANDACARU LTDA</xNome><xFant>Mandacaru</xFant>
+        <enderEmit><xLgr>Rua das Carnaúbas</xLgr><nro>100</nro><xBairro>Centro</xBairro><cMun>2305506</cMun><xMun>Iguatu</xMun><UF>CE</UF><CEP>63500000</CEP></enderEmit>
+        <IE>061234567</IE><CRT>3</CRT>
+      </emit>
+      <dest>
+        <CPF>52998224725</CPF><xNome>MARIA DAS GRAÇAS SILVA</xNome>
+        <enderDest><xLgr>Rua Sete de Setembro</xLgr><nro>45</nro><xBairro>Prado</xBairro><cMun>2305506</cMun><xMun>Iguatu</xMun><UF>CE</UF></enderDest>
+        <indIEDest>9</indIEDest>
+      </dest>
+      <det nItem="1">
+        <prod><cProd>SOF3L</cProd><cEAN>SEM GTIN</cEAN><xProd>Sofá 3 lugares</xProd><NCM>94016100</NCM><CFOP>5102</CFOP><uCom>UN</uCom><qCom>1.0000</qCom><vUnCom>2499.9000000000</vUnCom><vProd>2499.90</vProd><cEANTrib>SEM GTIN</cEANTrib><uTrib>UN</uTrib><qTrib>1.0000</qTrib><vUnTrib>2499.9000000000</vUnTrib><vDesc>249.99</vDesc><indTot>1</indTot></prod>
+        <imposto><ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>2249.91</vBC><pICMS>20.00</pICMS><vICMS>449.98</vICMS></ICMS00></ICMS></imposto>
+      </det>
+      <det nItem="2">
+        <prod><cProd>VENT40</cProd><cEAN>SEM GTIN</cEAN><xProd>Ventilador de coluna</xProd><NCM>84145190</NCM><CFOP>5102</CFOP><uCom>UN</uCom><qCom>2.0000</qCom><vUnCom>229.9000000000</vUnCom><vProd>459.80</vProd><cEANTrib>SEM GTIN</cEANTrib><uTrib>UN</uTrib><qTrib>2.0000</qTrib><vUnTrib>229.9000000000</vUnTrib><indTot>1</indTot></prod>
+        <imposto><ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>459.80</vBC><pICMS>20.00</pICMS><vICMS>91.96</vICMS></ICMS00></ICMS></imposto>
+      </det>
+      <total>
+        <ICMSTot><vBC>2709.71</vBC><vICMS>541.94</vICMS><vICMSDeson>0.00</vICMSDeson><vFCP>0.00</vFCP><vBCST>0.00</vBCST><vST>0.00</vST><vFCPST>0.00</vFCPST><vFCPSTRet>0.00</vFCPSTRet><vProd>2959.70</vProd><vFrete>80.00</vFrete><vSeg>0.00</vSeg><vDesc>249.99</vDesc><vII>0.00</vII><vIPI>0.00</vIPI><vIPIDevol>0.00</vIPIDevol><vPIS>0.00</vPIS><vCOFINS>0.00</vCOFINS><vOutro>0.00</vOutro><vNF>2789.71</vNF></ICMSTot>
+      </total>
+      <transp><modFrete>0</modFrete></transp>
+      <pag><detPag><tPag>03</tPag><vPag>2789.71</vPag></detPag></pag>
+      <infAdic><infCpl>Nota de exemplo da linguagem Cordel &amp; seus testes.</infCpl></infAdic>
+    </infNFe>
+  </NFe>
+  <protNFe versao="4.00">
+    <infProt><tpAmb>2</tpAmb><verAplic>exemplo</verAplic><chNFe>23260911222333000181550010000041801123456780</chNFe><dhRecbto>2026-09-01T10:16:02-03:00</dhRecbto><nProt>323260000012345</nProt><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt>
+  </protNFe>
+</nfeProc>

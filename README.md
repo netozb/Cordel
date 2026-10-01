@@ -1,8 +1,6 @@
 # Cordel 0.7.0
 <!-- configurar:links -->
 [![Testes](https://github.com/netozb/cordel/actions/workflows/testes.yml/badge.svg)](https://github.com/netozb/cordel/actions/workflows/testes.yml)
-[![npm](https://img.shields.io/npm/v/cordel?label=npm)](https://www.npmjs.com/package/cordel)
-[![VS Code](https://img.shields.io/visual-studio-marketplace/v/cordel.cordel?label=VS%20Code)](https://marketplace.visualstudio.com/items?itemName=cordel.cordel)
 
 **Experimente no navegador:** https://netozb.github.io/cordel/
 <!-- /configurar:links -->
