@@ -117,6 +117,8 @@ code { font-family: var(--mono); font-size: 0.92em; background: var(--surface-2)
 .marca-nome { font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
 .marca-ver { font-family: var(--mono); font-size: 11.5px; color: var(--topo-muted); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 4px; padding: 1px 6px; }
 .abas { display: flex; gap: 2px; align-self: stretch; }
+.instalar { border: 1px solid rgba(255, 255, 255, 0.22); background: transparent; color: var(--topo-ink); border-radius: 999px; padding: 4px 12px; font-size: 13.5px; font-weight: 600; cursor: pointer; min-height: 32px; }
+.instalar:hover { background: rgba(255, 255, 255, 0.08); }
 .aba { border: 0; background: transparent; color: var(--topo-muted); font-weight: 500; font-size: 14px; padding: 0 12px; min-height: 44px; border-bottom: 2px solid transparent; cursor: pointer; }
 .aba:hover { color: var(--topo-ink); }
 .aba[aria-selected="true"] { color: var(--topo-ink); border-bottom-color: var(--marca); }
@@ -467,6 +469,7 @@ body:not(.pode-baixar) .so-baixar { display: none; }
       <span class="marca-nome">Cordel</span>
       <span class="marca-ver" id="versao">v0.6.0</span>
     </div>
+    <button class="instalar" id="instalar" type="button" hidden>Instalar</button>
     <nav class="abas" role="tablist" aria-label="Seções">
       <button class="aba" role="tab" id="aba-editor" aria-controls="vista-editor" aria-selected="true">Editor</button>
       <button class="aba" role="tab" id="aba-guia" aria-controls="vista-guia" aria-selected="false">Guia</button>
@@ -1406,6 +1409,46 @@ zona.addEventListener('dragover', ev => { if (ev.dataTransfer && [...ev.dataTran
 zona.addEventListener('dragleave', ev => { if (!zona.contains(ev.relatedTarget)) faixa.classList.remove('sobre'); });
 zona.addEventListener('drop', ev => { if (ev.dataTransfer && ev.dataTransfer.files.length) { ev.preventDefault(); faixa.classList.remove('sobre'); adicionarArquivos([...ev.dataTransfer.files]); } });
 desenharArquivos();
+
+// ── app instalável: só no site (a página do site tem o manifesto) ──
+// Funciona sem internet (service worker), pode ser instalado e recebe arquivos compartilhados
+// por outros apps, como o WhatsApp no Android, e arquivos abertos pelo sistema no computador.
+const noSite = !!document.querySelector('link[rel="manifest"]');
+async function receberArquivos(lista, origem) {
+  const programas = lista.filter(f => /\.cordel(\.txt)?$/i.test(f.name)), dados = lista.filter(f => !/\.cordel(\.txt)?$/i.test(f.name));
+  mostrarAba('editor');
+  for (const f of programas) await abrirProgramaDeArquivo(f);
+  if (dados.length) {
+    await adicionarArquivos(dados);
+    stMsg((origem || 'Recebi') + ' ' + dados.map(f => f.name).join(', ') + ': toque no nome para usar no código');
+  }
+}
+async function receberCompartilhados() {
+  if (!/[?&]compartilhado\b/.test(location.search) || !('caches' in window)) return;
+  try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { /* sem histórico */ }
+  const cache = await caches.open('cordel-compartilhados'), lista = [];
+  for (const req of await cache.keys()) {
+    const resp = await cache.match(req);
+    const nome = decodeURIComponent(new URL(req.url).pathname.split('/').pop() || 'arquivo');
+    lista.push(new File([await resp.blob()], nome, { type: resp.headers.get('content-type') || '' }));
+    await cache.delete(req);
+  }
+  if (lista.length) receberArquivos(lista, 'Recebi');
+}
+if (noSite) {
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
+  let pedidoDeInstalar = null;
+  window.addEventListener('beforeinstallprompt', ev => { ev.preventDefault(); pedidoDeInstalar = ev; $('#instalar').hidden = false; });
+  window.addEventListener('appinstalled', () => { $('#instalar').hidden = true; stMsg('Cordel instalado'); });
+  $('#instalar').addEventListener('click', async () => {
+    if (!pedidoDeInstalar) return;
+    pedidoDeInstalar.prompt();
+    try { await pedidoDeInstalar.userChoice; } catch (e) { /* recusado */ }
+    pedidoDeInstalar = null; $('#instalar').hidden = true;
+  });
+  receberCompartilhados();
+  if ('launchQueue' in window) window.launchQueue.setConsumer(async p => { if (p.files && p.files.length) receberArquivos(await Promise.all(p.files.map(h => h.getFile())), 'Abri'); });
+}
 function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
 function mostrarResultado(box, r, interativo, modoApp) {
   box.innerHTML = '';
@@ -1530,11 +1573,14 @@ menu.addEventListener('click', ev => {
 });
 $('#prog-arquivo').addEventListener('change', async ev => {
   const f = ev.target.files[0]; ev.target.value = ''; if (!f) return;
+  abrirProgramaDeArquivo(f);
+});
+async function abrirProgramaDeArquivo(f) {
   if (f.size > 2 * 1024 * 1024) { stMsg('Arquivo grande demais para um programa.'); return; }
   const texto = await f.text();
   criarPrograma(f.name.replace(/\.(cordel\.txt|cordel|txt)$/i, '') || 'Programa', texto);
   setCode(texto); montarSeletor(); diagnosticarJa(); rodarNovo(); stMsg('Arquivo aberto: ' + f.name);
-});
+}
 async function salvarArquivo() {
   if (!downloads && !baixarDireto) { copiarCodigo(); return; }
   // o recurso de baixar do Claude só aceita algumas extensões; fora dele, o arquivo sai como .cordel

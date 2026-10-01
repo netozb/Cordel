@@ -1,8 +1,8 @@
 # Cordel 0.7.0
 <!-- configurar:links -->
-[![Testes](https://github.com/netozb/cordel/actions/workflows/testes.yml/badge.svg)](https://github.com/netozb/cordel/actions/workflows/testes.yml)
+[![Testes](https://github.com/netozb/Cordel/actions/workflows/testes.yml/badge.svg)](https://github.com/netozb/Cordel/actions/workflows/testes.yml)
 
-**Experimente no navegador:** https://netozb.github.io/cordel/
+**Experimente no navegador:** https://netozb.github.io/Cordel/
 <!-- /configurar:links -->
 
 **Cordel** é uma linguagem de programação em português, feita para quem está aprendendo e para quem trabalha com números, planilhas e pequenos sistemas. As contas são exatas, os erros explicam o que aconteceu e como corrigir, e um mesmo programa pode ler planilhas, consultar a internet, gerar relatórios ou virar um app.

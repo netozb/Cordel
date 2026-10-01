@@ -85,7 +85,36 @@ for (const [marca, fonte, texto] of [
 // Documento completo, no mesmo formato do esqueleto que a publicação como Artifact usa: assim o arquivo
 // funciona sozinho (aberto no computador ou num site) e, publicado, não fica com o esqueleto repetido.
 const ESQUELETO = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>';
-escreve('dist/cordel.html', ESQUELETO + '\n' + pagina.replace(/\s+$/, '') + '\n</body></html>', false);
+const documento = ESQUELETO + '\n' + pagina.replace(/\s+$/, '') + '\n</body></html>';
+escreve('dist/cordel.html', documento, false);
+
+// ───────── o site (GitHub Pages): o mesmo editor, instalável e sem internet ─────────
+// Só a página do site tem o manifesto; é ele que liga o service worker, o botão Instalar e o
+// recebimento de arquivos compartilhados (veja web/sw.js).
+const COMPARTILHAVEIS = {
+  'text/csv': ['.csv'], 'text/comma-separated-values': ['.csv'], 'text/tab-separated-values': ['.tsv'], 'text/plain': ['.txt', '.cordel'],
+  'application/vnd.ms-excel': ['.xls'], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+  'application/vnd.oasis.opendocument.spreadsheet': ['.ods'], 'application/x-ofx': ['.ofx'], 'application/xml': ['.xml'], 'text/xml': ['.xml'],
+};
+const manifesto = {
+  name: 'Cordel', short_name: 'Cordel', id: './', start_url: './', scope: './', lang: 'pt-BR', dir: 'ltr',
+  description: 'Linguagem de programação em português: planilhas, contas exatas, conciliação, sites e apps.',
+  display: 'standalone', background_color: '#F4F5F7', theme_color: '#15171A', categories: ['productivity', 'education', 'finance'],
+  icons: [
+    { src: 'icones/icone-192.png', sizes: '192x192', type: 'image/png' },
+    { src: 'icones/icone-512.png', sizes: '512x512', type: 'image/png' },
+    { src: 'icones/icone-mascara-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+  ],
+  share_target: { action: 'compartilhar', method: 'POST', enctype: 'multipart/form-data', params: { title: 'titulo', text: 'texto', files: [{ name: 'arquivos', accept: Object.keys(COMPARTILHAVEIS).concat(['application/octet-stream'], [...new Set(Object.values(COMPARTILHAVEIS).flat())]) }] } },
+  file_handlers: [{ action: './', accept: COMPARTILHAVEIS }],
+  launch_handler: { client_mode: 'focus-existing' },
+};
+const CABECA_SITE = '<title>Cordel · linguagem de programação em português</title><meta name="description" content="' + manifesto.description + '"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A"><link rel="icon" href="icones/icone-32.png" sizes="32x32"><link rel="apple-touch-icon" href="icones/icone-apple-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Cordel">';
+if (!documento.includes('</head>')) throw new Error('a página não tem </head>');
+escreve('dist/site/index.html', documento.replace('</head>', CABECA_SITE + '</head>'), false);
+escreve('dist/site/manifest.webmanifest', json(manifesto), false);
+escreve('dist/site/sw.js', le('web/sw.js').replace('@VERSAO@', V + '-' + require('crypto').createHash('sha256').update(documento).digest('hex').slice(0, 10)), false);
+for (const f of fs.readdirSync(path.join(RAIZ, 'web', 'icones'))) copia('web/icones/' + f, 'dist/site/icones/' + f);
 
 // ───────── documentação ─────────
 const dec = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');

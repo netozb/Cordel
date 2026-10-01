@@ -146,17 +146,17 @@
     "test": "node testes/rodar.js"
   },
   "devDependencies": {
-    "@vscode/vsce": "^3.9.2",
+    "@vscode/vsce": "^4.0.0",
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/netozb/cordel.git",
+    "url": "git+https://github.com/netozb/Cordel.git",
     "directory": "editores/vscode"
   },
-  "homepage": "https://github.com/netozb/cordel/tree/main/editores/vscode#readme",
+  "homepage": "https://github.com/netozb/Cordel/tree/main/editores/vscode#readme",
   "bugs": {
-    "url": "https://github.com/netozb/cordel/issues"
+    "url": "https://github.com/netozb/Cordel/issues"
   }
 }

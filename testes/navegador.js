@@ -26,6 +26,20 @@ function confira(nome, ok, detalhe) {
   if (ok) console.log('  ✓ ' + nome);
   else { falhas++; console.log('  ✗ ' + nome + (detalhe !== undefined ? '\n      ' + String(detalhe).split('\n').join('\n      ') : '')); }
 }
+// O site (dist/site) servido por HTTP, como no GitHub Pages: service worker só funciona assim.
+const TIPOS = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.webmanifest': 'application/manifest+json', '.png': 'image/png' };
+const subirSite = () => new Promise(res => {
+  const pasta = path.join(RAIZ, 'dist', 'site');
+  const srv = require('http').createServer((req, resp) => {
+    let rel = decodeURIComponent(req.url.split('?')[0]).replace(/^\/Cordel\//, '/');
+    if (rel.endsWith('/')) rel += 'index.html';
+    const f = path.join(pasta, path.normalize(rel));
+    if (!f.startsWith(pasta) || !fs.existsSync(f) || req.method !== 'GET') { resp.statusCode = 404; return resp.end('não encontrado'); }
+    resp.setHeader('Content-Type', TIPOS[path.extname(f)] || 'application/octet-stream');
+    resp.end(fs.readFileSync(f));
+  });
+  srv.listen(0, '127.0.0.1', () => res({ base: 'http://127.0.0.1:' + srv.address().port + '/Cordel/', parar: () => srv.close() }));
+});
 const subirServidor = () => new Promise((res, rej) => {
   const p = cp.spawn(process.execPath, [path.join(__dirname, 'servidor.js')]);
   p.stdout.once('data', d => res({ porta: parseInt(String(d), 10), parar: () => p.kill() }));
@@ -35,7 +49,8 @@ const subirServidor = () => new Promise((res, rej) => {
 (async () => {
   const srv = await subirServidor();
   const base = 'http://127.0.0.1:' + srv.porta;
-  const navegador = await chromium.launch();
+  // CORDEL_CHROMIUM: um Chromium já instalado, quando não dá para baixar o do Playwright
+  const navegador = await chromium.launch(process.env.CORDEL_CHROMIUM ? { executablePath: process.env.CORDEL_CHROMIUM } : {});
   const erros = [];
   const nova = async (opcoes, programas) => {
     const ctx = await navegador.newContext(Object.assign({ viewport: { width: 1360, height: 900 }, acceptDownloads: true }, opcoes || {}));
@@ -127,6 +142,44 @@ const subirServidor = () => new Promise((res, rej) => {
     await p.goto('file://' + path.join(dir, 'consulta.html')); await p.waitForTimeout(1200);
     confira('app exportado busca ao abrir, sem travar', (await p.textContent('.cx-texto')) === 'MÓVEIS MANDACARU LTDA');
     await p.context().close();
+
+    // ── o site: instalável, sem internet e recebendo arquivos compartilhados
+    if (fs.existsSync(path.join(RAIZ, 'dist', 'site', 'index.html'))) {
+      const site = await subirSite();
+      const ctx = await navegador.newContext({ viewport: { width: 390, height: 780 }, isMobile: true, hasTouch: true });
+      await ctx.route(/fonts\.(googleapis|gstatic)\.com/, r => r.abort());
+      p = await ctx.newPage();
+      p.on('pageerror', e => erros.push('erro na página (site): ' + e.message));
+      await p.goto(site.base); await p.waitForTimeout(800);
+      const man = await p.evaluate(async () => (await fetch(document.querySelector('link[rel=manifest]').href)).json());
+      confira('site: manifesto com ícones, tela cheia e destino de compartilhamento', man.display === 'standalone' && man.icons.length === 3 && man.share_target && man.share_target.method === 'POST' && man.share_target.params.files[0].accept.includes('.xlsx'), JSON.stringify(man).slice(0, 200));
+      const icones = await p.evaluate(async lista => Promise.all(lista.map(async i => (await fetch(i.src)).ok)), man.icons);
+      confira('site: os ícones existem', icones.every(Boolean));
+      await p.evaluate(() => navigator.serviceWorker.ready);
+      await p.reload(); await p.waitForTimeout(800);
+      confira('site: o service worker controla a página', await p.evaluate(() => !!navigator.serviceWorker.controller));
+      // compartilhar: o Android manda um POST com os arquivos para ./compartilhar
+      await p.evaluate(() => {
+        const form = document.createElement('form'); form.method = 'POST'; form.action = 'compartilhar'; form.enctype = 'multipart/form-data';
+        const inp = document.createElement('input'); inp.type = 'file'; inp.name = 'arquivos'; inp.multiple = true;
+        const dt = new DataTransfer();
+        dt.items.add(new File(['Filial;Total\r\nCrato;1.500,50\r\nIguatu;980,00\r\n'], 'vendas do whatsapp.csv', { type: 'text/csv' }));
+        dt.items.add(new File(['mostre "programa compartilhado"\n'], 'recebido.cordel', { type: 'text/plain' }));
+        inp.files = dt.files; form.appendChild(inp); document.body.appendChild(form); form.submit();
+      });
+      await p.waitForTimeout(1500);
+      confira('site: arquivo compartilhado chega em Arquivos', (await p.$$eval('.arq-nome', x => x.map(e => e.textContent))).includes('vendas do whatsapp.csv'), await p.textContent('#arquivos'));
+      confira('site: programa compartilhado abre no editor', (await p.inputValue('#codigo')).includes('programa compartilhado') && !p.url().includes('compartilhado=1'), p.url());
+      await p.fill('#codigo', 'v = tabela("vendas do whatsapp.csv")\nmostre v.soma(x => x.total)\n'); await p.click('#rodar'); await p.waitForTimeout(500);
+      confira('site: o arquivo compartilhado roda', (await p.textContent('#console .c-out')) === '2480.5', await p.textContent('#console'));
+      // sem internet: a página abre do que o service worker guardou
+      await ctx.setOffline(true);
+      await p.goto(site.base); await p.waitForTimeout(800);
+      await p.fill('#codigo', 'mostre "sem internet", 1 + 1\n'); await p.click('#rodar'); await p.waitForTimeout(400);
+      confira('site: abre e roda sem internet', (await p.textContent('#versao')) === 'v' + VERSAO && (await p.textContent('#console .c-out')) === 'sem internet 2', await p.textContent('#console'));
+      await ctx.setOffline(false);
+      await ctx.close(); site.parar();
+    } else confira('site construído (dist/site)', false, 'rode npm run construir');
 
     // ── celular: nada passa da largura da tela
     p = await nova({ viewport: { width: 390, height: 780 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
