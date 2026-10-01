@@ -17,6 +17,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as
 
 ### Mudado
 - No editor, os arquivos de exemplo só aparecem em Arquivos quando o programa os cita.
+- Os exemplos de auditoria, conciliação e nota fiscal começam com `título`, para o relatório já sair com nome.
 - `tabela` com um arquivo XML explica que nota fiscal se lê com `nota_fiscal`.
 - `npm run configurar` só põe os selos do npm e do Marketplace no README com `--selos npm,vscode`, depois de publicar.
 - Ações do GitHub e dependências de desenvolvimento atualizadas (Playwright 1.63, vsce 4).

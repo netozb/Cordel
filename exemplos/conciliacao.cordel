@@ -2,6 +2,7 @@
 # Cada venda precisa de um crédito de mesmo valor no extrato,
 # até 2 dias depois (aceitando até 10 centavos de tarifa).
 # No editor, toque num valor ou numa linha para ver de onde veio.
+título "Conciliação de vendas com o extrato"
 vendas = tabela("vendas_exemplo.csv")
 extrato = tabela("extrato_exemplo.csv")
 

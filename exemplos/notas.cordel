@@ -1,5 +1,6 @@
 # Confere uma nota fiscal eletrônica a partir do XML da NF-e.
 # No editor, adicione os XMLs das suas notas em Arquivos.
+título "Conferência de nota fiscal"
 nota = nota_fiscal("nota_exemplo.xml")
 mostre "{nota.modelo} {nota.número} de {nota.emitente.nome}"
 mostre "Emitida em {nota.emissão} ({nota.emissão.dia_da_semana}) · {nota.situação}"

@@ -3,6 +3,7 @@
 # e troque o nome abaixo. As regras ficam no módulo "regras".
 use "regras"
 
+título "Auditoria da planilha de vendas"
 vendas = tabela("vendas_exemplo.csv")
 mostre "Notas na planilha: {vendas.tamanho}"
 

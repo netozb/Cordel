@@ -341,6 +341,11 @@ secao('relatório em PDF', () => {
   caso('cabeçalho da tabela repetido em cada página', longa.paginas >= 3 && cabecalhos === longa.paginas, cabecalhos + ' cabeçalhos, ' + longa.paginas + ' páginas');
   caso('origens de planilhas diferentes ficam inteiras na coluna; número comum sem casas a mais', longa.textos.includes('b.csv, linha 2') && longa.textos.includes('a.csv, linha 3') && longa.textos.includes('150 linhas') && longa.textos.includes('0,5'));
   caso('gráfico e erro do programa no relatório', pdf.textos.includes('Por filial') && pdf.textos.includes('O programa parou com erro na linha 7.') && pdf.textos.includes('Divisão por zero.'));
+  const longo = 'total/valor: 3509.1 × 3509.05 (diferença de -0.05); data: 16/09/2026 × 17/09/2026 (1 dia depois); filial: Crato × Iguatu; vendedor: Bruna × Carla; produto: Sofá 3 lugares × Geladeira frost free 375L; desconto: 249,99 × 0,00; observação: conferir com o gerente da loja antes de fechar o mês';
+  const quebrada = lerPDF(R.gerar({ titulo: 'Quebra', blocos: [{ tipo: 'tabela', cols: ['nota', 'diferença', 'filial', 'vendedor', 'produto', 'valor'], rows: [['004210', longo, 'Juazeiro do Norte', 'Bruna', 'Geladeira frost free 375L', { n: '3509.1' }]], total: 1 }] }));
+  // (no PDF, as reticências são o código 133 do WinAnsi)
+  const pedacos = quebrada.textos.filter(t => longo.includes(t.replace(/\x85$/, '')) && t.length > 30);
+  caso('texto longo numa célula quebra em até 3 linhas', pedacos.length === 3 && pedacos[0].startsWith('total/valor') && pedacos[2].endsWith('\x85'), pedacos.join(' | '));
   const curto = lerPDF(R.gerar({ titulo: 'Só texto', blocos: [{ tipo: 'texto', texto: 'linha' }] }));
   caso('relatório pequeno: uma página válida', curto.paginas === 1 && curto.objetosOk && curto.comprimentosOk);
   return n + ' verificações';
