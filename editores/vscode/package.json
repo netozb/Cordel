@@ -149,5 +149,14 @@
     "@vscode/vsce": "^3.9.2",
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netozb/cordel.git",
+    "directory": "editores/vscode"
+  },
+  "homepage": "https://github.com/netozb/cordel/tree/main/editores/vscode#readme",
+  "bugs": {
+    "url": "https://github.com/netozb/cordel/issues"
   }
 }
