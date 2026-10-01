@@ -1,0 +1,16 @@
+# registros montados a partir das linhas guardam a origem, até de campos de texto
+vendas = tabela("vendas_exemplo.csv")
+extrato = tabela("extrato_exemplo.csv")
+achados = vendas.filtre(v => v.desconto > 300).transforme(v => {nota: v.nota, achado: "desconto de {v.desconto.dinheiro}"})
+para cada a em achados
+  mostre a.nota, "·", a.origem
+fim
+mostre achados.origem
+grupos = vendas.agrupe(v => v.filial).transforme(g => {filial: g.chave, notas: g.quantidade})
+mostre grupos.primeiro.origem
+mostre grupos.primeiro.notas.origem
+mostre (vendas[1].total + extrato[1].valor).origem
+só_texto = {nome: "Ana", idade: 30}
+mostre só_texto.origem, só_texto.linhas_de_origem.tamanho
+mostre [vendas[1], vendas[2]].origem
+mostre [].origem

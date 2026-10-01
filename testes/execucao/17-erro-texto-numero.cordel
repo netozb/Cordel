@@ -1,0 +1,2 @@
+idade = 30
+mostre "Idade: " + idade

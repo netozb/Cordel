@@ -1,0 +1,7 @@
+aviso 3:3 Esta linha nunca roda: ela vem depois de `devolva`.
+  dica: Apague a linha ou mova para antes.
+aviso 6:1 Este laço nunca termina: não tem `pare`, `devolva` nem `falhe`.
+  dica: Coloque um `pare` quando o trabalho acabar, ou use uma condição que mude.
+aviso 16:4 A condição do `se` é sempre falsa.
+  dica: O bloco nunca roda.
+aviso 19:8 Isso compara um valor com ele mesmo: o resultado é sempre verdadeiro.

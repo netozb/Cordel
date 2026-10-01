@@ -1,0 +1,9 @@
+Falta dizer em `por` quais campos precisam bater.
+`concilie` não conhece a regra `folga_dias`.
+Os registros da segunda lista não têm o campo `valor`.
+Os registros da primeira lista não têm o campo `valr`.
+A segunda lista do `concilie` precisa ter só registros, mas o item 1 é um número.
+Os campos de `por` são nomes entre aspas, como "valor".
+`folga_de_valor` não pode ser negativa.
+O terceiro valor de `concilie` são as regras, num registro como {por: ["valor", "data"]}.
+1 par, 0 só no primeiro e 0 só no segundo

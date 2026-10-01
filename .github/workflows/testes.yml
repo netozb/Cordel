@@ -1,0 +1,83 @@
+name: Testes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testes:
+    name: Node ${{ matrix.node }} · ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [18, 22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            editores/vscode/package-lock.json
+      - name: Instalar
+        run: |
+          npm ci
+          npm ci --prefix editores/vscode
+      - name: Arquivos gerados em dia
+        run: npm run checar
+      - name: Interpretador, linha de comando, exemplos e documentação
+        run: npm test
+      - name: Extensão do VS Code
+        run: npm run testar:extensao
+
+  navegador:
+    name: Editor no navegador
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run construir
+      - run: npm run testar:navegador
+
+  pacote:
+    name: Pacotes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            editores/vscode/package-lock.json
+      - run: |
+          npm ci
+          npm ci --prefix editores/vscode
+      - run: npm run pacote
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cordel-pacotes
+          path: |
+            dist/*.tgz
+            dist/*.vsix
+            dist/*.zip
+            dist/cordel.html
+          retention-days: 14

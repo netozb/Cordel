@@ -1,0 +1,4 @@
+== ao abrir
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <texto> text="Conferir caixa verdadeiro"
+  <texto> text="Relatório falso"

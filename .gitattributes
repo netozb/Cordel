@@ -1,0 +1,7 @@
+# Finais de linha LF em todo lugar: os testes comparam arquivos byte a byte.
+* text=auto eol=lf
+# Resultados esperados e planilhas guardam os finais de linha exatos (CSV gravado usa CRLF): nunca converter.
+*.esperado -text
+*.csv -text
+*.png binary
+*.xlsx binary

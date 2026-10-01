@@ -1,0 +1,43 @@
+a = [{valor: 10, data: data("01/09/2026")}]
+b = [{total: 10, data: data("01/09/2026")}]
+tente
+  concilie(a, b, {folga_de_dias: 2})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, {por: ["valor"], folga_dias: 2})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, {por: ["valor"]})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, {por: ["valr"]})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, [1, 2], {por: "valor"})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, {por: [1]})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, {por: {valor: "total"}, folga_de_valor: -1})
+falhou erro
+  mostre erro
+fim
+tente
+  concilie(a, b, "valor")
+falhou erro
+  mostre erro
+fim
+mostre concilie(a, b, {por: {valor: "total"}}).resumo

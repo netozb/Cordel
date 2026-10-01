@@ -1,0 +1,6 @@
+total = 0
+total = total + 1
+var taxa = 0.05
+mostre taxa
+lista = []
+lista.adicione(1)

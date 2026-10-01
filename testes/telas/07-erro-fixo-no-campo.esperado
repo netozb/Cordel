@@ -1,0 +1,3 @@
+== ao abrir
+[erro 3:19] `nome` precisa ser criada com var para a tela poder mudar o valor.
+[dica] Troque por: var nome = …

@@ -1,0 +1,6 @@
+tela "Oficina do Zé"
+  título "Oficina do Zé"
+  mostre "Conserto de móveis desde 1998, em Iguatu."
+  espaço
+  mostre [{serviço: "Estofado", prazo: "5 dias"}, {serviço: "Pintura", prazo: "3 dias"}]
+fim

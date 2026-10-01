@@ -1,0 +1,26 @@
+# Um painel em cima da planilha de exemplo.
+# Ao baixar o app, a planilha vai junto.
+vendas = tabela("vendas_exemplo.csv")
+filiais = ["Todas"] + vendas.transforme(v => v.filial).única.ordenada
+var filial = "Todas"
+
+tela "Painel de vendas"
+  cor "verde"
+  seletor "Filial" em filial de filiais
+
+  var lista = vendas
+  se filial != "Todas"
+    lista = vendas.filtre(v => v.filial == filial)
+  fim
+
+  cartão
+    subtítulo lista.soma(v => v.total).dinheiro
+    mostre "{lista.tamanho} notas · ticket médio de {lista.média(v => v.total).dinheiro}"
+  fim
+
+  por_vendedor = lista.agrupe(v => v.vendedor).transforme(g => {
+    vendedor: g.chave,
+    total: g.itens.soma(v => v.total),
+  })
+  gráfico "Total por vendedor" de por_vendedor.ordenada(r => r.total).invertida por total
+fim

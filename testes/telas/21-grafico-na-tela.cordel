@@ -1,0 +1,6 @@
+vendas = [{filial: "Crato", total: 30695.4}, {filial: "Iguatu", total: 22436.63}, {filial: "Sobral", total: -50}]
+tela "Painel"
+  gráfico "Vendas por filial" de vendas por total
+  gráfico "Registro" de {jan: 10, fev: 20.5}
+  gráfico de [3, 1, 2]
+fim

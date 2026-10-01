@@ -1,0 +1,2 @@
+[erro 2:12] Para calcular a soma, todos os itens precisam ser números — encontrei um texto vazio (""), que costuma ser uma célula vazia da planilha.
+[dica] Filtre as linhas vazias antes, por exemplo: lista.filtre(v => v.valor != "")

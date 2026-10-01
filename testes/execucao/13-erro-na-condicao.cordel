@@ -1,0 +1,4 @@
+x = 5
+se x = 5
+  mostre "cinco"
+fim

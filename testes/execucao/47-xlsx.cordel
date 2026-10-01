@@ -1,0 +1,6 @@
+est = tabela("Estoque.xlsx")
+mostre est
+mostre est.soma(x => x.custo), tipo(est[1].código)
+r = tabela("estoque", "resumo")
+mostre r.soma(x => x.valor)
+mostre abas("Estoque.xlsx")

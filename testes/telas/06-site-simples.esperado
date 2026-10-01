@@ -1,0 +1,6 @@
+== ao abrir
+<tela> barra="Oficina do Zé" cor=null pagina=null paginas=[] title="Oficina do Zé" voltar=false
+  <titulo> text="Oficina do Zé"
+  <texto> text="Conserto de móveis desde 1998, em Iguatu."
+  <espaco>
+  <tabela> cols=["serviço","prazo"] rows=[["Estofado","5 dias"],["Pintura","3 dias"]] total=2

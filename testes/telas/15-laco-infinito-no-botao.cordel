@@ -1,0 +1,8 @@
+var n = 0
+tela "a"
+  botão "trava"
+    enquanto verdadeiro
+      n += 1
+    fim
+  fim
+fim

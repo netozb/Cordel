@@ -1,0 +1,49 @@
+função acha(lista, alvo)
+  para cada x em lista
+    se x == alvo
+      devolva "achei {x}"
+    fim
+  fim
+  devolva "não achei"
+fim
+mostre acha([1,2,3], 2), acha([1], 9)
+função classifica(n)
+  escolha n
+    caso 1 até 5
+      devolva "baixo"
+    senão
+      devolva "alto"
+  fim
+fim
+mostre classifica(3), classifica(9)
+função seguro(t)
+  tente
+    devolva número(t)
+  falhou problema
+    devolva 0
+  fim
+fim
+mostre seguro("12"), seguro("xx")
+var n = 0
+enquanto verdadeiro
+  n += 1
+  se n == 3
+    pare
+  fim
+fim
+mostre n
+função primeiro_par(l)
+  var i = 0
+  repita l.tamanho vezes
+    i += 1
+    se l[i].par
+      devolva l[i]
+    fim
+  fim
+  devolva -1
+fim
+mostre primeiro_par([3,5,8,10])
+para i de 1 até 3
+  função f() = i * 10
+  mostre f()
+fim

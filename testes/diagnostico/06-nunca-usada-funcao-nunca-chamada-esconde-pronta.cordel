@@ -1,0 +1,5 @@
+data = "hoje"
+nome = "Ana"
+função dobro(x) = x * 2
+texto = 3
+mostre texto

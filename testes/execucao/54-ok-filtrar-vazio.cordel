@@ -1,0 +1,2 @@
+est = tabela("Estoque.xlsx").filtre(x => x.saldo != "")
+mostre est.soma(x => x.saldo)

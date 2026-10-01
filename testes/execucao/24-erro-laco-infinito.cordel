@@ -1,0 +1,4 @@
+var x = 0
+enquanto x < 10
+  mostre ""
+fim

@@ -1,0 +1,28 @@
+== ao abrir
+<tela> abas=true barra="Loja" cor=null pagina="Produtos" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=false
+  <botao> id=0 text="Sofá"
+  <botao> id=1 text="Rack"
+== toca Rack (1)
+<tela> abas=true barra="Detalhes" cor=null pagina="Detalhes" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=true
+  <titulo> text="Rack"
+  <texto> text="R$ 399,00"
+  <botao> id=0 text="Voltar à lista"
+== voltar da barra (voltar)
+<tela> abas=true barra="Loja" cor=null pagina="Produtos" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=false
+  <botao> id=0 text="Sofá"
+  <botao> id=1 text="Rack"
+== toca Sofá (0)
+<tela> abas=true barra="Detalhes" cor=null pagina="Detalhes" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=true
+  <titulo> text="Sofá"
+  <texto> text="R$ 2.499,90"
+  <botao> id=0 text="Voltar à lista"
+== botão volte (0)
+<tela> abas=true barra="Loja" cor=null pagina="Produtos" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=false
+  <botao> id=0 text="Sofá"
+  <botao> id=1 text="Rack"
+== aba Sobre (ir, "Sobre")
+<tela> abas=true barra="Sobre" cor=null pagina="Sobre" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=false
+  <texto> text="Loja de exemplo"
+== aba inexistente (ir, "Nada")
+<tela> abas=true barra="Sobre" cor=null pagina="Sobre" paginas=["Produtos","Detalhes","Sobre"] title="Loja" voltar=false
+  <texto> text="Loja de exemplo"

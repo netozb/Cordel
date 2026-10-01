@@ -1,0 +1,55 @@
+[
+  {
+    "nome": "vários erros de sintaxe",
+    "arquivo": "01-varios-erros-de-sintaxe.cordel"
+  },
+  {
+    "nome": "bloco sem fim",
+    "arquivo": "02-bloco-sem-fim.cordel"
+  },
+  {
+    "nome": "escopo: criado dentro do bloco",
+    "arquivo": "03-escopo-criado-dentro-do-bloco.cordel"
+  },
+  {
+    "nome": "usado antes de criado",
+    "arquivo": "04-usado-antes-de-criado.cordel"
+  },
+  {
+    "nome": "fixo alterado e var que não muda",
+    "arquivo": "05-fixo-alterado-e-var-que-nao-muda.cordel"
+  },
+  {
+    "nome": "nunca usada / função nunca chamada / esconde pronta",
+    "arquivo": "06-nunca-usada-funcao-nunca-chamada-esconde-pronta.cordel"
+  },
+  {
+    "nome": "código inalcançável e laço infinito",
+    "arquivo": "07-codigo-inalcancavel-e-laco-infinito.cordel"
+  },
+  {
+    "nome": "nome inexistente com sugestão",
+    "arquivo": "08-nome-inexistente-com-sugestao.cordel"
+  },
+  {
+    "nome": "app: campo em fixo, var ok",
+    "arquivo": "09-app-campo-em-fixo-var-ok.cordel"
+  },
+  {
+    "nome": "funções chamam coisas definidas depois (ok)",
+    "arquivo": "10-funcoes-chamam-coisas-definidas-depois-ok.cordel"
+  },
+  {
+    "nome": "limpo",
+    "arquivo": "11-limpo.cordel"
+  },
+  {
+    "nome": "módulos: nomes, módulos com erro e que não existem",
+    "arquivo": "12-modulos-nomes-modulos-com-erro-e-que-nao-existem.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "funções da 0.7 conhecidas e sugestão de concilie",
+    "arquivo": "13-funcoes-da-0-7-conhecidas-e-sugestao-de-concilie.cordel"
+  }
+]

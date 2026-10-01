@@ -1,0 +1,5 @@
+para cada linha em [1, 2]
+  mostre linha
+fim
+linha = 3
+mostre linha

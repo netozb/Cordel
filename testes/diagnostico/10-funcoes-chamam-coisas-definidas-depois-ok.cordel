@@ -1,0 +1,10 @@
+função f() = total * 2
+total = 5
+mostre f()
+tela "x"
+  botão "b"
+    contador += 1
+  fim
+  mostre contador
+fim
+var contador = 0

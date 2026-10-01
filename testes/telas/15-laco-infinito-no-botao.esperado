@@ -1,0 +1,6 @@
+== ao abrir
+<tela> barra="a" cor=null pagina=null paginas=[] title="a" voltar=false
+  <botao> id=0 text="trava"
+== toca (0) [nada mudou]
+[erro 5:7] O programa rodou demais e foi interrompido.
+[dica] Talvez um `enquanto` nunca termine. Confira se a condição muda dentro do laço.

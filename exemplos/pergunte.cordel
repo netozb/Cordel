@@ -1,0 +1,17 @@
+nome = pergunte("Como você se chama?")
+idade = número(pergunte("Quantos anos você tem?"))
+
+var fase = ""
+escolha idade
+  caso 0 até 12
+    fase = "infância"
+  caso 13 até 17
+    fase = "adolescência"
+  caso 18 até 59
+    fase = "vida adulta"
+  senão
+    fase = "melhor idade"
+fim
+
+mostre "{nome}, você está na {fase}."
+mostre "Daqui a 10 anos terá {idade + 10}."

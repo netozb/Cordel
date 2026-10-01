@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.vsix
+*.tgz
+.DS_Store
+
+# gerados por npm run construir para a extensão (não versionados)
+editores/vscode/lib/
+editores/vscode/syntaxes/
+editores/vscode/node_modules/
+editores/vscode/LICENSE
+editores/vscode/CHANGELOG.md

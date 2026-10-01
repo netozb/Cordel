@@ -1,0 +1,17 @@
+== ao abrir
+<tela> barra="a" cor=null pagina=null paginas=[] title="a" voltar=false
+  <texto> text="0"
+  <botao> id=0 text="dividir"
+  <botao> id=1 text="somar"
+== erro (0) [nada mudou]
+[erro 5:11] Divisão por zero.
+[dica] Confira se o divisor é zero antes de dividir.
+<tela> barra="a" cor=null pagina=null paginas=[] title="a" voltar=false
+  <texto> text="0"
+  <botao> id=0 text="dividir"
+  <botao> id=1 text="somar"
+== continua funcionando (1)
+<tela> barra="a" cor=null pagina=null paginas=[] title="a" voltar=false
+  <texto> text="1"
+  <botao> id=0 text="dividir"
+  <botao> id=1 text="somar"

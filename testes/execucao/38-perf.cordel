@@ -1,0 +1,5 @@
+var s = 0
+para i de 1 até 200000
+  s += i
+fim
+mostre s

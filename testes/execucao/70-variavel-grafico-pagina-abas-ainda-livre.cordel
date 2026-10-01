@@ -1,0 +1,4 @@
+página = 3
+abas = [1]
+gráfico = 2
+mostre página + gráfico, abas

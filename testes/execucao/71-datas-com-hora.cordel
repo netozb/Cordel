@@ -1,0 +1,25 @@
+chegada = data("03/09/2026 08:15")
+saída = data("03/09/2026 às 17h40")
+mostre chegada, saída.horário, saída.dia_da_semana
+mostre saída.por_extenso
+mostre chegada.minutos_até(saída), "minutos"
+mostre chegada.horas_até(saída), "horas"
+mostre chegada.dias_até(saída), "dias"
+mostre chegada.mais_horas(2), chegada.mais_minutos(90).horário, chegada.mais_horas(1.5).horário
+mostre saída - chegada, chegada.sem_hora, chegada.hora, chegada.minuto, chegada.segundo
+mostre data(2026, 9, 3, 14, 30), data(2026, 9, 3, 14, 30, 5), data(data("03/09/2026"), "9:05")
+mostre data("2026-09-03T17:30:00Z"), data("2026-09-03T14:30:15"), data("2026-09-03 14:30")
+mostre data("03/09/2026, 14:30"), data("03/09/2026 14h"), data("03/09/26 06:00")
+mostre agora(), hoje(), agora().sem_hora == hoje(), agora().hora
+mostre data("03/09/2026") == data("03/09/2026 00:00"), chegada < saída
+mostre [saída, chegada].ordenada, [chegada, saída].maior
+mostre chegada.mais_meses(1), chegada + 30, chegada - 1
+mostre data("31/01/2026 23:30").mais_horas(1), data("31/12/2026 23:59").mais_minutos(2)
+mostre data("03/09/2026").hora, data("03/09/2026").horário, data("03/09/2026").mais_horas(3)
+mostre tipo(agora()), texto(chegada)
+turnos = [{nome: "Ana", entrada: data("03/09/2026 07:58")}, {nome: "Bia", entrada: data("03/09/2026 09:20")}]
+mostre turnos
+mostre turnos.filtre(t => t.entrada.hora >= 9).transforme(t => t.nome)
+mostre turnos.agrupe(t => t.entrada.sem_hora).transforme(g => g.quantidade)
+salve("turnos.json", turnos)
+salve("turnos.csv", turnos)

@@ -1,0 +1,20 @@
+MÓVEIS MANDACARU LTDA Mandacaru ATIVA
+12345678901234.56789 R$ 12.345.678.901.234,57 número
+0.0015 2000 verdadeiro verdadeiro
+ANA SILVA e JOÃO SOUZA
+["cnpj", "razao_social", "nome-fantasia", "situacao", "capital_social", "qsa", "observacao", "optante", "taxa", "grande", "Cnpj"]
+[1, 2.5, -300, "x", [verdadeiro, falso, ""], {}]
+Olá, mundo
+[tabela 2 de 2] Filial | Total
+  Crato | 1500.5
+  Iguatu | 980
+2480.5
+erro: O endereço respondeu com erro 404 (não encontrado).
+erro: O endereço respondeu com erro 503 (serviço indisponível).
+erro: A resposta não é um JSON válido (perto da posição 9).
+erro: O endereço api.exemplo.com demorou demais para responder (mais de 15 segundos).
+erro: Não consegui acessar nao.existe.exemplo.
+erro: O endereço precisa ser um texto começando com https:// (ou http://).
+erro: `busque` não conhece a opção `método`.
+erro: O cabeçalho `Token` precisa ser um texto.
+Olá, mundo

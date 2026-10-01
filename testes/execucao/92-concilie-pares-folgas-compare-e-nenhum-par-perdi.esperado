@@ -1,0 +1,16 @@
+1 par, 5 só no primeiro e 4 só no segundo
+3 pares, 3 só no primeiro e 2 só no segundo
+[tabela 3 de 3] nota | crédito | dias | diferença
+  1 | 03/09/2026 | 2 | data/crédito: 01/09/2026 × 03/09/2026 (2 dias depois)
+  2 | 02/09/2026 | 1 | data/crédito: 01/09/2026 × 02/09/2026 (1 dia depois)
+  3 | 02/09/2026 | 0 | 
+["4", "5", "6"]
+["05/09/2026", "06/09/2026"]
+4 pares (2 com diferença), 2 só no primeiro e 1 só no segundo
+[tabela 2 de 2] nota | dv | diferença
+  2 | 0 | data/crédito: 01/09/2026 × 02/09/2026 (1 dia depois); filial: Iguatu × Sobral
+  5 | 0.01 | data/crédito: 04/09/2026 × 05/09/2026 (1 dia depois); valor: 99.99 × 100 (diferença de 0.01)
+2 pares, 0 só no primeiro e 0 só no segundo
+["02/09/2026 → 04/09/2026", "05/09/2026 → 07/09/2026"]
+1 par, 1 só no primeiro e 1 só no segundo
+0 pares, 0 só no primeiro e 1 só no segundo

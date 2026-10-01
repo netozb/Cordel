@@ -1,0 +1,17 @@
+var preço = 0
+var parcelas = 1
+var com_juros = falso
+tela "Parcelas"
+  cor "verde"
+  campo "Preço" em preço
+  seletor "Parcelas" em parcelas de [1, 3, 6, 10]
+  marque "Com juros de 2% ao mês" em com_juros
+  var total = preço
+  se com_juros
+    total = preço * 1.02 ^ parcelas
+  fim
+  cartão
+    subtítulo "{parcelas}× de {(total / parcelas).dinheiro}"
+    mostre "Total: {total.dinheiro}"
+  fim
+fim

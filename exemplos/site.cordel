@@ -1,0 +1,23 @@
+# Um site de uma página: é só descrever o que aparece
+serviços = [
+  {nome: "Cozinha planejada", prazo: "20 dias", preço: 4900},
+  {nome: "Guarda-roupa sob medida", prazo: "15 dias", preço: 2300},
+  {nome: "Reforma de estofado", prazo: "7 dias", preço: 450},
+]
+
+tela "Oficina Mandacaru"
+  cor "urucum"
+  título "Móveis sob medida, do projeto à montagem"
+  mostre "Marcenaria em Iguatu desde 1998. Madeira certificada e garantia de 2 anos."
+  link "Pedir orçamento" para "https://example.com"
+  espaço
+  subtítulo "Serviços"
+  para cada s em serviços
+    cartão
+      subtítulo s.nome
+      mostre "Prazo de {s.prazo} · a partir de {s.preço.dinheiro}"
+    fim
+  fim
+  espaço
+  mostre "Endereço fictício, só para o exemplo."
+fim

@@ -1,0 +1,37 @@
+vendas = [
+  {nota: "1", data: data("01/09/2026"), valor: 100, filial: "Crato"},
+  {nota: "2", data: data("01/09/2026"), valor: 250.50, filial: "Iguatu"},
+  {nota: "3", data: data("02/09/2026"), valor: 100, filial: "Crato"},
+  {nota: "4", data: data("03/09/2026"), valor: 80, filial: "Sobral"},
+  {nota: "5", data: data("04/09/2026"), valor: 99.99, filial: "Crato"},
+  {nota: "6", data: data("05/09/2026"), valor: "", filial: "Crato"},
+]
+extrato = [
+  {crédito: data("03/09/2026"), valor: 100, filial: "crato"},
+  {crédito: data("02/09/2026"), valor: 100, filial: "Crato"},
+  {crédito: data("02/09/2026"), valor: 250.50, filial: "Sobral"},
+  {crédito: data("05/09/2026"), valor: 100, filial: "Crato"},
+  {crédito: data("06/09/2026"), valor: 99.97, filial: "Crato "},
+]
+# exato: sem folga, só casam valor e data iguais
+r0 = concilie(vendas, extrato, {por: {data: "crédito", valor: "valor"}})
+mostre r0.resumo
+# com folga de dias
+r = concilie(vendas, extrato, {por: {data: "crédito", valor: "valor"}, folga_de_dias: 2})
+mostre r.resumo
+mostre r.pares.transforme(p => {nota: p.primeiro.nota, crédito: p.segundo.crédito, dias: p.dias, diferença: p.diferença})
+mostre r.só_no_primeiro.transforme(v => v.nota)
+mostre r.só_no_segundo.transforme(x => x.crédito.formatada)
+# com folga de valor e conferindo a filial
+r2 = concilie(vendas, extrato, {por: {data: "crédito", valor: "valor"}, folga_de_dias: 2, folga_de_valor: 0.05, compare: ["filial"]})
+mostre r2.resumo
+mostre r2.com_diferença.transforme(p => {nota: p.primeiro.nota, dv: p.diferença_de_valor, diferença: p.diferença})
+# nenhum par se perde: a escolha gulosa pegaria o crédito errado
+a = [{v: 10, d: data("02/09/2026")}, {v: 10, d: data("05/09/2026")}]
+b = [{v: 10, d: data("04/09/2026")}, {v: 10, d: data("07/09/2026")}]
+r3 = concilie(a, b, {por: ["v", "d"], folga_de_dias: 2})
+mostre r3.resumo
+mostre r3.pares.transforme(p => "{p.primeiro.d.formatada} → {p.segundo.d.formatada}")
+# por com um nome só, e listas vazias
+mostre concilie([{x: 1}, {x: 2}], [{x: 2}, {x: 3}], {por: "x"}).resumo
+mostre concilie([], [{x: 1}], {por: "x"}).resumo

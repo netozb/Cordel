@@ -1,0 +1,297 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Cordel",
+  "scopeName": "source.cordel",
+  "fileTypes": [
+    "cordel"
+  ],
+  "patterns": [
+    {
+      "include": "#comentario"
+    },
+    {
+      "include": "#texto"
+    },
+    {
+      "include": "#numero"
+    },
+    {
+      "include": "#definicao-de-funcao"
+    },
+    {
+      "include": "#uso-de-modulo"
+    },
+    {
+      "include": "#elemento-de-tela"
+    },
+    {
+      "include": "#palavras"
+    },
+    {
+      "include": "#chave-de-registro"
+    },
+    {
+      "include": "#chamada"
+    },
+    {
+      "include": "#acao"
+    },
+    {
+      "include": "#operadores"
+    },
+    {
+      "include": "#pontuacao"
+    }
+  ],
+  "repository": {
+    "comentario": {
+      "match": "(#).*$",
+      "name": "comment.line.number-sign.cordel",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.cordel"
+        }
+      }
+    },
+    "texto": {
+      "patterns": [
+        {
+          "begin": "[\"\\x{201C}\\x{201D}\\x{201E}]",
+          "end": "[\"\\x{201C}\\x{201D}\\x{201E}]|$",
+          "name": "string.quoted.double.cordel",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.cordel"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.cordel"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#escape"
+            },
+            {
+              "include": "#encaixe"
+            }
+          ]
+        },
+        {
+          "begin": "['\\x{2018}\\x{2019}]",
+          "end": "['\\x{2018}\\x{2019}]|$",
+          "name": "string.quoted.single.cordel",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.cordel"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.cordel"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#escape"
+            },
+            {
+              "include": "#encaixe"
+            }
+          ]
+        }
+      ]
+    },
+    "escape": {
+      "match": "\\\\.",
+      "name": "constant.character.escape.cordel"
+    },
+    "encaixe": {
+      "begin": "\\{",
+      "end": "\\}|$",
+      "name": "meta.interpolation.cordel",
+      "contentName": "meta.embedded.line.cordel",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.interpolation.begin.cordel"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.interpolation.end.cordel"
+        }
+      },
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    "numero": {
+      "match": "(?<![\\p{L}\\p{N}_])\\d[\\d_]*(?:\\.\\d+)?(?![\\p{L}\\p{N}_])",
+      "name": "constant.numeric.cordel"
+    },
+    "definicao-de-funcao": {
+      "match": "(?i)(?<![\\p{L}\\p{N}_])(f[uúü]n[cç][aáàâã][oóôõ])\\s+([\\p{L}_][\\p{L}\\p{N}_]*)",
+      "captures": {
+        "1": {
+          "name": "storage.type.function.cordel"
+        },
+        "2": {
+          "name": "entity.name.function.cordel"
+        }
+      }
+    },
+    "uso-de-modulo": {
+      "match": "(?i)^\\s*(use)(?=\\s+[\"\\x{201C}\\x{201D}'\\x{2018}])",
+      "captures": {
+        "1": {
+          "name": "keyword.control.import.cordel"
+        }
+      }
+    },
+    "elemento-de-tela": {
+      "match": "(?i)^\\s*(s[uúü]bt[ií]t[uúü]l[oóôõ]|s[eéê]l[eéê]t[oóôõ]r|gr[aáàâã]f[ií][cç][oóôõ]|t[ií]t[uúü]l[oóôõ]|m[aáàâã]rq[uúü][eéê]|[cç][aáàâã]rt[aáàâã][oóôõ]|[eéê]sp[aáàâã][cç][oóôõ]|p[aáàâã]g[ií]n[aáàâã]|b[oóôõ]t[aáàâã][oóôõ]|[cç][aáàâã]mp[oóôõ]|l[ií]nh[aáàâã]|v[oóôõ]lt[eéê]|l[ií]nk|[aáàâã]b[aáàâã]s|[cç][oóôõ]r|v[aáàâã])(?![\\p{L}\\p{N}_])(?!\\s*(?:[-+*/]?=(?![=>])|\\.|\\())",
+      "captures": {
+        "1": {
+          "name": "keyword.other.ui.cordel"
+        }
+      }
+    },
+    "palavras": {
+      "patterns": [
+        {
+          "match": "(?<![\\p{L}\\p{N}_])(é|É)(?![\\p{L}\\p{N}_])",
+          "name": "keyword.operator.comparison.word.cordel"
+        },
+        {
+          "match": "(?i)(?<![\\p{L}\\p{N}_])([eéê]nq[uúü][aáàâã]nt[oóôõ]|[cç][oóôõ]nt[ií]n[uúü][eéê]|[eéê]s[cç][oóôõ]lh[aáàâã]|d[eéê]v[oóôõ]lv[aáàâã]|[cç][oóôõ]nf[ií]r[aáàâã]|r[eéê]p[ií]t[aáàâã]|f[aáàâã]lh[oóôõ][uúü]|m[oóôõ]str[eéê]|s[eéê]n[aáàâã][oóôõ]|t[eéê]nt[eéê]|f[aáàâã]lh[eéê]|t[eéê]st[eéê]|p[aáàâã]r[aáàâã]|[cç][aáàâã]s[oóôõ]|p[aáàâã]r[eéê]|t[eéê]l[aáàâã]|f[ií]m|s[eéê])(?![\\p{L}\\p{N}_])",
+          "name": "keyword.control.cordel"
+        },
+        {
+          "match": "(?i)(?<![\\p{L}\\p{N}_])(f[uúü]n[cç][aáàâã][oóôõ])(?![\\p{L}\\p{N}_])",
+          "name": "storage.type.function.cordel"
+        },
+        {
+          "match": "(?i)(?<![\\p{L}\\p{N}_])(v[aáàâã]r)(?![\\p{L}\\p{N}_])",
+          "name": "storage.modifier.cordel"
+        },
+        {
+          "match": "(?i)(?<![\\p{L}\\p{N}_])(n[aáàâã][oóôõ]|[oóôõ][uúü]|[eéê])(?![\\p{L}\\p{N}_])",
+          "name": "keyword.operator.logical.cordel"
+        },
+        {
+          "match": "(?i)(?<![\\p{L}\\p{N}_])(v[eéê]rd[aáàâã]d[eéê][ií]r[oóôõ]|f[aáàâã]ls[oóôõ])(?![\\p{L}\\p{N}_])",
+          "name": "constant.language.boolean.cordel"
+        },
+        {
+          "match": "(?i)(?<!\\.)(?<![\\p{L}\\p{N}_])(p[aáàâã]ss[oóôõ]|v[eéê]z[eéê]s|[eéê]nt[aáàâã][oóôõ]|[cç][aáàâã]d[aáàâã]|f[aáàâã][cç][aáàâã]|[cç][oóôõ]m[oóôõ]|[aáàâã]t[eéê]|p[oóôõ]r|d[eéê]|[eéê]m)(?![\\p{L}\\p{N}_])",
+          "name": "keyword.other.context.cordel"
+        }
+      ]
+    },
+    "chave-de-registro": {
+      "match": "(?<![\\p{L}\\p{N}_])([\\p{L}_][\\p{L}\\p{N}_]*)(?=\\s*:)",
+      "captures": {
+        "1": {
+          "name": "variable.other.property.key.cordel"
+        }
+      }
+    },
+    "chamada": {
+      "patterns": [
+        {
+          "match": "(?i)(?<!\\.)(?<![\\p{L}\\p{N}_])([aáàâã]l[eéê][aáàâã]t[oóôõ]r[ií][oóôõ]|[ií]nt[eéê]rv[aáàâã]l[oóôõ]|p[eéê]rg[uúü]nt[eéê]|g[uúü][aáàâã]rd[aáàâã]d[oóôõ]|[cç][oóôõ]n[cç][ií]l[ií][eéê]|[aáàâã]rq[uúü][ií]v[oóôõ]s|[cç][oóôõ]t[aáàâã][cç][aáàâã][oóôõ]|n[uúü]m[eéê]r[oóôõ]|g[uúü][aáàâã]rd[eéê]|b[uúü]sq[uúü][eéê]|[ií]nd[ií][cç][eéê]|t[aáàâã]b[eéê]l[aáàâã]|t[eéê]xt[oóôõ]|[aáàâã]g[oóôõ]r[aáàâã]|s[aáàâã]lv[eéê]|h[oóôõ]j[eéê]|d[aáàâã]t[aáàâã]|t[ií]p[oóôõ]|[aáàâã]b[aáàâã]s|l[eéê][ií][aáàâã])(?=\\s*\\()",
+          "captures": {
+            "1": {
+              "name": "support.function.builtin.cordel"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\.)(?<![\\p{L}\\p{N}_])([\\p{L}_][\\p{L}\\p{N}_]*)(?=\\s*\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.call.cordel"
+            }
+          }
+        }
+      ]
+    },
+    "acao": {
+      "patterns": [
+        {
+          "match": "(?i)(\\.)\\s*(l[ií]nh[aáàâã]s_d[eéê]_[oóôõ]r[ií]g[eéê]m|d[ií][aáàâã]_d[aáàâã]_s[eéê]m[aáàâã]n[aáàâã]|[ií]n[ií][cç][ií][oóôõ]_d[oóôõ]_m[eéê]s|m[aáàâã][ií]s_m[ií]n[uúü]t[oóôõ]s|t[eéê]rm[ií]n[aáàâã]_[cç][oóôõ]m|[aáàâã]rr[eéê]d[oóôõ]nd[aáàâã]d[oóôõ]|n[oóôõ]m[eéê]_d[oóôõ]_m[eéê]s|p[oóôõ]r_[eéê]xt[eéê]ns[oóôõ]|m[ií]n[uúü]t[oóôõ]s_[aáàâã]t[eéê]|tr[aáàâã]nsf[oóôõ]rm[eéê]|m[aáàâã][ií][uúü]s[cç][uúü]l[aáàâã]s|m[ií]n[uúü]s[cç][uúü]l[aáàâã]s|[cç][oóôõ]m[eéê][cç][aáàâã]_[cç][oóôõ]m|m[aáàâã][ií]s_h[oóôõ]r[aáàâã]s|f[ií]m_d[oóôõ]_m[eéê]s|m[aáàâã][ií]s_m[eéê]s[eéê]s|[ií]nv[eéê]rt[ií]d[aáàâã]|[ií]nv[eéê]rt[ií]d[oóôõ]|[cç][oóôõ]rr[ií]g[ií]d[oóôõ]|tr[ií]m[eéê]str[eéê]|f[oóôõ]rm[aáàâã]t[aáàâã]d[aáàâã]|h[oóôõ]r[aáàâã]s_[aáàâã]t[eéê]|pr[ií]m[eéê][ií]r[oóôõ]|[oóôõ]rd[eéê]n[aáàâã]d[aáàâã]|[aáàâã]d[ií][cç][ií][oóôõ]n[eéê]|p[aáàâã]l[aáàâã]vr[aáàâã]s|[aáàâã]bs[oóôõ]l[uúü]t[oóôõ]|d[ií]nh[eéê][ií]r[oóôõ]|s[eéê]m_h[oóôõ]r[aáàâã]|d[ií][aáàâã]s_[aáàâã]t[eéê]|t[aáàâã]m[aáàâã]nh[oóôõ]|p[oóôõ]s[ií][cç][aáàâã][oóôõ]|[aáàâã]p[aáàâã]r[aáàâã]d[oóôõ]|[ií]nt[eéê][ií]r[oóôõ]|r[eéê]p[aáàâã]rt[aáàâã]|m[eéê]s_[aáàâã]n[oóôõ]|s[eéê]g[uúü]nd[oóôõ]|h[oóôõ]r[aáàâã]r[ií][oóôõ]|[uúü]lt[ií]m[oóôõ]|[cç][oóôõ]nt[eéê]m|f[ií]ltr[eéê]|[aáàâã]gr[uúü]p[eéê]|r[eéê]m[oóôõ]v[aáàâã]|[oóôõ]r[ií]g[eéê]m|l[eéê]tr[aáàâã]s|d[ií]v[ií]d[aáàâã]|tr[oóôõ]q[uúü][eéê]|m[ií]n[uúü]t[oóôõ]|[cç][aáàâã]mp[oóôõ]s|v[aáàâã]z[ií][aáàâã]|m[eéê]d[ií][aáàâã]|m[aáàâã][ií][oóôõ]r|m[eéê]n[oóôõ]r|[cç][oóôõ]nt[eéê]|[aáàâã]lg[uúü]m|t[oóôõ]d[oóôõ]s|j[uúü]nt[eéê]|p[eéê]g[uúü][eéê]|[uúü]n[ií][cç][aáàâã]|l[ií]mp[eéê]|v[aáàâã]z[ií][oóôõ]|[ií]mp[aáàâã]r|s[oóôõ]m[aáàâã]|p[uúü]l[eéê]|r[aáàâã][ií]z|h[oóôõ]r[aáàâã]|[uúü]t[ií]l|p[aáàâã]r|d[ií][aáàâã]|m[eéê]s|[aáàâã]n[oóôõ]|t[eéê]m)(?![\\p{L}\\p{N}_])",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.cordel"
+            },
+            "2": {
+              "name": "support.function.method.cordel"
+            }
+          }
+        },
+        {
+          "match": "(\\.)\\s*([\\p{L}_][\\p{L}\\p{N}_]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.cordel"
+            },
+            "2": {
+              "name": "variable.other.property.cordel"
+            }
+          }
+        }
+      ]
+    },
+    "operadores": {
+      "patterns": [
+        {
+          "match": "=>",
+          "name": "storage.type.function.arrow.cordel"
+        },
+        {
+          "match": "==|!=|<=|>=|<|>",
+          "name": "keyword.operator.comparison.cordel"
+        },
+        {
+          "match": "[-+*/]=|=",
+          "name": "keyword.operator.assignment.cordel"
+        },
+        {
+          "match": "[-+*/%^]",
+          "name": "keyword.operator.arithmetic.cordel"
+        }
+      ]
+    },
+    "pontuacao": {
+      "patterns": [
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.cordel"
+        },
+        {
+          "match": ":",
+          "name": "punctuation.separator.key-value.cordel"
+        },
+        {
+          "match": ";",
+          "name": "punctuation.terminator.statement.cordel"
+        },
+        {
+          "match": "[()]",
+          "name": "punctuation.section.parens.cordel"
+        },
+        {
+          "match": "[\\[\\]]",
+          "name": "punctuation.section.brackets.cordel"
+        },
+        {
+          "match": "[{}]",
+          "name": "punctuation.section.braces.cordel"
+        }
+      ]
+    }
+  }
+}

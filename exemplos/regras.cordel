@@ -1,0 +1,29 @@
+# Biblioteca: regras de auditoria para usar em outros programas com
+#   use "regras"
+# Só tem funções, nomes e testes: nada aparece quando outro programa a usa.
+# Nomes que começam com _ ficam só aqui dentro.
+
+limite_de_desconto = 15
+
+função calculado(v) = v.qtd * v.valor_unitário - v.desconto
+
+função pct_desconto(v) = v.desconto / _bruto(v) * 100
+
+função desconto_alto(v) = pct_desconto(v) > limite_de_desconto
+
+função fora_do_expediente(momento, abre, fecha) = momento.hora < abre ou momento.hora >= fecha
+
+função _bruto(v) = v.qtd * v.valor_unitário
+
+teste "o total calculado desconta o desconto"
+  confira calculado({qtd: 2, valor_unitário: 100, desconto: 20}) == 180
+fim
+
+teste "desconto em porcentagem do valor bruto"
+  confira pct_desconto({qtd: 1, valor_unitário: 200, desconto: 30}) == 15
+fim
+
+teste "fora do expediente"
+  confira fora_do_expediente(data("03/09/2026 19:47"), 8, 18)
+  confira não fora_do_expediente(data("03/09/2026 08:00"), 8, 18)
+fim

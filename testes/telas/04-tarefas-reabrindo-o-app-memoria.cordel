@@ -1,0 +1,6 @@
+var tarefas = guardado("tarefas", [])
+tela "Tarefas"
+  para cada t em tarefas
+    mostre t.texto, t.feita
+  fim
+fim

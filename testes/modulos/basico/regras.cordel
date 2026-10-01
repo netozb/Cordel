@@ -1,0 +1,13 @@
+# Regras de preço
+taxa = 0.05
+_segredo = 42
+
+função com_taxa(valor) = valor * (1 + taxa)
+
+função arredonda(valor) = valor.arredondado(2)
+
+mostre "isto não aparece quando o módulo é usado"
+gráfico "nem isto" de [1, 2]
+teste "não roda quando o módulo é usado"
+  confira 1 == 2
+fim

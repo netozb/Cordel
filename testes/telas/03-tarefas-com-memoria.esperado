@@ -1,0 +1,58 @@
+== ao abrir
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value=""
+    <botao> id=1 text="Adicionar"
+  <texto> text="0 de 0 feitas"
+  <botao> id=2 text="Salvar"
+== digita (0, "Conferir caixa")
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value="Conferir caixa"
+    <botao> id=1 text="Adicionar"
+  <texto> text="0 de 0 feitas"
+  <botao> id=2 text="Salvar"
+== adiciona (1)
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value=""
+    <botao> id=1 text="Adicionar"
+  <marque> id=2 label="Conferir caixa" value=false
+  <texto> text="0 de 1 feitas"
+  <botao> id=3 text="Salvar"
+== digita (0, "Relatório")
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value="Relatório"
+    <botao> id=1 text="Adicionar"
+  <marque> id=2 label="Conferir caixa" value=false
+  <texto> text="0 de 1 feitas"
+  <botao> id=3 text="Salvar"
+== adiciona (1)
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value=""
+    <botao> id=1 text="Adicionar"
+  <marque> id=2 label="Conferir caixa" value=false
+  <marque> id=3 label="Relatório" value=false
+  <texto> text="0 de 2 feitas"
+  <botao> id=4 text="Salvar"
+== marca a 1ª (2, true)
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value=""
+    <botao> id=1 text="Adicionar"
+  <marque> id=2 label="Conferir caixa" value=true
+  <marque> id=3 label="Relatório" value=false
+  <texto> text="1 de 2 feitas"
+  <botao> id=4 text="Salvar"
+== salva (4)
+salvo
+<tela> barra="Tarefas" cor=null pagina=null paginas=[] title="Tarefas" voltar=false
+  <linha>
+    <campo> id=0 label="Nova tarefa" num=false value=""
+    <botao> id=1 text="Adicionar"
+  <marque> id=2 label="Conferir caixa" value=true
+  <marque> id=3 label="Relatório" value=false
+  <texto> text="1 de 2 feitas"
+  <botao> id=4 text="Salvar"

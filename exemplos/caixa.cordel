@@ -1,0 +1,30 @@
+# Confere o caixa de cada filial contra o sistema
+# (dados de exemplo)
+movimento = [
+  {filial: "Iguatu", caixa: 18450.30, sistema: 18450.30},
+  {filial: "Juazeiro", caixa: 22107.85, sistema: 22117.85},
+  {filial: "Crato", caixa: 9800.00, sistema: 9800.00},
+  {filial: "Sobral", caixa: 15230.40, sistema: 15190.40},
+  {filial: "Quixadá", caixa: 11002.10, sistema: 11002.10},
+]
+
+função diferença(m) = m.caixa - m.sistema
+
+divergentes = movimento.filtre(m => diferença(m) != 0)
+
+mostre "Filiais conferidas: {movimento.tamanho}"
+mostre "Com divergência: {divergentes.tamanho}"
+mostre ""
+
+para cada m em divergentes.ordenada(m => diferença(m).absoluto).invertida
+  d = diferença(m)
+  se d > 0
+    mostre "{m.filial}: sobra de {d.dinheiro}"
+  senão
+    mostre "{m.filial}: falta de {d.absoluto.dinheiro}"
+  fim
+fim
+
+mostre ""
+mostre "Total em caixa: {movimento.soma(m => m.caixa).dinheiro}"
+mostre "Saldo das diferenças: {movimento.soma(diferença).dinheiro}"

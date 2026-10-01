@@ -1,0 +1,2 @@
+[erro 2:6] Para comparar, use `==` (dois sinais de igual).
+[dica] Um `=` sozinho guarda um valor (x = 5). Para perguntar se é igual: se x == 5

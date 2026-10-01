@@ -1,0 +1,42 @@
+name: Algo não funcionou
+description: Um programa que dá um resultado errado, uma mensagem confusa ou um problema no editor
+labels: [erro]
+body:
+  - type: textarea
+    id: programa
+    attributes:
+      label: Programa
+      description: O menor programa que mostra o problema.
+      render: cordel
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que você esperava
+    validations:
+      required: true
+  - type: textarea
+    id: obtido
+    attributes:
+      label: O que aconteceu
+      description: A saída ou a mensagem de erro, como apareceu.
+    validations:
+      required: true
+  - type: dropdown
+    id: onde
+    attributes:
+      label: Onde
+      options:
+        - Editor no navegador
+        - Linha de comando
+        - Extensão do VS Code
+        - App gerado (.html)
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão
+      description: A do canto do editor ou a de `cordel --versao`.
+      placeholder: 0.7.0

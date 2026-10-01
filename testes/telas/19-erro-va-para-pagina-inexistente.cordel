@@ -1,0 +1,11 @@
+var x = 0
+tela "a"
+  página "Início"
+    botão "ir"
+      vá para "Detalhe"
+    fim
+  fim
+  página "Detalhes"
+    mostre 1
+  fim
+fim

@@ -1,0 +1,10 @@
+var saída = guardado("saída", data("03/09/2026 08:00"))
+var dia = data("03/09/2026")
+tela "Entrega"
+  guarde("saída", saída)
+  campo "Saída do caminhão" em saída
+  campo "Dia" em dia
+  chegada = saída.mais_horas(4.5)
+  mostre "Chega às {chegada.horário} de {chegada.dia_da_semana}"
+  mostre tipo(guardado("saída", 0))
+fim

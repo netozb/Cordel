@@ -1,0 +1,27 @@
+# Escreva a regra e prove que ela funciona
+função desconto(valor, cliente)
+  se cliente == "ouro"
+    devolva valor * 0.10
+  senão se cliente == "prata"
+    devolva valor * 0.05
+  fim
+  devolva 0
+fim
+
+função preço_final(valor, cliente) = valor - desconto(valor, cliente)
+
+mostre preço_final(200, "ouro").dinheiro
+
+teste "cliente ouro ganha 10%"
+  confira preço_final(200, "ouro") == 180
+fim
+
+teste "cliente prata ganha 5%"
+  confira preço_final(200, "prata") == 190
+fim
+
+teste "cliente comum paga o preço cheio"
+  confira preço_final(200, "comum") == 200
+fim
+
+# Troque 190 por 195 no teste da prata e rode de novo

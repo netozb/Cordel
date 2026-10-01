@@ -1,0 +1,16 @@
+name: Ideia para a linguagem
+description: Uma função, ação ou forma de escrever que deixaria a Cordel melhor
+labels: [ideia]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: O que você está tentando fazer
+      description: A situação real, de preferência com um exemplo.
+    validations:
+      required: true
+  - type: textarea
+    id: como
+    attributes:
+      label: Como gostaria de escrever
+      render: cordel

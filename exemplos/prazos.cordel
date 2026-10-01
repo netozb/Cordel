@@ -1,0 +1,24 @@
+# Contas a pagar: o que atrasou e o que vence logo.
+# As datas são contadas a partir de hoje.
+dia_de_hoje = hoje()
+contas = [
+  {conta: "Madeira", valor: 12500, vencimento: dia_de_hoje - 12},
+  {conta: "Tecidos", valor: 4380.50, vencimento: dia_de_hoje - 3},
+  {conta: "Frete", valor: 2150, vencimento: dia_de_hoje + 4},
+  {conta: "Energia", valor: 890.40, vencimento: dia_de_hoje + 19},
+]
+
+mostre "Hoje é {dia_de_hoje.dia_da_semana}, {dia_de_hoje.por_extenso}."
+
+situação = contas.ordenada(c => c.vencimento).transforme(c => {
+  conta: c.conta,
+  vence: c.vencimento,
+  valor: c.valor.dinheiro,
+  dias: c.vencimento - dia_de_hoje,
+})
+mostre situação
+
+atrasadas = contas.filtre(c => c.vencimento < dia_de_hoje)
+mostre "Em atraso: {atrasadas.tamanho} conta(s), {atrasadas.soma(c => c.valor).dinheiro}"
+
+gráfico "Dias até vencer (negativo é atraso)" de situação por dias

@@ -1,0 +1,16 @@
+var cnpj = "11222333000181"
+var consultas = 0
+var resultado = "Digite um CNPJ e toque em Consultar"
+var histórico = guardado("histórico", [])
+tela "Consulta de CNPJ"
+  guarde("histórico", histórico)
+  campo "CNPJ" em cnpj
+  botão "Consultar"
+    consultas += 1
+    histórico.adicione(cnpj)
+    empresa = busque("https://api.exemplo.com/cnpj/" + cnpj)
+    resultado = "{empresa.razao_social} ({empresa.situacao})"
+  fim
+  mostre resultado
+  mostre "{consultas} consulta(s) · histórico: {histórico.junte(", ")}"
+fim

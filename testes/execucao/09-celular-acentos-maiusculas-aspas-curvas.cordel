@@ -1,0 +1,5 @@
+Preco = 10
+Mostre “Preço: {preço}”
+SE preco > 5 ENTAO mostre ‘caro’ FIM
+media = [1,2,3].media
+mostre media

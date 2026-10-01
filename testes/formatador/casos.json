@@ -1,0 +1,42 @@
+[
+  {
+    "nome": "seletor \"P\" em p de[1,2 ,3]",
+    "arquivo": "01.cordel"
+  },
+  {
+    "nome": "para cada f em[\"a\",\"b\"]",
+    "arquivo": "02.cordel"
+  },
+  {
+    "nome": "de = [1, 2]",
+    "arquivo": "03.cordel"
+  },
+  {
+    "nome": "var faca = 3",
+    "arquivo": "04.cordel"
+  },
+  {
+    "nome": "para i de 1 ate 3 passo -1",
+    "arquivo": "05.cordel"
+  },
+  {
+    "nome": "tela \"x\"",
+    "arquivo": "06.cordel"
+  },
+  {
+    "nome": "r = v.agrupe(x => x.a).transforme(g => {",
+    "arquivo": "07.cordel"
+  },
+  {
+    "nome": "x = [",
+    "arquivo": "08.cordel"
+  },
+  {
+    "nome": "mostre 1 # um",
+    "arquivo": "09.cordel"
+  },
+  {
+    "nome": "x = -1",
+    "arquivo": "10.cordel"
+  }
+]

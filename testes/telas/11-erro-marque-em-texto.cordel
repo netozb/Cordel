@@ -1,0 +1,4 @@
+var x = ""
+tela "a"
+  marque "ok" em x
+fim

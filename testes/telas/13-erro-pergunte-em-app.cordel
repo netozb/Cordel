@@ -1,0 +1,3 @@
+n = pergunte("Nome?")
+tela "a"
+fim

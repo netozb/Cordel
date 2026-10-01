@@ -1,0 +1,50 @@
+{
+  "name": "cordel",
+  "version": "0.7.0",
+  "description": "Linguagem de programação em português: contas exatas, erros que explicam, planilhas, sites e apps.",
+  "keywords": [
+    "cordel",
+    "linguagem",
+    "programação",
+    "português",
+    "ensino",
+    "planilhas",
+    "interpretador"
+  ],
+  "license": "MIT",
+  "author": "Antônio Duarte Neto",
+  "bin": {
+    "cordel": "bin/cordel.js"
+  },
+  "main": "lib/cordel.js",
+  "types": "lib/cordel.d.ts",
+  "files": [
+    "bin/",
+    "lib/",
+    "exemplos/",
+    "docs/",
+    "editores/cordel.tmLanguage.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node testes/rodar.js",
+    "construir": "node ferramentas/construir.js",
+    "checar": "node ferramentas/construir.js --checar",
+    "pacote": "node ferramentas/pacote.js",
+    "versao": "node ferramentas/versao.js",
+    "configurar": "node ferramentas/configurar.js",
+    "testar:extensao": "npm --prefix editores/vscode test",
+    "testar:navegador": "node testes/navegador.js"
+  },
+  "optionalDependencies": {
+    "xlsx": "0.18.5"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}

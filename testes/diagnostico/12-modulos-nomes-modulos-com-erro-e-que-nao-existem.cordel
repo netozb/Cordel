@@ -1,0 +1,7 @@
+use "contas"
+use "quebrado"
+use "sumido"
+use "regras" como r
+mostre total_com_taxa([1, 2]), total_com_taxaa(3)
+mostre r.taxa
+mostre com_taxa(1)

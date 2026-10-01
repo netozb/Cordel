@@ -1,0 +1,3 @@
+use "divide"
+mostre "antes"
+mostre metade(4)

@@ -1,0 +1,6 @@
+v = tabela("vendas_exemplo.csv")
+mostre v.tamanho, "linhas"
+mostre v[1]
+mostre v[3].produto
+mostre tipo(v[1].nota), tipo(v[1].total), tipo(v[1].qtd)
+mostre v.pegue(3)

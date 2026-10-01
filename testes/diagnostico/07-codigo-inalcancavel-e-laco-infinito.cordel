@@ -1,0 +1,19 @@
+função f(x)
+  devolva x
+  mostre "nunca"
+fim
+mostre f(1)
+enquanto verdadeiro
+  mostre "sem fim"
+fim
+var n = 0
+enquanto verdadeiro
+  n += 1
+  se n > 3
+    pare
+  fim
+fim
+se falso
+  mostre 1
+fim
+mostre n == n

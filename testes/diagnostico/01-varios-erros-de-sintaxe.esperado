@@ -1,0 +1,7 @@
+erro 2:6 Para comparar, use `==` (dois sinais de igual).
+  dica: Um `=` sozinho guarda um valor (x = 5). Para perguntar se é igual: se x == 5
+erro 7:8 Faltou fechar o parêntese `)`.
+erro 8:15 Entre os itens de uma lista vai uma vírgula.
+  dica: Exemplo: [1, 2, 3]
+erro 9:1 Esse `fim` não fecha nenhum bloco.
+  dica: Talvez sobrou um `fim`, ou falta abrir o bloco (se, para, enquanto…).

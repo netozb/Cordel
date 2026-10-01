@@ -1,0 +1,4 @@
+265252859812191058636308480000000
+[teste ✓] dobro funciona
+[teste ✓] fatorial de 5
+[teste ✗] um teste que falha — confira falhou: dobro(3) == 7 — à esquerda deu 6, à direita 7 (linha 19)

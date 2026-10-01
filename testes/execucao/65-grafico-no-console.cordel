@@ -1,0 +1,3 @@
+resumo = [{filial: "Crato", notas: 11, total: 30695.4}, {filial: "Iguatu", notas: 9, total: 22436.63}]
+gráfico "Notas por filial" de resumo
+gráfico "Total por filial" de resumo por total

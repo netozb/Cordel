@@ -1,0 +1,3 @@
+use "Regras" como r
+mostre r.com_taxa(200), r.taxa
+mostre r.campos

@@ -1,0 +1,2 @@
+[erro 2:1] Esse `fim` não fecha nenhum bloco.
+[dica] Talvez sobrou um `fim`, ou falta abrir o bloco (se, para, enquanto…).

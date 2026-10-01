@@ -1,0 +1,5 @@
+idade = 20
+se idade > 18
+  fase = "adulto"
+fim
+mostre fase

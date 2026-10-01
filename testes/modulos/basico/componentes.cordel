@@ -1,0 +1,6 @@
+função cartão_de_produto(p)
+  cartão
+    subtítulo p.nome
+    mostre p.preço.dinheiro
+  fim
+fim

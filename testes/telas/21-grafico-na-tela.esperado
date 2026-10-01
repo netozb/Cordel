@@ -1,0 +1,5 @@
+== ao abrir
+<tela> barra="Painel" cor=null pagina=null paginas=[] title="Painel" voltar=false
+  <grafico> campo="total" labels=["Crato","Iguatu","Sobral"] title="Vendas por filial" total=3 values=["30695.4","22436.63","-50"]
+  <grafico> campo="" labels=["jan","fev"] title="Registro" total=2 values=["10","20.5"]
+  <grafico> campo="" labels=["1","2","3"] title="" total=3 values=["3","1","2"]

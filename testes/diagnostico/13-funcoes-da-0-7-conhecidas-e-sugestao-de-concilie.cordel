@@ -1,0 +1,6 @@
+vendas = tabela("vendas_exemplo.csv")
+r = concilei(vendas, vendas, {por: "nota"})
+mostre r
+mostre índice("IPCA").nome, cotação("dólar", hoje())
+x = 100.reparta(3)
+mostre x.origem, x.linhas_de_origem

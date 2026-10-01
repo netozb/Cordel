@@ -1,0 +1,2 @@
+[erro 2:1] `taxa` já existe neste programa, e o módulo "regras" também tem um.
+[dica] Para usar os dois, dê um nome ao módulo: use "regras" como regras (e depois regras.taxa).

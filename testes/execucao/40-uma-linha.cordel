@@ -1,0 +1,1 @@
+x = 3; mostre x; se x > 2 mostre "grande" fim

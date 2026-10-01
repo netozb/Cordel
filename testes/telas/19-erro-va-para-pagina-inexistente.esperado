@@ -1,0 +1,8 @@
+== ao abrir
+<tela> barra="a" cor=null pagina="Início" paginas=["Início","Detalhes"] title="a" voltar=false
+  <botao> id=0 text="ir"
+== toca (0) [nada mudou]
+[erro 5:15] Não existe a página "Detalhe".
+[dica] Você quis dizer "Detalhes"?
+<tela> barra="a" cor=null pagina="Início" paginas=["Início","Detalhes"] title="a" voltar=false
+  <botao> id=0 text="ir"

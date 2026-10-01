@@ -1,0 +1,2 @@
+est = tabela("Estoque.xlsx")
+mostre est.filtre(x => x.saldo > 5)

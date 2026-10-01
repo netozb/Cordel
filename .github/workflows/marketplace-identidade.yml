@@ -1,0 +1,27 @@
+name: Identidade do Marketplace
+
+# Rode uma vez, pela aba Actions, depois de configurar AZURE_CLIENT_ID e AZURE_TENANT_ID (veja PUBLICAR.md).
+# O resultado é o identificador a acrescentar como membro (Contributor) do seu publicador no Marketplace.
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  identidade:
+    runs-on: ubuntu-latest
+    environment: publicacao
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+      - name: Identificador para o Marketplace
+        run: |
+          id=$(az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me --resource 499b84ac-1321-427f-aa17-267ca6975798 --query id -o tsv)
+          echo "Acrescente este identificador como membro (Contributor) do publicador: $id"
+          echo "### Identificador para o Marketplace" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`$id\` — acrescente como membro (Contributor) do publicador em https://marketplace.visualstudio.com/manage" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,33 @@
+# Horários que merecem atenção: vendas fora do expediente
+# e cancelamentos feitos poucos minutos depois da venda.
+abre = 8
+fecha = 18
+
+vendas = [
+  {nota: "004301", filial: "Iguatu", momento: data("03/09/2026 09:12"), total: 2499.90},
+  {nota: "004302", filial: "Crato", momento: data("03/09/2026 19:47"), total: 3899},
+  {nota: "004303", filial: "Iguatu", momento: data("04/09/2026 07:31"), total: 649.90},
+  {nota: "004304", filial: "Sobral", momento: data("04/09/2026 15:05"), total: 1349.90},
+  {nota: "004305", filial: "Crato", momento: data("05/09/2026 11:20"), total: 2299},
+]
+cancelamentos = [
+  {nota: "004304", momento: data("04/09/2026 15:09")},
+  {nota: "004305", momento: data("06/09/2026 10:00")},
+]
+
+fora = vendas.filtre(v => v.momento.hora < abre ou v.momento.hora >= fecha)
+mostre "Vendas fora do expediente ({abre}h às {fecha}h): {fora.tamanho}"
+mostre fora.transforme(v => {nota: v.nota, filial: v.filial, quando: v.momento, total: v.total.dinheiro})
+
+função venda_da(nota) = vendas.filtre(v => v.nota == nota).primeiro
+
+rápidos = cancelamentos.filtre(c => venda_da(c.nota).momento.minutos_até(c.momento) < 30)
+mostre "Cancelamentos em menos de 30 minutos: {rápidos.tamanho}"
+para cada c em rápidos
+  v = venda_da(c.nota)
+  mostre "Nota {c.nota}: vendida às {v.momento.horário}, cancelada {v.momento.minutos_até(c.momento)} minutos depois"
+fim
+
+teste "a venda das 19:47 está fora do expediente"
+  confira fora.transforme(v => v.nota).contém("004302")
+fim

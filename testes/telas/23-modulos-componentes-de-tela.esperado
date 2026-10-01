@@ -1,0 +1,9 @@
+== ao abrir
+<tela> barra="Loja" cor=null pagina=null paginas=[] title="Loja" voltar=false
+  <cartao>
+    <subtitulo> text="Sofá"
+    <texto> text="R$ 2.499,90"
+  <cartao>
+    <subtitulo> text="Rack"
+    <texto> text="R$ 399,00"
+  <texto> text="Com taxa: R$ 2.624,90"

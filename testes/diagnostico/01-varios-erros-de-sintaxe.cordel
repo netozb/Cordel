@@ -1,0 +1,10 @@
+x = 5
+se x = 5
+  mostre "cinco"
+fim
+mostre "ok"
+y = (3 + 
+mostra "oi"
+lista = [1, 2 3]
+fim
+z = 2

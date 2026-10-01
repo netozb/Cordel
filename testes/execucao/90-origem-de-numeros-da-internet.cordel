@@ -1,0 +1,11 @@
+# números da internet guardam o endereço e o caminho no JSON
+empresa = busque("https://exemplo.com.br/cnpj/11222333000181")
+mostre empresa.capital_social.origem
+mostre empresa.qsa[2].cotas.origem
+soma = empresa.qsa.soma(s => s.cotas)
+mostre soma.origem
+lista = tabela("https://exemplo.com.br/vendas.json")
+mostre lista.soma(v => v.total).origem
+mostre lista[2].origem
+csv = tabela("https://exemplo.com.br/dados/vendas.csv?ano=2026")
+mostre csv.soma(v => v.total).origem

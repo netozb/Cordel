@@ -1,0 +1,13 @@
+função cartão_produto(p)
+  cartão
+    subtítulo p.nome
+    mostre p.preço.dinheiro
+  fim
+fim
+produtos = [{nome: "Sofá", preço: 2499.9}, {nome: "Rack", preço: 399}]
+tela "Loja"
+  para cada p em produtos
+    cartão_produto(p)
+  fim
+  link "Fale conosco" para "https://wa.me/5588999999999"
+fim

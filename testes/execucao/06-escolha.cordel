@@ -1,0 +1,10 @@
+para cada nota em [10, 8, 3]
+  escolha nota
+    caso 10
+      mostre "{nota}: Perfeito!"
+    caso 7 até 9
+      mostre "{nota}: Muito bom"
+    senão
+      mostre "{nota}: Bora estudar mais"
+  fim
+fim

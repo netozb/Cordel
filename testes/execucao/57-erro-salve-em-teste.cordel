@@ -1,0 +1,3 @@
+teste "x"
+  salve("a.csv", [1])
+fim

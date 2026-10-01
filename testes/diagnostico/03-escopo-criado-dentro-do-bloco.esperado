@@ -1,0 +1,2 @@
+erro 5:8 `fase` foi criada dentro de um bloco (linha 3) e não existe aqui.
+  dica: Crie antes do bloco com var fase = … e, dentro dele, só atribua o valor.

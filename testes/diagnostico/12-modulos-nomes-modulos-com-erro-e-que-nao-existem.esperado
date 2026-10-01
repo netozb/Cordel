@@ -1,0 +1,8 @@
+erro 2:5 O módulo "quebrado" tem um erro na linha 2: Faltou fechar o parêntese `)`.
+  dica: Abra o módulo e corrija; depois volte aqui.
+erro 3:5 Não achei o módulo "sumido".
+  dica: Um módulo é outro programa seu (no editor, em Meus programas; no computador, um arquivo .cordel na mesma pasta).
+erro 5:32 `total_com_taxaa` não existe.
+  dica: Você quis dizer `total_com_taxa`?
+erro 7:8 `com_taxa` não existe.
+  dica: Crie antes de usar: com_taxa = …

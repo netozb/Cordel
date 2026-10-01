@@ -1,0 +1,4 @@
+r = v.agrupe(x => x.a).transforme(g => {
+chave: g.chave,
+total: g.quantidade,
+})

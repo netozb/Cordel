@@ -1,0 +1,10 @@
+var n = 0
+tela "a"
+  mostre n
+  botão "dividir"
+    n = 1 / 0
+  fim
+  botão "somar"
+    n += 1
+  fim
+fim

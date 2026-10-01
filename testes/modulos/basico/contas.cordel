@@ -1,0 +1,3 @@
+use "regras"
+
+função total_com_taxa(itens) = arredonda(com_taxa(itens.soma))

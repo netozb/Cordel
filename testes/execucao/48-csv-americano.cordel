@@ -1,0 +1,3 @@
+t = tabela("en.csv")
+mostre t
+mostre t.soma(x => x.amount)

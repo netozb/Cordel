@@ -1,0 +1,13 @@
+# Em Cordel, 0.1 + 0.2 é exatamente 0.3
+mostre 0.1 + 0.2
+mostre 0.1 + 0.2 == 0.3
+mostre 1 / 3
+mostre 1 / 3 * 3 == 1
+mostre 2 ^ 100
+mostre 10 / 4
+mostre 7 % 3, -7 % 3
+mostre (1/3).arredondado(2)
+mostre 1234567.891.dinheiro
+mostre 16.raiz, 2.raiz, (9/4).raiz
+mostre 0 < 5 < 10
+mostre -2 ^ 2

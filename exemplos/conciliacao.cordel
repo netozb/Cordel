@@ -1,0 +1,25 @@
+# Conciliação: as vendas da planilha chegaram ao banco?
+# Cada venda precisa de um crédito de mesmo valor no extrato,
+# até 2 dias depois (aceitando até 10 centavos de tarifa).
+# No editor, toque num valor ou numa linha para ver de onde veio.
+vendas = tabela("vendas_exemplo.csv")
+extrato = tabela("extrato_exemplo.csv")
+
+r = concilie(vendas, extrato, {
+  por: {total: "valor", data: "data"},
+  folga_de_dias: 2,
+  folga_de_valor: 0.10,
+})
+mostre r.resumo
+
+mostre "Vendas sem crédito no banco:"
+mostre r.só_no_primeiro.transforme(v => {nota: v.nota, data: v.data, filial: v.filial, total: v.total})
+
+mostre "Créditos sem venda:"
+mostre r.só_no_segundo
+
+mostre "Conciliadas com diferença de valor:"
+mostre r.com_diferença.transforme(p => {nota: p.primeiro.nota, diferença: p.diferença})
+
+falta = r.só_no_primeiro.soma(v => v.total)
+mostre "Falta receber: {falta.dinheiro}"

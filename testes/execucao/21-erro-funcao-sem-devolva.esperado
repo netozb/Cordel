@@ -1,0 +1,3 @@
+oi
+[erro 4:5] `oi` não devolve nenhum valor — ela só faz ações.
+[dica] Se quiser um resultado, use `devolva` dentro da função. Ações como lista.adicione(x) já alteram a lista sozinhas.

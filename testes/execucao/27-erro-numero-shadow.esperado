@@ -1,0 +1,2 @@
+[erro 2:8] `número` é um número, não uma função.
+[dica] Você criou uma variável com o mesmo nome da função `número`. Dê outro nome à variável.

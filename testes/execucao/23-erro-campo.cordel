@@ -1,0 +1,2 @@
+p = {nome: "Ana"}
+mostre p.nomee

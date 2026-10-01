@@ -1,0 +1,9 @@
+aviso 1:1 `data` esconde a função pronta data().
+  dica: Enquanto esse nome existir, data(…) não funciona aqui. Use outro nome, como data_1.
+aviso 1:1 `data` é criada mas nunca usada.
+  dica: Apague a linha ou use o valor.
+aviso 2:1 `nome` é criada mas nunca usada.
+  dica: Apague a linha ou use o valor.
+aviso 3:1 A função `dobro` nunca é chamada.
+aviso 4:1 `texto` esconde a função pronta texto().
+  dica: Enquanto esse nome existir, texto(…) não funciona aqui. Use outro nome, como texto_1.

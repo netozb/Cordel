@@ -1,0 +1,4 @@
+nome = ""
+tela "x"
+  campo "Nome" em nome
+fim

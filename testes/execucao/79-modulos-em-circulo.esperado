@@ -1,0 +1,2 @@
+[erro circulo_b 1:5] Os módulos se usam em círculo: circulo_a → circulo_b → circulo_a.
+[dica] Mova o que os dois precisam para um terceiro módulo, que ambos usam.

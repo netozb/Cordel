@@ -1,0 +1,936 @@
+[
+  {
+    "nome": "olá",
+    "arquivo": "01-ola.cordel",
+    "respostas": [
+      "Neto"
+    ]
+  },
+  {
+    "nome": "olá sem resposta",
+    "arquivo": "02-ola-sem-resposta.cordel"
+  },
+  {
+    "nome": "contas exatas",
+    "arquivo": "03-contas-exatas.cordel"
+  },
+  {
+    "nome": "vendas",
+    "arquivo": "04-vendas.cordel"
+  },
+  {
+    "nome": "funções e testes",
+    "arquivo": "05-funcoes-e-testes.cordel"
+  },
+  {
+    "nome": "escolha",
+    "arquivo": "06-escolha.cordel"
+  },
+  {
+    "nome": "laços",
+    "arquivo": "07-lacos.cordel"
+  },
+  {
+    "nome": "adivinhação",
+    "arquivo": "08-adivinhacao.cordel",
+    "respostas": [
+      "10",
+      "5",
+      "15",
+      "12",
+      "13",
+      "14",
+      "11",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "1",
+      "2",
+      "3",
+      "4",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "nome": "celular: acentos, maiúsculas, aspas curvas",
+    "arquivo": "09-celular-acentos-maiusculas-aspas-curvas.cordel"
+  },
+  {
+    "nome": "tente",
+    "arquivo": "10-tente.cordel"
+  },
+  {
+    "nome": "erro: método errado",
+    "arquivo": "11-erro-metodo-errado.cordel"
+  },
+  {
+    "nome": "erro: acento/nome",
+    "arquivo": "12-erro-acento-nome.cordel"
+  },
+  {
+    "nome": "erro: = na condição",
+    "arquivo": "13-erro-na-condicao.cordel"
+  },
+  {
+    "nome": "erro: falta fim",
+    "arquivo": "14-erro-falta-fim.cordel"
+  },
+  {
+    "nome": "erro: fim sobrando",
+    "arquivo": "15-erro-fim-sobrando.cordel"
+  },
+  {
+    "nome": "erro: mostra",
+    "arquivo": "16-erro-mostra.cordel"
+  },
+  {
+    "nome": "erro: texto + número",
+    "arquivo": "17-erro-texto-numero.cordel"
+  },
+  {
+    "nome": "erro: fixo",
+    "arquivo": "18-erro-fixo.cordel"
+  },
+  {
+    "nome": "erro: índice 0",
+    "arquivo": "19-erro-indice-0.cordel"
+  },
+  {
+    "nome": "erro: índice fora",
+    "arquivo": "20-erro-indice-fora.cordel"
+  },
+  {
+    "nome": "erro: função sem devolva",
+    "arquivo": "21-erro-funcao-sem-devolva.cordel"
+  },
+  {
+    "nome": "erro: aridade",
+    "arquivo": "22-erro-aridade.cordel"
+  },
+  {
+    "nome": "erro: campo",
+    "arquivo": "23-erro-campo.cordel"
+  },
+  {
+    "nome": "erro: laço infinito",
+    "arquivo": "24-erro-laco-infinito.cordel"
+  },
+  {
+    "nome": "erro: div zero",
+    "arquivo": "25-erro-div-zero.cordel"
+  },
+  {
+    "nome": "erro: texto aberto",
+    "arquivo": "26-erro-texto-aberto.cordel"
+  },
+  {
+    "nome": "erro: numero shadow",
+    "arquivo": "27-erro-numero-shadow.cordel"
+  },
+  {
+    "nome": "erro: recursão",
+    "arquivo": "28-erro-recursao.cordel"
+  },
+  {
+    "nome": "erro: condição não lógica",
+    "arquivo": "29-erro-condicao-nao-logica.cordel"
+  },
+  {
+    "nome": "erro: palavra reservada",
+    "arquivo": "30-erro-palavra-reservada.cordel"
+  },
+  {
+    "nome": "erro: var dupla",
+    "arquivo": "31-erro-var-dupla.cordel"
+  },
+  {
+    "nome": "erro: fixo registro",
+    "arquivo": "32-erro-fixo-registro.cordel"
+  },
+  {
+    "nome": "erro: adicionar em fixo",
+    "arquivo": "33-erro-adicionar-em-fixo.cordel"
+  },
+  {
+    "nome": "erro: devolva fora",
+    "arquivo": "34-erro-devolva-fora.cordel"
+  },
+  {
+    "nome": "erro: senão solto",
+    "arquivo": "35-erro-senao-solto.cordel"
+  },
+  {
+    "nome": "erro: chave vazia",
+    "arquivo": "36-erro-chave-vazia.cordel"
+  },
+  {
+    "nome": "interpolação com aspas",
+    "arquivo": "37-interpolacao-com-aspas.cordel"
+  },
+  {
+    "nome": "perf",
+    "arquivo": "38-perf.cordel"
+  },
+  {
+    "nome": "fib",
+    "arquivo": "39-fib.cordel"
+  },
+  {
+    "nome": "uma linha",
+    "arquivo": "40-uma-linha.cordel"
+  },
+  {
+    "nome": "lambda multi",
+    "arquivo": "41-lambda-multi.cordel"
+  },
+  {
+    "nome": "tabela básica",
+    "arquivo": "42-tabela-basica.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "nome sem extensão e acentos",
+    "arquivo": "43-nome-sem-extensao-e-acentos.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "auditoria",
+    "arquivo": "44-auditoria.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "agrupe tabela crua",
+    "arquivo": "45-agrupe-tabela-crua.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "arquivos e abas",
+    "arquivo": "46-arquivos-e-abas.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "xlsx",
+    "arquivo": "47-xlsx.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "csv americano",
+    "arquivo": "48-csv-americano.cordel",
+    "semente": 1,
+    "planilhas": [
+      "en.csv"
+    ]
+  },
+  {
+    "nome": "erro: arquivo inexistente",
+    "arquivo": "49-erro-arquivo-inexistente.cordel",
+    "semente": 1,
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "erro: arquivo inexistente, nenhum",
+    "arquivo": "50-erro-arquivo-inexistente-nenhum.cordel",
+    "semente": 1
+  },
+  {
+    "nome": "erro: aba inexistente",
+    "arquivo": "51-erro-aba-inexistente.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "erro: soma com vazio",
+    "arquivo": "52-erro-soma-com-vazio.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "erro: comparar vazio",
+    "arquivo": "53-erro-comparar-vazio.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "ok: filtrar vazio",
+    "arquivo": "54-ok-filtrar-vazio.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "erro: salve extensão",
+    "arquivo": "55-erro-salve-extensao.cordel"
+  },
+  {
+    "nome": "erro: salve misto",
+    "arquivo": "56-erro-salve-misto.cordel"
+  },
+  {
+    "nome": "erro: salve em teste",
+    "arquivo": "57-erro-salve-em-teste.cordel"
+  },
+  {
+    "nome": "erro: leia xlsx",
+    "arquivo": "58-erro-leia-xlsx.cordel",
+    "semente": 1,
+    "planilhas": [
+      {
+        "name": "Estoque.xlsx",
+        "sheets": [
+          {
+            "name": "Plan1",
+            "rows": [
+              [
+                "Código",
+                "Descrição",
+                "Saldo",
+                "Custo"
+              ],
+              [
+                "00017",
+                "Cadeira",
+                12,
+                199.9
+              ],
+              [
+                "00018",
+                "Mesa",
+                "",
+                0.1
+              ],
+              [
+                "00019",
+                "Rack",
+                3,
+                0.2
+              ],
+              [],
+              [
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Resumo",
+            "rows": [
+              [
+                "Mês",
+                "Valor"
+              ],
+              [
+                "jan",
+                "1.234,56"
+              ],
+              [
+                "fev",
+                "980,00"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "lista simples em csv",
+    "arquivo": "59-lista-simples-em-csv.cordel"
+  },
+  {
+    "nome": "controle: devolva dentro de laço/tente/escolha",
+    "arquivo": "60-controle-devolva-dentro-de-laco-tente-escolha.cordel"
+  },
+  {
+    "nome": "erro: pare dentro de função em laço",
+    "arquivo": "61-erro-pare-dentro-de-funcao-em-laco.cordel"
+  },
+  {
+    "nome": "erro: palavra reservada",
+    "arquivo": "62-erro-palavra-reservada.cordel"
+  },
+  {
+    "nome": "erro: palavra reservada 2",
+    "arquivo": "63-erro-palavra-reservada-2.cordel"
+  },
+  {
+    "nome": "erro: mostre = ",
+    "arquivo": "64-erro-mostre.cordel"
+  },
+  {
+    "nome": "gráfico no console",
+    "arquivo": "65-grafico-no-console.cordel"
+  },
+  {
+    "nome": "erro gráfico campo",
+    "arquivo": "66-erro-grafico-campo.cordel"
+  },
+  {
+    "nome": "erro gráfico texto",
+    "arquivo": "67-erro-grafico-texto.cordel"
+  },
+  {
+    "nome": "erro gráfico vazio",
+    "arquivo": "68-erro-grafico-vazio.cordel"
+  },
+  {
+    "nome": "volte fora de app",
+    "arquivo": "69-volte-fora-de-app.cordel"
+  },
+  {
+    "nome": "variável gráfico/página/abas ainda livre",
+    "arquivo": "70-variavel-grafico-pagina-abas-ainda-livre.cordel"
+  },
+  {
+    "nome": "datas com hora",
+    "arquivo": "71-datas-com-hora.cordel"
+  },
+  {
+    "nome": "datas com hora: erros",
+    "arquivo": "72-datas-com-hora-erros.cordel"
+  },
+  {
+    "nome": "planilha de ponto com data e hora",
+    "arquivo": "73-planilha-de-ponto-com-data-e-hora.cordel",
+    "planilhas": [
+      "ponto.csv"
+    ]
+  },
+  {
+    "nome": "módulos: use e módulo que usa outro",
+    "arquivo": "74-modulos-use-e-modulo-que-usa-outro.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: use como",
+    "arquivo": "75-modulos-use-como.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: nomes com _ são privados",
+    "arquivo": "76-modulos-nomes-com-sao-privados.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: nome repetido",
+    "arquivo": "77-modulos-nome-repetido.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: nome do módulo não muda",
+    "arquivo": "78-modulos-nome-do-modulo-nao-muda.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: em círculo",
+    "arquivo": "79-modulos-em-circulo.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: erro de sintaxe no módulo",
+    "arquivo": "80-modulos-erro-de-sintaxe-no-modulo.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: erro dentro de função do módulo",
+    "arquivo": "81-modulos-erro-dentro-de-funcao-do-modulo.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: pergunte ao carregar",
+    "arquivo": "82-modulos-pergunte-ao-carregar.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: carregado uma vez só",
+    "arquivo": "83-modulos-carregado-uma-vez-so.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: use dentro de bloco",
+    "arquivo": "84-modulos-use-dentro-de-bloco.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: módulo que não existe",
+    "arquivo": "85-modulos-modulo-que-nao-existe.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "módulos: testes do programa usam o módulo",
+    "arquivo": "86-modulos-testes-do-programa-usam-o-modulo.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "busque: JSON exato, texto, tabelas e erros",
+    "arquivo": "87-busque-json-exato-texto-tabelas-e-erros.cordel",
+    "rede": {
+      "https://api.exemplo.com/cnpj/11222333000181": {
+        "status": 200,
+        "tipo": "application/json; charset=utf-8",
+        "texto": "{\"cnpj\":\"11222333000181\",\"razao_social\":\"MÓVEIS MANDACARU LTDA\",\"nome-fantasia\":\"Mandacaru\",\"situacao\":\"ATIVA\",\"capital_social\":12345678901234.567890,\"qsa\":[{\"nome_socio\":\"ANA SILVA\"},{\"nome_socio\":\"JOÃO SOUZA\"}],\"observacao\":null,\"optante\":true,\"taxa\":1.5e-3,\"grande\":2E+3,\"Cnpj\":\"dup\"}"
+      },
+      "https://api.exemplo.com/cnpj/00000000000000": {
+        "status": 404,
+        "tipo": "application/json",
+        "texto": "{\"message\":\"não encontrado\"}"
+      },
+      "https://api.exemplo.com/falha": {
+        "status": 503,
+        "tipo": "text/plain",
+        "texto": "fora do ar"
+      },
+      "https://api.exemplo.com/ruim": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "{\"a\": 1,"
+      },
+      "https://api.exemplo.com/texto": {
+        "status": 200,
+        "tipo": "text/plain",
+        "texto": "Olá, mundo"
+      },
+      "https://api.exemplo.com/vendas.csv": {
+        "status": 200,
+        "tipo": "text/csv",
+        "texto": "Filial;Total\nCrato;1.500,50\nIguatu;980,00\n"
+      },
+      "https://api.exemplo.com/vendas.json": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"filial\":\"Crato\",\"total\":1500.5},{\"filial\":\"Iguatu\",\"total\":980}]"
+      },
+      "https://api.exemplo.com/lento": {
+        "erro": "tempo",
+        "segundos": 15
+      },
+      "https://api.exemplo.com/lista": {
+        "status": 200,
+        "tipo": "",
+        "texto": "[1, 2.50, -3e2, \"x\", [true, false, null], {}]"
+      }
+    }
+  },
+  {
+    "nome": "origem dos valores lidos de planilhas",
+    "arquivo": "88-origem-dos-valores-lidos-de-planilhas.cordel",
+    "planilhas": [
+      "vendas_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "origem em registros montados e em listas",
+    "arquivo": "89-origem-em-registros-montados-e-em-listas.cordel",
+    "planilhas": [
+      "vendas_exemplo.csv",
+      "extrato_exemplo.csv"
+    ]
+  },
+  {
+    "nome": "origem de números da internet",
+    "arquivo": "90-origem-de-numeros-da-internet.cordel",
+    "rede": {
+      "https://exemplo.com.br/cnpj/11222333000181": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "{\"razao_social\": \"MÓVEIS MANDACARU LTDA\", \"capital_social\": 500000.00, \"qsa\": [{\"nome\": \"ANA\", \"cotas\": 300}, {\"nome\": \"JOÃO\", \"cotas\": 200}]}"
+      },
+      "https://exemplo.com.br/vendas.json": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"filial\": \"Crato\", \"total\": 1500.5}, {\"filial\": \"Iguatu\", \"total\": 980}]"
+      },
+      "https://exemplo.com.br/dados/vendas.csv?ano=2026": {
+        "status": 200,
+        "tipo": "text/csv",
+        "texto": "Filial;Total\nCrato;1.500,50\n\nIguatu;980,00\n"
+      }
+    }
+  },
+  {
+    "nome": "reparta sem perder centavo",
+    "arquivo": "91-reparta-sem-perder-centavo.cordel"
+  },
+  {
+    "nome": "concilie: pares, folgas, compare e nenhum par perdido",
+    "arquivo": "92-concilie-pares-folgas-compare-e-nenhum-par-perdi.cordel"
+  },
+  {
+    "nome": "concilie: erros e dicas",
+    "arquivo": "93-concilie-erros-e-dicas.cordel"
+  },
+  {
+    "nome": "índices do Banco Central e cotação",
+    "arquivo": "94-indices-do-banco-central-e-cotacao.cordel",
+    "rede": {
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/01/2025&dataFinal=31/12/2025": {
+        "status": 200,
+        "tipo": "application/json;charset=utf-8",
+        "texto": "[{\"data\":\"01/01/2025\",\"valor\":\"0.16\"},{\"data\":\"01/02/2025\",\"valor\":\"1.31\"},{\"data\":\"01/03/2025\",\"valor\":\"0.56\"},{\"data\":\"01/04/2025\",\"valor\":\"0.43\"},{\"data\":\"01/05/2025\",\"valor\":\"0.26\"},{\"data\":\"01/06/2025\",\"valor\":\"0.24\"},{\"data\":\"01/07/2025\",\"valor\":\"0.26\"},{\"data\":\"01/08/2025\",\"valor\":\"-0.11\"},{\"data\":\"01/09/2025\",\"valor\":\"0.48\"},{\"data\":\"01/10/2025\",\"valor\":\"0.09\"},{\"data\":\"01/11/2025\",\"valor\":\"0.18\"},{\"data\":\"01/12/2025\",\"valor\":\"0.33\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.189/dados?formato=json&dataInicial=01/09/2025&dataFinal=31/08/2026": {
+        "status": 200,
+        "tipo": "application/json;charset=utf-8",
+        "texto": "[{\"data\":\"01/09/2025\",\"valor\":\"0.42\"},{\"data\":\"01/10/2025\",\"valor\":\"-0.36\"},{\"data\":\"01/11/2025\",\"valor\":\"0.27\"},{\"data\":\"01/12/2025\",\"valor\":\"-0.01\"},{\"data\":\"01/01/2026\",\"valor\":\"0.41\"},{\"data\":\"01/02/2026\",\"valor\":\"-0.73\"},{\"data\":\"01/03/2026\",\"valor\":\"0.52\"},{\"data\":\"01/04/2026\",\"valor\":\"2.73\"},{\"data\":\"01/05/2026\",\"valor\":\"0.84\"},{\"data\":\"01/06/2026\",\"valor\":\"-0.50\"},{\"data\":\"01/07/2026\",\"valor\":\"-1.16\"},{\"data\":\"01/08/2026\",\"valor\":\"-0.22\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados?formato=json&dataInicial=18/08/2026&dataFinal=28/08/2026": {
+        "status": 200,
+        "tipo": "application/json;charset=utf-8",
+        "texto": "[{\"data\":\"18/08/2026\",\"valor\":\"5.2043\"},{\"data\":\"19/08/2026\",\"valor\":\"5.1714\"},{\"data\":\"20/08/2026\",\"valor\":\"5.1862\"},{\"data\":\"21/08/2026\",\"valor\":\"5.1625\"},{\"data\":\"24/08/2026\",\"valor\":\"5.1512\"},{\"data\":\"25/08/2026\",\"valor\":\"5.1490\"},{\"data\":\"26/08/2026\",\"valor\":\"5.1604\"},{\"data\":\"27/08/2026\",\"valor\":\"5.1642\"},{\"data\":\"28/08/2026\",\"valor\":\"5.2005\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/01/2025&dataFinal=31/03/2025": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"data\":\"01/01/2025\",\"valor\":\"0.16\"},{\"data\":\"01/02/2025\",\"valor\":\"1.31\"},{\"data\":\"01/03/2025\",\"valor\":\"0.56\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/02/2025&dataFinal=31/03/2025": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"data\":\"01/02/2025\",\"valor\":\"1.31\"},{\"data\":\"01/03/2025\",\"valor\":\"0.56\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/09/2026&dataFinal=30/09/2026": {
+        "status": 404,
+        "tipo": "application/json",
+        "texto": "{\"error\":\"Value(s) not found\",\"tag\":\"\"}"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial=01/09/2025&dataFinal=04/09/2025": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"data\":\"01/09/2025\",\"valor\":\"0.055131\"},{\"data\":\"02/09/2025\",\"valor\":\"0.055131\"},{\"data\":\"03/09/2025\",\"valor\":\"0.055131\"},{\"data\":\"04/09/2025\",\"valor\":\"0.055131\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial=06/09/2025&dataFinal=07/09/2025": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados?formato=json&dataInicial=20/08/2026&dataFinal=30/08/2026": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"data\":\"20/08/2026\",\"valor\":\"5.1862\"},{\"data\":\"28/08/2026\",\"valor\":\"5.2005\"}]"
+      },
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados?formato=json&dataInicial=21/09/2026&dataFinal=01/10/2026": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[]"
+      }
+    }
+  }
+]

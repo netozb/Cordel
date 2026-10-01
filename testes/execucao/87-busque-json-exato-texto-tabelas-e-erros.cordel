@@ -1,0 +1,34 @@
+empresa = busque("https://api.exemplo.com/cnpj/11222333000181")
+mostre empresa.razao_social, empresa["nome-fantasia"], empresa.situacao
+mostre empresa.capital_social, empresa.capital_social.dinheiro, tipo(empresa.capital_social)
+mostre empresa.taxa, empresa.grande, empresa.optante, empresa.observacao == ""
+mostre empresa.qsa.transforme(s => s.nome_socio).junte(" e ")
+mostre empresa.campos
+mostre busque("https://api.exemplo.com/lista")
+mostre busque("https://api.exemplo.com/texto")
+mostre tabela("https://api.exemplo.com/vendas.csv")
+mostre tabela("https://api.exemplo.com/vendas.json").soma(v => v.total)
+função tenta(endereço)
+  tente
+    mostre busque(endereço)
+  falhou erro
+    mostre "erro:", erro
+  fim
+fim
+tenta("https://api.exemplo.com/cnpj/00000000000000")
+tenta("https://api.exemplo.com/falha")
+tenta("https://api.exemplo.com/ruim")
+tenta("https://api.exemplo.com/lento")
+tenta("https://nao.existe.exemplo/x")
+tenta("ftp://arquivo")
+tente
+  busque("https://api.exemplo.com/texto", {método: "POST"})
+falhou erro
+  mostre "erro:", erro
+fim
+tente
+  busque("https://api.exemplo.com/texto", {cabeçalhos: {Token: 123}})
+falhou erro
+  mostre "erro:", erro
+fim
+mostre busque("https://api.exemplo.com/texto", {cabeçalhos: {Token: "abc"}})

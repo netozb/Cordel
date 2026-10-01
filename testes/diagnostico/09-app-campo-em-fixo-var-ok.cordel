@@ -1,0 +1,7 @@
+nome = ""
+var idade = 0
+tela "a"
+  campo "Nome" em nome
+  campo "Idade" em idade
+  mostre idade
+fim

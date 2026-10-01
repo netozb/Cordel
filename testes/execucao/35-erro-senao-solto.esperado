@@ -1,0 +1,2 @@
+[erro 1:1] Esse `senão` não pertence a nenhum `se`.
+[dica] Use assim: se cond … senão … fim

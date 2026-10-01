@@ -1,0 +1,2 @@
+[erro 2:18] Não dá para somar um texto com um número.
+[dica] Para montar um texto com valores, use chaves: "Total: {x}"

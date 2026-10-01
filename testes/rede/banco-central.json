@@ -1,0 +1,18 @@
+{
+  "_nota": "Respostas no formato da API de séries do Banco Central (api.bcb.gov.br), para os exemplos e o guia rodarem sem internet.",
+  "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/01/2025&dataFinal=31/12/2025": {
+    "status": 200,
+    "tipo": "application/json;charset=utf-8",
+    "texto": "[{\"data\":\"01/01/2025\",\"valor\":\"0.16\"},{\"data\":\"01/02/2025\",\"valor\":\"1.31\"},{\"data\":\"01/03/2025\",\"valor\":\"0.56\"},{\"data\":\"01/04/2025\",\"valor\":\"0.43\"},{\"data\":\"01/05/2025\",\"valor\":\"0.26\"},{\"data\":\"01/06/2025\",\"valor\":\"0.24\"},{\"data\":\"01/07/2025\",\"valor\":\"0.26\"},{\"data\":\"01/08/2025\",\"valor\":\"-0.11\"},{\"data\":\"01/09/2025\",\"valor\":\"0.48\"},{\"data\":\"01/10/2025\",\"valor\":\"0.09\"},{\"data\":\"01/11/2025\",\"valor\":\"0.18\"},{\"data\":\"01/12/2025\",\"valor\":\"0.33\"}]"
+  },
+  "https://api.bcb.gov.br/dados/serie/bcdata.sgs.189/dados?formato=json&dataInicial=01/09/2025&dataFinal=31/08/2026": {
+    "status": 200,
+    "tipo": "application/json;charset=utf-8",
+    "texto": "[{\"data\":\"01/09/2025\",\"valor\":\"0.42\"},{\"data\":\"01/10/2025\",\"valor\":\"-0.36\"},{\"data\":\"01/11/2025\",\"valor\":\"0.27\"},{\"data\":\"01/12/2025\",\"valor\":\"-0.01\"},{\"data\":\"01/01/2026\",\"valor\":\"0.41\"},{\"data\":\"01/02/2026\",\"valor\":\"-0.73\"},{\"data\":\"01/03/2026\",\"valor\":\"0.52\"},{\"data\":\"01/04/2026\",\"valor\":\"2.73\"},{\"data\":\"01/05/2026\",\"valor\":\"0.84\"},{\"data\":\"01/06/2026\",\"valor\":\"-0.50\"},{\"data\":\"01/07/2026\",\"valor\":\"-1.16\"},{\"data\":\"01/08/2026\",\"valor\":\"-0.22\"}]"
+  },
+  "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados?formato=json&dataInicial=18/08/2026&dataFinal=28/08/2026": {
+    "status": 200,
+    "tipo": "application/json;charset=utf-8",
+    "texto": "[{\"data\":\"18/08/2026\",\"valor\":\"5.2043\"},{\"data\":\"19/08/2026\",\"valor\":\"5.1714\"},{\"data\":\"20/08/2026\",\"valor\":\"5.1862\"},{\"data\":\"21/08/2026\",\"valor\":\"5.1625\"},{\"data\":\"24/08/2026\",\"valor\":\"5.1512\"},{\"data\":\"25/08/2026\",\"valor\":\"5.1490\"},{\"data\":\"26/08/2026\",\"valor\":\"5.1604\"},{\"data\":\"27/08/2026\",\"valor\":\"5.1642\"},{\"data\":\"28/08/2026\",\"valor\":\"5.2005\"}]"
+  }
+}

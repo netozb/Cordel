@@ -1,0 +1,37 @@
+repita 3 vezes
+  mostre "oi"
+fim
+para i de 1 até 5
+  se i == 2
+    continue
+  fim
+  se i == 4
+    pare
+  fim
+  mostre i
+fim
+para i de 3 até 1 passo -1
+  mostre "contagem {i}"
+fim
+para i de 0 até 1 passo 0.25
+  mostre i
+fim
+var total = 0
+enquanto total < 10
+  total += 3
+fim
+mostre total
+var compras = []
+compras.adicione("pão")
+compras.adicione("café")
+compras.remova("pão")
+mostre compras, compras.tamanho
+var pessoa = {nome: "Ana", idade: 30}
+pessoa.idade += 1
+mostre pessoa
+var grade = [[1, 2], [3, 4]]
+grade[2][1] = 99
+mostre grade
+para cada letra em "sol"
+  mostre letra.maiúsculas
+fim

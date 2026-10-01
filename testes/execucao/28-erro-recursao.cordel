@@ -1,0 +1,2 @@
+função f(n) = f(n + 1)
+mostre f(1)

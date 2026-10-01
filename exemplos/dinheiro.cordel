@@ -1,0 +1,27 @@
+# Dinheiro sem erro de centavo
+preço = 1999.90
+
+# reparta divide sem perder centavo: a soma das parcelas é sempre o preço
+parcelas = preço.reparta(3)
+mostre "3 parcelas: {parcelas.transforme(p => p.dinheiro).junte(" + ")}"
+confira parcelas.soma == preço
+
+# Rateio proporcional: o frete da carga dividido pelo peso de cada filial
+frete = 850
+filiais = [
+  {filial: "Iguatu", peso: 120},
+  {filial: "Crato", peso: 75},
+  {filial: "Sobral", peso: 40},
+]
+partes = frete.reparta(filiais.transforme(f => f.peso))
+para cada i de 1 até filiais.tamanho
+  mostre "{filiais[i].filial}: {partes[i].dinheiro}"
+fim
+confira partes.soma == frete
+
+# Juros compostos de 1,5% ao mês por 12 meses
+var saldo = 1000
+repita 12 vezes
+  saldo = saldo * 1.015
+fim
+mostre "Saldo após 12 meses: {saldo.dinheiro}"

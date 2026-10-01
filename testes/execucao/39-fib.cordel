@@ -1,0 +1,7 @@
+função fib(n)
+  se n < 2
+    devolva n
+  fim
+  devolva fib(n - 1) + fib(n - 2)
+fim
+mostre fib(20)

@@ -1,0 +1,228 @@
+{
+  "se": {
+    "prefix": [
+      "se"
+    ],
+    "body": [
+      "se ${1:condição}",
+      "\t$0",
+      "fim"
+    ],
+    "description": "se … fim"
+  },
+  "se senão": {
+    "prefix": [
+      "sesenao",
+      "se senão"
+    ],
+    "body": [
+      "se ${1:condição}",
+      "\t$2",
+      "senão",
+      "\t$0",
+      "fim"
+    ],
+    "description": "se … senão … fim"
+  },
+  "escolha": {
+    "prefix": [
+      "escolha"
+    ],
+    "body": [
+      "escolha ${1:valor}",
+      "\tcaso ${2:1}",
+      "\t\t$3",
+      "\tsenão",
+      "\t\t$0",
+      "fim"
+    ],
+    "description": "escolha … caso … fim"
+  },
+  "para de até": {
+    "prefix": [
+      "para"
+    ],
+    "body": [
+      "para ${1:i} de ${2:1} até ${3:10}",
+      "\t$0",
+      "fim"
+    ],
+    "description": "laço com contador"
+  },
+  "para cada": {
+    "prefix": [
+      "paracada",
+      "para cada"
+    ],
+    "body": [
+      "para cada ${1:item} em ${2:lista}",
+      "\t$0",
+      "fim"
+    ],
+    "description": "laço pelos itens de uma lista"
+  },
+  "enquanto": {
+    "prefix": [
+      "enquanto"
+    ],
+    "body": [
+      "enquanto ${1:condição}",
+      "\t$0",
+      "fim"
+    ],
+    "description": "enquanto … fim"
+  },
+  "repita": {
+    "prefix": [
+      "repita"
+    ],
+    "body": [
+      "repita ${1:3} vezes",
+      "\t$0",
+      "fim"
+    ],
+    "description": "repita … vezes"
+  },
+  "função": {
+    "prefix": [
+      "funcao",
+      "função"
+    ],
+    "body": [
+      "função ${1:nome}(${2:x})",
+      "\tdevolva ${0:x}",
+      "fim"
+    ],
+    "description": "função com bloco"
+  },
+  "função rápida": {
+    "prefix": [
+      "funcaorapida",
+      "função rápida"
+    ],
+    "body": [
+      "função ${1:nome}(${2:x}) = ${0:x * 2}"
+    ],
+    "description": "função de uma linha"
+  },
+  "tente": {
+    "prefix": [
+      "tente"
+    ],
+    "body": [
+      "tente",
+      "\t$0",
+      "falhou erro",
+      "\tmostre \"Não deu: {erro}\"",
+      "fim"
+    ],
+    "description": "tente … falhou … fim"
+  },
+  "teste": {
+    "prefix": [
+      "teste"
+    ],
+    "body": [
+      "teste \"${1:descrição}\"",
+      "\tconfira ${0:condição}",
+      "fim"
+    ],
+    "description": "teste embutido"
+  },
+  "tela": {
+    "prefix": [
+      "tela"
+    ],
+    "body": [
+      "tela \"${1:Meu app}\"",
+      "\ttítulo \"${2:$1}\"",
+      "\t$0",
+      "fim"
+    ],
+    "description": "tela de um site ou app"
+  },
+  "botão": {
+    "prefix": [
+      "botao",
+      "botão"
+    ],
+    "body": [
+      "botão \"${1:Texto}\"",
+      "\t$0",
+      "fim"
+    ],
+    "description": "botão com ação"
+  },
+  "página": {
+    "prefix": [
+      "pagina",
+      "página"
+    ],
+    "body": [
+      "página \"${1:Nome}\"",
+      "\t$0",
+      "fim"
+    ],
+    "description": "página de um app"
+  },
+  "cartão": {
+    "prefix": [
+      "cartao",
+      "cartão"
+    ],
+    "body": [
+      "cartão",
+      "\t$0",
+      "fim"
+    ],
+    "description": "caixa que agrupa elementos"
+  },
+  "linha": {
+    "prefix": [
+      "linha"
+    ],
+    "body": [
+      "linha",
+      "\t$0",
+      "fim"
+    ],
+    "description": "elementos lado a lado"
+  },
+  "campo": {
+    "prefix": [
+      "campo"
+    ],
+    "body": [
+      "campo \"${1:Rótulo}\" em ${0:variavel}"
+    ],
+    "description": "campo ligado a uma var"
+  },
+  "seletor": {
+    "prefix": [
+      "seletor"
+    ],
+    "body": [
+      "seletor \"${1:Rótulo}\" em ${2:variavel} de [${0:\"a\", \"b\"}]"
+    ],
+    "description": "lista de opções"
+  },
+  "gráfico": {
+    "prefix": [
+      "grafico",
+      "gráfico"
+    ],
+    "body": [
+      "gráfico \"${1:Título}\" de ${2:lista} por ${0:campo}"
+    ],
+    "description": "gráfico de barras"
+  },
+  "tabela": {
+    "prefix": [
+      "tabela"
+    ],
+    "body": [
+      "${1:dados} = tabela(\"${0:arquivo.csv}\")"
+    ],
+    "description": "lê uma planilha"
+  }
+}

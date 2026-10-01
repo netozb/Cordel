@@ -1,0 +1,9 @@
+use "regras"
+teste "com taxa"
+  confira com_taxa(100) == 105
+fim
+tente
+  mostre metade_de(3)
+falhou erro
+  mostre erro
+fim

@@ -1,0 +1,7 @@
+5
+[1, 2, 3] ["a", "á", "b"]
+função lista texto número lógico registro
+[1, 4, 9, 16, 25]
+bonono ["a", "b", "c"] 2
+verdadeiro verdadeiro 2
+falso verdadeiro -3 -4

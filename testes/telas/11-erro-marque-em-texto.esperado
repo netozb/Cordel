@@ -1,0 +1,3 @@
+== ao abrir
+[erro 3:18] `marque` guarda verdadeiro ou falso, mas aqui há um texto.
+[dica] Crie assim, antes da tela: var aceito = falso

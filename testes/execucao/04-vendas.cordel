@@ -1,0 +1,14 @@
+vendas = [
+  {loja: "Fortaleza", valor: 1250.90},
+  {loja: "Recife", valor: 980.00},
+  {loja: "Natal", valor: 2310.45},
+  {loja: "Fortaleza", valor: 450.10},
+]
+grandes = vendas.filtre(v => v.valor > 1000)
+mostre "Vendas acima de mil: {grandes.tamanho}"
+mostre "Total: {vendas.soma(v => v.valor).dinheiro}"
+mostre "Média: {vendas.média(v => v.valor).dinheiro}"
+lojas = vendas.transforme(v => v.loja).única.ordenada
+mostre "Lojas: {lojas.junte()}"
+maior = vendas.ordenada(v => v.valor).último
+mostre "Maior venda: {maior.loja} ({maior.valor.dinheiro})"

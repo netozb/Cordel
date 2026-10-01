@@ -1,0 +1,328 @@
+[
+  {
+    "nome": "contador",
+    "arquivo": "01-contador.cordel",
+    "passos": [
+      [
+        "toca",
+        0
+      ],
+      [
+        "toca",
+        0
+      ]
+    ],
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "campos e cálculo",
+    "arquivo": "02-campos-e-calculo.cordel",
+    "passos": [
+      [
+        "digita 1.299,90",
+        0,
+        "1.299,90"
+      ],
+      [
+        "escolhe 10×",
+        1,
+        "3"
+      ],
+      [
+        "marca juros",
+        2,
+        true
+      ],
+      [
+        "digita lixo",
+        0,
+        "abc"
+      ]
+    ],
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "tarefas com memória",
+    "arquivo": "03-tarefas-com-memoria.cordel",
+    "passos": [
+      [
+        "digita",
+        0,
+        "Conferir caixa"
+      ],
+      [
+        "adiciona",
+        1
+      ],
+      [
+        "digita",
+        0,
+        "Relatório"
+      ],
+      [
+        "adiciona",
+        1
+      ],
+      [
+        "marca a 1ª",
+        2,
+        true
+      ],
+      [
+        "salva",
+        4
+      ]
+    ],
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "tarefas: reabrindo o app (memória)",
+    "arquivo": "04-tarefas-reabrindo-o-app-memoria.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "componente (função que desenha)",
+    "arquivo": "05-componente-funcao-que-desenha.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "site simples",
+    "arquivo": "06-site-simples.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: fixo no campo",
+    "arquivo": "07-erro-fixo-no-campo.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: botão fora da tela",
+    "arquivo": "08-erro-botao-fora-da-tela.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: título fora",
+    "arquivo": "09-erro-titulo-fora.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: duas telas",
+    "arquivo": "10-erro-duas-telas.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: marque em texto",
+    "arquivo": "11-erro-marque-em-texto.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: cor",
+    "arquivo": "12-erro-cor.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro: pergunte em app",
+    "arquivo": "13-erro-pergunte-em-app.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "erro no botão não derruba o app",
+    "arquivo": "14-erro-no-botao-nao-derruba-o-app.cordel",
+    "passos": [
+      [
+        "erro",
+        0
+      ],
+      [
+        "continua funcionando",
+        1
+      ]
+    ],
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "laço infinito no botão",
+    "arquivo": "15-laco-infinito-no-botao.cordel",
+    "passos": [
+      [
+        "toca",
+        0
+      ]
+    ],
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "link inválido",
+    "arquivo": "16-link-invalido.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "variável linha continua funcionando",
+    "arquivo": "17-variavel-linha-continua-funcionando.cordel",
+    "memoria": "test3",
+    "maxPassos": 5000000
+  },
+  {
+    "nome": "páginas",
+    "arquivo": "18-paginas.cordel",
+    "passos": [
+      [
+        "toca Rack",
+        1
+      ],
+      [
+        "voltar da barra",
+        "voltar"
+      ],
+      [
+        "toca Sofá",
+        0
+      ],
+      [
+        "botão volte",
+        0
+      ],
+      [
+        "aba Sobre",
+        "ir",
+        "Sobre"
+      ],
+      [
+        "aba inexistente",
+        "ir",
+        "Nada"
+      ]
+    ]
+  },
+  {
+    "nome": "erro: vá para página inexistente",
+    "arquivo": "19-erro-va-para-pagina-inexistente.cordel",
+    "passos": [
+      [
+        "toca",
+        0
+      ]
+    ]
+  },
+  {
+    "nome": "erro: vá para durante o desenho",
+    "arquivo": "20-erro-va-para-durante-o-desenho.cordel"
+  },
+  {
+    "nome": "gráfico na tela",
+    "arquivo": "21-grafico-na-tela.cordel"
+  },
+  {
+    "nome": "campo de data e hora",
+    "arquivo": "22-campo-de-data-e-hora.cordel",
+    "passos": [
+      [
+        "muda a hora",
+        0,
+        "2026-09-03T21:45"
+      ],
+      [
+        "hora inválida",
+        0,
+        "amanhã cedo"
+      ],
+      [
+        "muda o dia",
+        1,
+        "2026-09-05"
+      ]
+    ],
+    "memoria": "hora"
+  },
+  {
+    "nome": "módulos: componentes de tela",
+    "arquivo": "23-modulos-componentes-de-tela.cordel",
+    "modulos": "basico"
+  },
+  {
+    "nome": "busque num app: o toque espera a resposta sem deixar rastro",
+    "arquivo": "24-busque-num-app-o-toque-espera-a-resposta-sem-dei.cordel",
+    "passos": [
+      [
+        "consulta um CNPJ que existe",
+        1
+      ],
+      [
+        "consulta de novo (resposta lembrada)",
+        1
+      ],
+      [
+        "digita um CNPJ que não existe",
+        0,
+        "00000000000000"
+      ],
+      [
+        "consulta e dá erro",
+        1
+      ]
+    ],
+    "memoria": "busque",
+    "rede": {
+      "https://api.exemplo.com/cnpj/11222333000181": {
+        "status": 200,
+        "tipo": "application/json; charset=utf-8",
+        "texto": "{\"cnpj\":\"11222333000181\",\"razao_social\":\"MÓVEIS MANDACARU LTDA\",\"nome-fantasia\":\"Mandacaru\",\"situacao\":\"ATIVA\",\"capital_social\":12345678901234.567890,\"qsa\":[{\"nome_socio\":\"ANA SILVA\"},{\"nome_socio\":\"JOÃO SOUZA\"}],\"observacao\":null,\"optante\":true,\"taxa\":1.5e-3,\"grande\":2E+3,\"Cnpj\":\"dup\"}"
+      },
+      "https://api.exemplo.com/cnpj/00000000000000": {
+        "status": 404,
+        "tipo": "application/json",
+        "texto": "{\"message\":\"não encontrado\"}"
+      },
+      "https://api.exemplo.com/falha": {
+        "status": 503,
+        "tipo": "text/plain",
+        "texto": "fora do ar"
+      },
+      "https://api.exemplo.com/ruim": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "{\"a\": 1,"
+      },
+      "https://api.exemplo.com/texto": {
+        "status": 200,
+        "tipo": "text/plain",
+        "texto": "Olá, mundo"
+      },
+      "https://api.exemplo.com/vendas.csv": {
+        "status": 200,
+        "tipo": "text/csv",
+        "texto": "Filial;Total\nCrato;1.500,50\nIguatu;980,00\n"
+      },
+      "https://api.exemplo.com/vendas.json": {
+        "status": 200,
+        "tipo": "application/json",
+        "texto": "[{\"filial\":\"Crato\",\"total\":1500.5},{\"filial\":\"Iguatu\",\"total\":980}]"
+      },
+      "https://api.exemplo.com/lento": {
+        "erro": "tempo",
+        "segundos": 15
+      },
+      "https://api.exemplo.com/lista": {
+        "status": 200,
+        "tipo": "",
+        "texto": "[1, 2.50, -3e2, \"x\", [true, false, null], {}]"
+      }
+    }
+  }
+]

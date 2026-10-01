@@ -1,0 +1,3 @@
+== ao abrir
+[erro 1:13] Programas com tela não usam `pergunte`.
+[dica] Use um campo: var nome = "" e, dentro da tela, campo "Seu nome" em nome

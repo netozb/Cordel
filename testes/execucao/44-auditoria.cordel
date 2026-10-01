@@ -1,0 +1,14 @@
+vendas = tabela("vendas_exemplo.csv")
+função calculado(v) = v.qtd * v.valor_unitário - v.desconto
+erradas = vendas.filtre(v => v.total != calculado(v))
+mostre "Totais que não batem: {erradas.tamanho}"
+descontos = vendas.filtre(v => v.desconto > v.qtd * v.valor_unitário * 0.15)
+mostre "Descontos acima de 15%: {descontos.tamanho}"
+dup = vendas.agrupe(v => v.nota).filtre(g => g.quantidade > 1)
+mostre "Notas repetidas: {dup.transforme(g => g.chave)}"
+por_filial = vendas.agrupe(v => v.filial).transforme(g => {filial: g.chave, notas: g.quantidade, total: g.itens.soma(v => v.total)})
+mostre por_filial.ordenada(f => f.total).invertida
+salve("resumo.csv", por_filial)
+salve("resumo.xlsx", por_filial)
+salve("notas.txt", erradas.transforme(v => v.nota))
+salve("dados.json", por_filial.pegue(1))

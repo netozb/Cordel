@@ -1,0 +1,11 @@
+# Este programa tem dois erros de propósito.
+# Rode, leia a mensagem, corrija e rode de novo.
+preço = 50
+quantidade = 3
+total = preço * quantidade
+
+se total = 150
+  mostre "Conta certa"
+fim
+
+mostre "Média por item: {total / quantidadee}"

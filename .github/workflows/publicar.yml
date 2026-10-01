@@ -1,0 +1,190 @@
+name: Publicar
+
+# Roda quando uma etiqueta de versão (v0.6.0, v0.7.0…) chega ao GitHub. Veja PUBLICAR.md.
+#
+# Cada destino só é usado se estiver configurado nas variáveis do repositório
+# (Settings › Secrets and variables › Actions › Variables):
+#   PUBLICAR_NPM=sim           publica no npm (publicação confiável, sem token; ou com o segredo NPM_TOKEN)
+#   PUBLICAR_MARKETPLACE=sim   publica no Visual Studio Marketplace (Microsoft Entra ID; ou com o segredo VSCE_PAT)
+#   PUBLICAR_OPENVSX=sim       publica no Open VSX (segredo OVSX_PAT)
+#   PUBLICAR_SITE=sim          põe o editor no ar pelo GitHub Pages
+# A versão no GitHub (Releases), com o .zip, o .vsix, o .tgz e o editor, é criada sempre.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  conferir:
+    name: Conferir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            editores/vscode/package-lock.json
+      - name: A etiqueta bate com a versão
+        run: |
+          versao="v$(node -p "require('./package.json').version")"
+          if [ "$versao" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::A etiqueta é $GITHUB_REF_NAME, mas package.json diz $versao. Use npm run versao antes de criar a etiqueta."
+            exit 1
+          fi
+      - run: |
+          npm ci
+          npm ci --prefix editores/vscode
+      - run: npm run checar
+      - run: npm test
+      - run: npm run testar:extensao
+      - run: npx playwright install --with-deps chromium
+      - run: npm run pacote
+      - run: npm run testar:navegador
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+  github:
+    name: Versão no GitHub
+    needs: conferir
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Criar a versão com os arquivos
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          previa=""
+          case "$GITHUB_REF_NAME" in *-*) previa="--prerelease";; esac
+          gh release create "$GITHUB_REF_NAME" --title "Cordel ${GITHUB_REF_NAME#v}" --notes-file dist/notas-${GITHUB_REF_NAME#v}.md $previa \
+            dist/*.zip dist/*.vsix dist/*.tgz dist/cordel.html dist/SHA256SUMS.txt
+
+  npm:
+    name: npm
+    needs: conferir
+    if: vars.PUBLICAR_NPM == 'sim'
+    runs-on: ubuntu-latest
+    environment: publicacao
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: npm com publicação confiável
+        run: npm install -g npm@latest
+      - name: Publicar
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          etiqueta=latest
+          case "$GITHUB_REF_NAME" in *-*) etiqueta=proxima;; esac
+          npm publish dist/cordel-${GITHUB_REF_NAME#v}.tgz --access public --tag $etiqueta
+
+  marketplace:
+    name: Visual Studio Marketplace
+    needs: conferir
+    # o Marketplace e o Open VSX não aceitam versões como 0.7.0-beta.1: essas vão só para o GitHub e o npm
+    if: vars.PUBLICAR_MARKETPLACE == 'sim' && !contains(github.ref_name, '-')
+    runs-on: ubuntu-latest
+    environment: publicacao
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Entrar no Microsoft Entra ID
+        if: vars.AZURE_CLIENT_ID != ''
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+      - name: Publicar
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          COM_ENTRA: ${{ vars.AZURE_CLIENT_ID != '' }}
+        run: |
+          vsix="dist/cordel-${GITHUB_REF_NAME#v}.vsix"
+          if [ "$COM_ENTRA" = "true" ]; then
+            npx --yes @vscode/vsce@3 publish --packagePath "$vsix" --azure-credential
+          else
+            npx --yes @vscode/vsce@3 publish --packagePath "$vsix"
+          fi
+
+  openvsx:
+    name: Open VSX
+    needs: conferir
+    if: vars.PUBLICAR_OPENVSX == 'sim' && !contains(github.ref_name, '-')
+    runs-on: ubuntu-latest
+    environment: publicacao
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Publicar
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: npx --yes ovsx publish "dist/cordel-${GITHUB_REF_NAME#v}.vsix" -p "$OVSX_PAT"
+
+  site:
+    name: Editor no GitHub Pages
+    needs: conferir
+    if: vars.PUBLICAR_SITE == 'sim' && !contains(github.ref_name, '-')
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Montar o site
+        run: |
+          mkdir -p site
+          cp dist/cordel.html site/index.html
+          cp dist/*.zip site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: pages
+        uses: actions/deploy-pages@v4

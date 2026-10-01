@@ -1,0 +1,22 @@
+var tarefas = guardado("tarefas", [])
+var nova = ""
+tela "Tarefas"
+  linha
+    campo "Nova tarefa" em nova
+    botão "Adicionar"
+      se nova.aparado != ""
+        tarefas.adicione({texto: nova.aparado, feita: falso})
+        guarde("tarefas", tarefas)
+        nova = ""
+      fim
+    fim
+  fim
+  para i de 1 até tarefas.tamanho
+    marque tarefas[i].texto em tarefas[i].feita
+  fim
+  mostre "{tarefas.conte(t => t.feita)} de {tarefas.tamanho} feitas"
+  botão "Salvar"
+    guarde("tarefas", tarefas)
+    mostre "salvo"
+  fim
+fim

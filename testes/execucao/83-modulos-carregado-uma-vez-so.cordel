@@ -1,0 +1,3 @@
+use "sorteio"
+use "sorteio" como s
+mostre sorteio == s.sorteio

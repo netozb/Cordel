@@ -1,0 +1,30 @@
+# Simula parcelas com ou sem juros (tabela Price)
+var preço = 1999.90
+var parcelas = 10
+var com_juros = falso
+var taxa = 1.99
+
+tela "Simulador de parcelas"
+  cor "anil"
+  campo "Preço à vista (R$)" em preço
+  seletor "Parcelas" em parcelas de [1, 2, 3, 4, 5, 6, 8, 10, 12]
+  marque "Cobrar juros" em com_juros
+  se com_juros
+    campo "Juros ao mês (%)" em taxa
+  fim
+
+  var total = preço
+  se com_juros e parcelas > 1
+    i = taxa / 100
+    parcela = preço * i / (1 - (1 + i) ^ -parcelas)
+    total = parcela * parcelas
+  fim
+
+  cartão
+    subtítulo "{parcelas}× de {(total / parcelas).dinheiro}"
+    mostre "Total: {total.dinheiro}"
+    se total > preço
+      mostre "Juros: {(total - preço).dinheiro}"
+    fim
+  fim
+fim

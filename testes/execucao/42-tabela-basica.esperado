@@ -1,0 +1,8 @@
+42 linhas
+{Nota: "004180", Data: 01/09/2026, Filial: "Iguatu", Vendedor: "Carla", Produto: "Sofá 3 lugares", Qtd: 1, Valor_Unitário: 2499.9, Desconto: 249.99, Total: 2249.91}
+Smart TV 50"
+texto número número
+[tabela 3 de 3] Nota | Data | Filial | Vendedor | Produto | Qtd | Valor_Unitário | Desconto | Total
+  004180 | 01/09/2026 | Iguatu | Carla | Sofá 3 lugares | 1 | 2499.9 | 249.99 | 2249.91
+  004181 | 01/09/2026 | Crato | Bruna | Sofá 3 lugares | 2 | 2499.9 | 249.99 | 4749.81
+  004182 | 02/09/2026 | Crato | Bruna | Smart TV 50" | 1 | 2599.9 | 0 | 2599.9

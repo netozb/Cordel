@@ -1,0 +1,25 @@
+# Monta uma sextilha: versos livres
+# alternados com versos que rimam
+livres = [
+  "No sertão onde eu nasci",
+  "Quando o sol queima o lajedo",
+  "Na feira de Juazeiro",
+  "Lá na beira do riacho",
+  "De viola no terreiro",
+]
+rimas = [
+  "o mandacaru floresce",
+  "a chuva enfim aparece",
+  "o vaqueiro não esquece",
+  "todo o sertão reverdece",
+  "o povo nunca esmorece",
+]
+
+função embaralhe(lista) = lista.ordenada(x => aleatório(1, 1000000))
+
+a = embaralhe(livres)
+b = embaralhe(rimas)
+para i de 1 até 3
+  mostre a[i]
+  mostre b[i]
+fim

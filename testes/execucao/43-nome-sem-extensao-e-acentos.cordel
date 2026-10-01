@@ -1,0 +1,2 @@
+v = tabela("VENDAS_EXEMPLO")
+mostre v.primeiro.valor_unitário, v.primeiro.valor_unitario

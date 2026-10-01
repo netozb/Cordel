@@ -1,0 +1,59 @@
+# Um app com abas, páginas e favoritos guardados no aparelho
+produtos = [
+  {nome: "Sofá retrátil", categoria: "Sala", preço: 2499.90},
+  {nome: "Rack com painel", categoria: "Sala", preço: 899},
+  {nome: "Guarda-roupa 6 portas", categoria: "Quarto", preço: 1349.90},
+  {nome: "Cama box casal", categoria: "Quarto", preço: 1799},
+]
+var escolhido = produtos[1]
+var favoritos = guardado("favoritos", [])
+
+função cartão_do_produto(p)
+  cartão
+    subtítulo p.nome
+    mostre "{p.categoria} · {p.preço.dinheiro}"
+    botão "Ver detalhes"
+      escolhido = p
+      vá para "Detalhes"
+    fim
+  fim
+fim
+
+tela "Móveis Mandacaru"
+  cor "urucum"
+  guarde("favoritos", favoritos)
+  abas
+
+  página "Catálogo"
+    para cada p em produtos
+      cartão_do_produto(p)
+    fim
+  fim
+
+  página "Detalhes"
+    título escolhido.nome
+    mostre escolhido.preço.dinheiro
+    mostre "ou 10× de {(escolhido.preço / 10).dinheiro} sem juros"
+    se favoritos.contém(escolhido.nome)
+      botão "Tirar dos favoritos"
+        favoritos.remova(escolhido.nome)
+      fim
+    senão
+      botão "Favoritar"
+        favoritos.adicione(escolhido.nome)
+      fim
+    fim
+    botão "Voltar"
+      volte
+    fim
+  fim
+
+  página "Favoritos"
+    se favoritos.vazia
+      mostre "Nenhum favorito ainda."
+    fim
+    para cada nome em favoritos
+      mostre "★ {nome}"
+    fim
+  fim
+fim

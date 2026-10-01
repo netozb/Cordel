@@ -1,0 +1,40 @@
+# Auditoria de uma planilha de vendas.
+# Usa o arquivo de exemplo; adicione o seu em Arquivos
+# e troque o nome abaixo. As regras ficam no módulo "regras".
+use "regras"
+
+vendas = tabela("vendas_exemplo.csv")
+mostre "Notas na planilha: {vendas.tamanho}"
+
+# 1. O total de cada nota bate com a conta?
+erradas = vendas.filtre(v => v.total != calculado(v))
+
+# 2. Descontos acima do limite
+altos = vendas.filtre(desconto_alto)
+
+# 3. Número de nota repetido
+repetidas = vendas.agrupe(v => v.nota).filtre(g => g.quantidade > 1)
+
+var achados = []
+para cada v em erradas
+  achados.adicione({nota: v.nota, filial: v.filial, achado: "total difere em {(v.total - calculado(v)).dinheiro}"})
+fim
+para cada v em altos
+  achados.adicione({nota: v.nota, filial: v.filial, achado: "desconto de {pct_desconto(v).arredondado(1)}%"})
+fim
+para cada g em repetidas
+  achados.adicione({nota: g.chave, filial: g.itens.primeiro.filial, achado: "nota lançada {g.quantidade} vezes"})
+fim
+
+mostre "Achados: {achados.tamanho}"
+mostre achados
+
+# Resumo por filial
+resumo = vendas.agrupe(v => v.filial).transforme(g => {
+  filial: g.chave,
+  notas: g.quantidade,
+  total: g.itens.soma(v => v.total),
+})
+mostre resumo.ordenada(f => f.total).invertida
+
+salve("achados.xlsx", achados)

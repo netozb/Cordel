@@ -1,0 +1,2 @@
+nome = pergunte("Qual é o seu nome?")
+mostre "Olá, {nome}! Bem-vindo ao Cordel."

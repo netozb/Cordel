@@ -1,0 +1,18 @@
+[33.34, 33.33, 33.33]
+100
+[-33.34, -33.33, -33.33]
+[666.64, 666.63, 666.63]
+[600, 200, 200]
+[434.04, 271.28, 144.68]
+[4, 3, 3]
+[50.01, 50]
+[0.01, 0, 0]
+[0, 100]
+[7]
+[0.1667, 0.1666]
+O número de partes do `reparta` precisa ser pelo menos 1.
+A lista de pesos do `reparta` está vazia.
+Os pesos do `reparta` não podem ser negativos.
+A soma dos pesos do `reparta` é zero.
+`reparta` recebe o número de partes ou uma lista de pesos, mas recebeu um texto.
+O número de casas do `reparta` vai de 0 a 10.

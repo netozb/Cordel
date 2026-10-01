@@ -1,0 +1,4 @@
+var faca = 3
+enquanto faca < 5 faca
+faca += 1
+fim

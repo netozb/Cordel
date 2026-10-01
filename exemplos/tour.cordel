@@ -1,0 +1,23 @@
+# Bem-vindo ao Cordel. Toque em Rodar (ou Ctrl+Enter).
+nome = "Maria"
+mostre "Olá, {nome}!"
+
+# Contas exatas: nada de 0.30000000000000004
+mostre 0.1 + 0.2
+
+# Listas e funções rápidas
+notas = [7.5, 9, 6, 10]
+mostre "Média: {notas.média}"
+mostre "Aprovadas: {notas.filtre(n => n >= 7)}"
+
+# Decisões
+se notas.maior == 10
+  mostre "Teve nota máxima!"
+fim
+
+# Repetição
+para i de 1 até 3
+  mostre "Volta {i}"
+fim
+
+# No menu Exemplo há apps e sites feitos em Cordel.

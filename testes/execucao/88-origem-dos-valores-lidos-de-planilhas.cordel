@@ -1,0 +1,18 @@
+vendas = tabela("vendas_exemplo.csv")
+mostre vendas[1].total.origem
+mostre vendas[3].data.origem
+mostre vendas[3].origem
+total = vendas.soma(v => v.total)
+mostre total.origem
+mostre (total - vendas[1].total).origem
+mostre vendas.filtre(v => v.filial == "Sobral").soma(v => v.desconto).origem
+mostre vendas.tamanho.origem
+mostre vendas.conte(v => v.total > 5000).origem
+mostre vendas.média(v => v.qtd).origem
+mostre vendas.transforme(v => v.total).maior.origem
+mostre 42.origem, "texto".tamanho.origem, [1, 2].soma.origem
+mostre (vendas[2].total * 2).arredondado(1).origem
+mostre vendas[2].data.mais_meses(1).origem
+mostre (vendas[5].data - vendas[2].data).origem
+mostre vendas.filtre(v => v.nota == "004215").linhas_de_origem.transforme(v => v.filial)
+mostre vendas.filtre(v => v.desconto > 500).soma(v => v.desconto).linhas_de_origem.transforme(v => v.nota)

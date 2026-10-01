@@ -1,0 +1,1718 @@
+<title>Linguagem Cordel</title>
+<script>document.documentElement.lang = 'pt-BR';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+:root {
+  --topo: #14161B;
+  --topo-ink: #E9EBEF;
+  --topo-muted: #9CA3B0;
+  --marca: #E8C23A;
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --surface-2: #F1F3F6;
+  --ink: #15171C;
+  --muted: #5A616E;
+  --line: #DCE0E6;
+  --line-2: #C9CED6;
+  --accent: #2B3A92;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E7EAF7;
+  --kw: #A3321A;
+  --ctx: #B25530;
+  --str: #2F6B2A;
+  --num: #2B3A92;
+  --fn: #7A4A00;
+  --com: #7A808C;
+  --err: #B42318;
+  --err-soft: #FDECEA;
+  --err-band: rgba(180, 35, 24, 0.09);
+  --warn: #8A5A00;
+  --warn-soft: #FDF3DC;
+  --ok: #1F7A37;
+  --ok-soft: #E3F3E7;
+  --display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --code-size: 14.5px;
+  --lh: 23px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --topo: #0B0C0F;
+    --topo-ink: #E9EBEF;
+    --topo-muted: #8E96A3;
+    --marca: #E8C23A;
+    --bg: #0F1114;
+    --surface: #171A1F;
+    --surface-2: #1D2127;
+    --ink: #E6E8EC;
+    --muted: #99A1AE;
+    --line: #2A2F37;
+    --line-2: #3A404A;
+    --accent: #9AA6FF;
+    --accent-ink: #10132A;
+    --accent-soft: #232845;
+    --kw: #FF9B78;
+    --ctx: #F2B08F;
+    --str: #9FD48A;
+    --num: #A8B1FF;
+    --fn: #E9C46C;
+    --com: #8A919D;
+    --err: #FF8A80;
+    --err-soft: #3A1E1C;
+    --err-band: rgba(255, 138, 128, 0.13);
+    --warn: #E8B949;
+    --warn-soft: #33290F;
+    --ok: #7FD394;
+    --ok-soft: #16301F;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --topo: #0B0C0F;
+  --topo-ink: #E9EBEF;
+  --topo-muted: #8E96A3;
+  --marca: #E8C23A;
+  --bg: #0F1114;
+  --surface: #171A1F;
+  --surface-2: #1D2127;
+  --ink: #E6E8EC;
+  --muted: #99A1AE;
+  --line: #2A2F37;
+  --line-2: #3A404A;
+  --accent: #9AA6FF;
+  --accent-ink: #10132A;
+  --accent-soft: #232845;
+  --kw: #FF9B78;
+  --ctx: #F2B08F;
+  --str: #9FD48A;
+  --num: #A8B1FF;
+  --fn: #E9C46C;
+  --com: #8A919D;
+  --err: #FF8A80;
+  --err-soft: #3A1E1C;
+  --err-band: rgba(255, 138, 128, 0.13);
+  --warn: #E8B949;
+  --warn-soft: #33290F;
+  --ok: #7FD394;
+  --ok-soft: #16301F;
+}
+@media (max-width: 700px) { :root { --code-size: 16px; --lh: 24px; } }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; }
+button, select, input, textarea { font: inherit; color: inherit; }
+code { font-family: var(--mono); font-size: 0.92em; background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px; padding: 0 0.3em; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── barra superior ── */
+.topo { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--topo); color: var(--topo-ink); border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.topo-in { max-width: 1320px; margin: 0 auto; padding: 0 16px; min-height: 52px; display: flex; align-items: center; gap: 8px 18px; flex-wrap: wrap; }
+.marca { display: flex; align-items: center; gap: 10px; margin-right: auto; padding: 8px 0; }
+.marca svg { width: 26px; height: 26px; flex: none; color: var(--marca); }
+.marca-nome { font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+.marca-ver { font-family: var(--mono); font-size: 11.5px; color: var(--topo-muted); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 4px; padding: 1px 6px; }
+.abas { display: flex; gap: 2px; align-self: stretch; }
+.aba { border: 0; background: transparent; color: var(--topo-muted); font-weight: 500; font-size: 14px; padding: 0 12px; min-height: 44px; border-bottom: 2px solid transparent; cursor: pointer; }
+.aba:hover { color: var(--topo-ink); }
+.aba[aria-selected="true"] { color: var(--topo-ink); border-bottom-color: var(--marca); }
+@media (max-width: 700px) {
+  .topo { position: static; }
+  .topo-in { flex-wrap: nowrap; gap: 8px; min-height: 48px; }
+  .marca { gap: 8px; }
+  .marca-ver { display: none; }
+  .aba { padding: 0 8px; font-size: 14px; }
+}
+
+main { max-width: 1320px; margin: 0 auto; padding: 18px 16px 48px; }
+
+/* ── editor view ── */
+.barra { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.barra label { font-size: 14px; color: var(--muted); }
+.sel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0; max-width: 100%; }
+.dica-teclas { font-size: 13px; color: var(--muted); margin-left: auto; }
+@media (max-width: 700px), (pointer: coarse) { .dica-teclas { display: none; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; border: 1px solid var(--line-2); background: var(--surface); border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap; }
+.btn:hover { background: var(--surface-2); }
+.btn svg { width: 14px; height: 14px; flex: none; }
+.btn-rodar { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); padding: 6px 16px; }
+.btn-rodar:hover { background: var(--accent); filter: brightness(1.1); }
+.btn-rodar svg { width: 12px; height: 12px; }
+.btn-rodar.parando { background: var(--err); border-color: var(--err); color: var(--surface); }
+
+.oficina { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 900px) { .oficina { grid-template-columns: minmax(0, 1fr); } }
+.painel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.painel-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.painel-topo strong { color: var(--ink); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.editor { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); height: clamp(300px, 58vh, 620px); font-family: var(--mono); font-size: var(--code-size); line-height: var(--lh); }
+.gutter { overflow: hidden; background: var(--surface-2); border-right: 1px solid var(--line); color: var(--com); text-align: right; user-select: none; -webkit-user-select: none; }
+.gutter pre { margin: 0; padding: 12px 10px 12px 12px; font: inherit; line-height: inherit; will-change: transform; }
+.area { position: relative; overflow: hidden; }
+.area pre, .area textarea { position: absolute; inset: 0; margin: 0; border: 0; padding: 12px 16px 48px 12px; font: inherit; line-height: inherit; white-space: pre; tab-size: 2; letter-spacing: 0; word-spacing: 0; }
+.area pre { overflow: hidden; pointer-events: none; color: var(--ink); }
+.area pre code { display: block; font: inherit; background: none; border: 0; padding: 0; will-change: transform; }
+.area textarea { width: 100%; height: 100%; resize: none; overflow: auto; background: transparent; color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--ink); outline: none; }
+.area textarea::selection { background: var(--accent-soft); -webkit-text-fill-color: transparent; }
+.errband { position: absolute; left: 0; right: 0; top: 0; height: var(--lh); background: var(--err-band); pointer-events: none; will-change: transform; }
+.passoband { position: absolute; left: 0; right: 0; top: 0; height: var(--lh); background: color-mix(in srgb, var(--accent) 16%, transparent); box-shadow: inset 3px 0 0 var(--accent); pointer-events: none; will-change: transform; }
+
+.t-kw { color: var(--kw); font-weight: 600; }
+.t-ctx { color: var(--ctx); }
+.t-str { color: var(--str); }
+.t-int { color: var(--kw); font-weight: 600; }
+.t-num { color: var(--num); }
+.t-fn { color: var(--fn); }
+.t-com { color: var(--com); font-style: italic; }
+
+.simbolos { display: flex; gap: 6px; overflow-x: auto; padding: 8px 10px; border-top: 1px solid var(--line); background: var(--surface-2); scrollbar-width: thin; }
+.simbolos button { flex: none; min-width: 40px; height: 38px; padding: 0 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; font-family: var(--mono); font-size: 15px; cursor: pointer; touch-action: manipulation; }
+.simbolos button.palavra { color: var(--kw); font-weight: 600; }
+.simbolos .sep { flex: none; width: 1px; background: var(--line); margin: 4px 2px; }
+
+/* ── barra do editor ── */
+.barra { justify-content: space-between; }
+.grupo-prog, .grupo-acoes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.grupo-prog { flex: 1 1 280px; }
+.rot-prog { font-size: 13px; color: var(--muted); font-weight: 500; }
+.sel-prog { flex: 1 1 200px; max-width: 360px; min-height: 36px; font-weight: 500; }
+.btn-icone { padding: 6px 10px; }
+.menu { position: relative; }
+.menu > summary { list-style: none; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu-corpo { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; width: min(300px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line-2); border-radius: 8px; box-shadow: 0 10px 30px rgba(15, 17, 20, 0.16); padding: 10px; display: flex; flex-direction: column; gap: 2px; }
+@media (max-width: 560px) { .menu-corpo { left: auto; right: 0; } }
+.menu-rot { font-size: 12px; color: var(--muted); font-weight: 600; }
+.menu-linha { display: flex; gap: 6px; margin: 4px 0 8px; }
+.menu-linha input { flex: 1; min-width: 0; font-size: 15px; padding: 6px 8px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--surface-2); }
+.menu-item { text-align: left; border: 0; background: none; padding: 8px 8px; border-radius: 6px; font-size: 14px; cursor: pointer; color: var(--ink); }
+.menu-item:hover { background: var(--surface-2); }
+.menu-item.perigo { color: var(--err); }
+.menu-item.perigo.confirmar { background: var(--err-soft); font-weight: 600; }
+.prog-titulo { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.status { display: flex; align-items: center; gap: 12px; white-space: nowrap; padding: 5px 12px; border-top: 1px solid var(--line); background: var(--surface-2); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-height: 30px; }
+.st-prob { display: inline-flex; gap: 10px; border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; }
+.st-e::before, .st-a::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+.st-e::before { background: var(--err); }
+.st-a::before { background: var(--warn); }
+.status > * { flex: none; }
+.st-msg { flex: 1 1 auto; color: var(--ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+@media (max-width: 560px) { .st-salvo { display: none; } }
+.st-salvo { margin-left: auto; white-space: nowrap; }
+.topo-saida { padding-top: 0; padding-bottom: 0; }
+.tabs-saida { display: flex; gap: 4px; align-self: stretch; }
+.tab-s { border: 0; background: none; font: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 10px 6px 8px; border-bottom: 2px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.tab-s[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.cont { font-size: 11px; letter-spacing: 0; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; font-variant-numeric: tabular-nums; }
+.cont.com-erro { background: var(--err-soft); color: var(--err); border-color: transparent; }
+.cont.com-aviso { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.problemas { flex: 1; min-height: 220px; max-height: clamp(300px, 58vh, 620px); overflow: auto; padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+@media (max-width: 900px) { .problemas { max-height: none; min-height: 120px; } }
+.prob { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 2px 8px; text-align: left; border: 0; background: none; padding: 8px; border-radius: 6px; cursor: pointer; font: inherit; font-size: 14px; color: var(--ink); }
+.prob:hover { background: var(--surface-2); }
+.prob-ic { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; }
+.prob.erro .prob-ic { background: var(--err); }
+.prob.aviso .prob-ic { background: var(--warn); }
+.prob-lin { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.prob-dica { grid-column: 2 / 4; font-size: 13px; color: var(--muted); }
+.prob-vazio { padding: 16px 10px; color: var(--muted); font-size: 14px; }
+.gutter .gl.e { color: var(--err); font-weight: 600; box-shadow: inset 2px 0 0 var(--err); }
+.gutter .gl.a { color: var(--warn); font-weight: 600; box-shadow: inset 2px 0 0 var(--warn); }
+.gutter pre { padding-left: 12px; }
+.gl { display: inline-block; min-width: 100%; padding-left: 8px; margin-left: -8px; }
+
+@media (max-width: 560px) {
+  .rot-prog { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .grupo-acoes { width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .grupo-acoes .btn { flex: none; }
+  .grupo-acoes .btn-rodar { order: -1; }
+  .arq-info { display: none; }
+  .arquivos { padding: 8px 10px; gap: 6px; }
+}
+
+/* ── arquivos ── */
+.arquivos { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; margin-bottom: 12px; background: var(--surface); border: 1.5px dashed var(--line); border-radius: 10px; transition: background-color .15s, border-color .15s; }
+.arquivos.sobre { border-color: var(--accent); background: var(--accent-soft); }
+.arquivos-titulo { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-right: 2px; }
+.arq { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); max-width: 100%; }
+.arq-usar { border: 0; background: none; padding: 5px 6px 5px 12px; cursor: pointer; display: inline-flex; align-items: baseline; gap: 8px; min-width: 0; text-align: left; }
+.arq-nome { font-family: var(--mono); font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 22ch; }
+.arq-info { color: var(--muted); font-size: 12.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.arq-tirar { border: 0; background: none; padding: 4px 10px 4px 2px; cursor: pointer; color: var(--muted); font-size: 18px; line-height: 1; }
+.arq-tirar:hover { color: var(--err); }
+.arq-add { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--accent); color: var(--accent); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.arq-add:hover { background: var(--accent-soft); }
+.arquivos-nota { font-size: 12.5px; color: var(--muted); margin-left: auto; }
+.arquivos-erro { width: 100%; color: var(--err); font-size: 14px; font-weight: 700; }
+.arquivos-erro:empty { display: none; }
+
+/* ── console ── */
+.console { flex: 1; min-height: 220px; max-height: clamp(300px, 58vh, 620px); overflow: auto; padding: 12px 14px 16px; font-family: var(--mono); font-size: 14px; line-height: 1.6; display: flex; flex-direction: column; gap: 2px; }
+@media (max-width: 900px) { .console { max-height: none; min-height: 160px; } }
+.c-out { white-space: pre-wrap; overflow-wrap: anywhere; }
+.c-ask { color: var(--accent); white-space: pre-wrap; }
+.c-ask::before { content: "? "; font-weight: 600; }
+.c-ans { color: var(--muted); white-space: pre-wrap; }
+.c-ans::before { content: "› "; }
+.c-vazio { color: var(--muted); font-family: var(--body); font-size: 14px; }
+.c-perg { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.c-perg label { width: 100%; color: var(--accent); font-weight: 600; }
+.c-perg input { flex: 1; min-width: 0; font-family: var(--mono); font-size: 16px; padding: 8px 10px; border: 1.5px solid var(--accent); border-radius: 8px; background: var(--surface); }
+.c-perg .btn { padding: 8px 14px; }
+
+.c-err { margin-top: 8px; background: var(--err-soft); border: 1px solid color-mix(in srgb, var(--err) 35%, transparent); border-radius: 8px; padding: 12px 14px; font-family: var(--body); font-size: 15px; display: flex; flex-direction: column; gap: 8px; }
+.c-err-topo { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.c-err-topo strong { color: var(--err); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.c-err-ir { border: 0; background: none; padding: 0; color: var(--err); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.c-err-msg { margin: 0; font-weight: 700; }
+.c-err-src { margin: 0; font-family: var(--mono); font-size: 13.5px; line-height: 1.5; background: var(--surface); border-radius: 6px; padding: 8px 10px; overflow-x: auto; white-space: pre; }
+.c-err-src .ln { color: var(--com); margin-right: 10px; user-select: none; }
+.c-err-src .caret { color: var(--err); font-weight: 700; }
+.c-err-dica { margin: 0; }
+.c-err-dica b { color: var(--err); margin-right: 6px; }
+
+.c-tab { margin: 4px 0 2px; border: 1px solid var(--line); border-radius: 8px; overflow: auto; max-height: 340px; flex: none; }
+.c-tab table { border-collapse: collapse; width: max-content; min-width: 100%; font-family: var(--body); font-size: 14px; }
+.c-tab th { position: sticky; top: 0; background: var(--surface-2); text-align: left; font-weight: 700; padding: 6px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.c-tab td { padding: 5px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; max-width: 36ch; overflow: hidden; text-overflow: ellipsis; }
+.c-tab tr:last-child td { border-bottom: 0; }
+.c-tab .n { text-align: right; font-family: var(--mono); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.c-tab .b { color: var(--num); }
+.c-tab-nota { font-family: var(--body); font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+/* origem: de onde veio um número ou uma linha */
+.c-orig { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; border-bottom: 1.5px dotted var(--accent); border-radius: 0; text-align: inherit; }
+.c-orig:hover, .c-orig[aria-expanded=true] { background: var(--accent-soft); }
+.c-orig:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.c-tab tr.c-tr-orig { cursor: pointer; }
+.c-tab tr.c-tr-orig:hover td, .c-tab tr.c-tr-orig:focus-visible td { background: var(--accent-soft); }
+.c-tab tr.c-tr-orig:focus-visible { outline: none; }
+.c-tab tr.sel td { background: var(--accent-soft); box-shadow: inset 0 -1px 0 var(--accent); }
+.c-orig-painel { margin: 4px 0 8px; border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-left: 3px solid var(--accent); border-radius: 8px; background: var(--surface); padding: 10px 12px 4px; font-family: var(--body); font-size: 14px; display: flex; flex-direction: column; gap: 6px; flex: none; }
+.c-orig-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.c-orig-topo strong { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.c-orig-fechar { border: 0; background: none; font-size: 20px; line-height: 1; padding: 2px 6px; cursor: pointer; color: var(--muted); border-radius: 6px; }
+.c-orig-fechar:hover { color: var(--ink); background: var(--surface-2); }
+.c-orig-texto { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.c-orig-painel .c-tab { max-height: 260px; }
+.c-arq { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; margin: 4px 0; padding: 8px 10px 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); font-family: var(--body); font-size: 14px; }
+.c-arq-nome { font-family: var(--mono); font-weight: 600; overflow-wrap: anywhere; }
+.c-arq-info { color: var(--muted); }
+.c-arq-acoes { margin-left: auto; display: flex; gap: 6px; }
+.c-arq .btn { padding: 4px 12px; font-size: 13.5px; }
+body:not(.pode-baixar) .so-baixar { display: none; }
+.c-testes { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; font-family: var(--body); font-size: 15px; }
+.c-testes-topo { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+.c-testes-topo strong { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.pilula { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.pilula.ok { background: var(--ok-soft); color: var(--ok); }
+.pilula.mal { background: var(--err-soft); color: var(--err); }
+.c-testes ul { list-style: none; margin: 0; padding: 6px 12px 10px; display: flex; flex-direction: column; gap: 6px; }
+.c-testes li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 4px; }
+.c-testes .marca-t { font-weight: 700; }
+.c-testes li.ok .marca-t { color: var(--ok); }
+.c-testes li.mal .marca-t { color: var(--err); }
+.c-testes .porque { grid-column: 2; font-family: var(--mono); font-size: 13px; color: var(--err); overflow-wrap: anywhere; }
+
+.estado { font-variant-numeric: tabular-nums; }
+.estado.erro { color: var(--err); font-weight: 700; }
+.estado.ok { color: var(--ok); font-weight: 700; }
+
+/* ── guia ── */
+.guia { max-width: 1040px; margin: 0 auto; }
+.abertura { max-width: 44em; margin-bottom: 36px; }
+.abertura h1 { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 4.4vw, 38px); line-height: 1.15; margin: 8px 0 14px; text-wrap: balance; letter-spacing: -0.02em; }
+.abertura p { font-size: 17px; margin: 0; color: var(--ink); }
+.rotulo { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.principios { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; margin: 0 0 16px; border-top: 2px solid var(--ink); }
+@media (max-width: 700px) { .principios { grid-template-columns: minmax(0, 1fr); } }
+.principio { padding: 14px 0 16px; border-bottom: 1px solid var(--line); }
+.principio dt { font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.principio dd { margin: 0; color: var(--muted); }
+.principio dd code { color: var(--ink); }
+.nota-honesta { font-size: 15px; color: var(--muted); max-width: 44em; margin: 16px 0 48px; }
+
+.secao { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 32px 0; border-top: 1px solid var(--line); }
+.secao h2 { font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; margin: 0; }
+.secao > div > p { margin: 0; max-width: 44em; }
+.par { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 800px) { .par { grid-template-columns: minmax(0, 1fr); } }
+.bloco { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.bloco-topo { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px 6px 12px; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.bloco-topo button { text-transform: none; letter-spacing: 0; font-size: 13px; border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-weight: 700; color: var(--accent); }
+.bloco pre { margin: 0; padding: 12px 14px; overflow-x: auto; font-family: var(--mono); font-size: 14px; line-height: 1.6; }
+.bloco .console { max-height: none; min-height: 0; padding: 12px 14px; font-size: 13.5px; }
+.acoes { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 18px; margin: 4px 0 0; font-size: 15px; }
+.acoes dt { font-family: var(--mono); font-size: 14px; color: var(--fn); }
+.acoes dd { margin: 0; color: var(--muted); }
+@media (max-width: 560px) { .acoes { grid-template-columns: minmax(0, 1fr); gap: 0; } .acoes dd { margin-bottom: 8px; } }
+.palavras { display: flex; flex-wrap: wrap; gap: 6px; }
+.palavras code { font-size: 14px; padding: 2px 8px; }
+.palavras.reservadas code { color: var(--kw); font-weight: 600; }
+.falta { margin: 0; padding-left: 1.2em; max-width: 44em; display: flex; flex-direction: column; gap: 6px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* ── apps na saída ── */
+.app-area { display: flex; flex-direction: column; gap: 10px; font-family: var(--body); }
+.app-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.app-acoes .rotulo-app { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-right: auto; }
+.app-acoes .btn { padding: 5px 12px; font-size: 13.5px; }
+.app-moldura { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.app-console { display: flex; flex-direction: column; gap: 2px; font-family: var(--mono); font-size: 14px; }
+.app-console:empty { display: none; }
+.painel .cx-host, .bloco .cx-host { --cx-fundo: var(--surface-2); --cx-sup: var(--surface); --cx-tinta: var(--ink); --cx-suave: var(--muted); --cx-linha: var(--line); --cx-erro: var(--err); color-scheme: inherit; }
+.bloco .app-moldura { margin: 10px; }
+.console .cx-host { --graf-cor: var(--accent); font-family: var(--body); padding: 6px 0 8px; }
+
+/* ── app em tela cheia ── */
+.app-area.cheia { position: fixed; inset: 0; z-index: 60; background: var(--bg); padding: calc(10px + env(safe-area-inset-top, 0px)) 12px calc(10px + env(safe-area-inset-bottom, 0px)); overflow: auto; }
+.app-area.cheia .app-moldura { max-width: 520px; width: 100%; margin: 0 auto; }
+.app-area.cheia .app-acoes { max-width: 520px; width: 100%; margin: 0 auto; }
+
+/* ── máquina do tempo ── */
+.mt { display: flex; flex-direction: column; gap: 12px; font-family: var(--body); font-size: 15px; }
+.mt-topo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mt-topo strong { font-weight: 600; font-size: 15px; margin-right: auto; }
+.mt-topo .btn { padding: 5px 12px; font-size: 13.5px; }
+.mt-controles { display: flex; align-items: center; gap: 6px; }
+.mt-controles button { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; cursor: pointer; color: var(--ink); }
+.mt-controles button.tocar { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.mt-controles svg { width: 16px; height: 16px; }
+.mt-controles input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); height: 40px; }
+.mt-agora { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.mt-num { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13.5px; }
+.mt-linha { font-weight: 700; }
+.mt-nota { font-family: var(--mono); font-size: 13.5px; background: var(--accent-soft); color: var(--ink); padding: 1px 8px; border-radius: 999px; }
+.mt-nota.erro { background: var(--err-soft); color: var(--err); }
+.mt-vars { border: 1px solid var(--line); border-radius: 8px; overflow: auto; max-height: 260px; }
+.mt-vars table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.mt-vars th { position: sticky; top: 0; background: var(--surface-2); text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 6px 10px; }
+.mt-vars td { padding: 5px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+.mt-vars td:first-child { font-family: var(--mono); font-size: 13.5px; font-weight: 600; white-space: nowrap; width: 1%; }
+.mt-vars td:last-child { font-family: var(--mono); font-size: 13.5px; overflow-wrap: anywhere; }
+.mt-vars tr.mudou td { background: var(--accent-soft); }
+.mt-vars tr.mudou td:first-child::after { content: " ●"; color: var(--accent); font-size: 10px; vertical-align: middle; }
+.mt-vazio { color: var(--muted); padding: 8px 10px; font-size: 14px; }
+.mt-rot { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.mt-saida { display: flex; flex-direction: column; gap: 2px; font-family: var(--mono); font-size: 14px; }
+.mt-aviso { margin: 0; color: var(--muted); font-size: 13px; }
+
+/* ── referência ── */
+.ref { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 32px; align-items: start; max-width: 1180px; margin: 0 auto; }
+.ref-indice { position: sticky; top: calc(64px + env(safe-area-inset-top, 0px)); display: flex; flex-direction: column; gap: 1px; font-size: 14px; }
+.ref-indice a { color: var(--muted); text-decoration: none; padding: 5px 10px; border-radius: 6px; border-left: 2px solid transparent; }
+.ref-indice a:hover { color: var(--ink); background: var(--surface-2); }
+@media (max-width: 860px) {
+  .ref { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .ref-indice { position: static; flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 4px; }
+  .ref-indice a { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+}
+.ref-corpo { min-width: 0; display: flex; flex-direction: column; gap: 36px; padding-bottom: 40px; }
+.ref-sec h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 10px; scroll-margin-top: 72px; }
+.ref-sec h3 { font-size: 15px; font-weight: 600; margin: 18px 0 8px; }
+.ref-sec p { margin: 0 0 10px; max-width: 72ch; }
+.ref-cab { border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+.ref-cab h1 { font-size: clamp(24px, 4vw, 32px); font-weight: 600; letter-spacing: -0.02em; margin: 4px 0 8px; }
+.ref-cab .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); }
+.ref-cab .meta b { color: var(--ink); font-weight: 600; }
+.ref-lista { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; max-width: 76ch; }
+.ref-gram { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 13px; line-height: 1.6; }
+.ref-rolagem { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.ref-tab { border-collapse: collapse; width: 100%; font-size: 14px; }
+.ref-tab th { text-align: left; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ref-tab td { padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.ref-tab tr:first-child td { border-top: 0; }
+.ref-tab td.sig { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; color: var(--fn); }
+.ref-tab td.num { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
+.nivel { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; }
+.nivel.erro { background: var(--err-soft); color: var(--err); }
+.nivel.aviso { background: var(--warn-soft); color: var(--warn); }
+.kbd { font-family: var(--mono); font-size: 12.5px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 4px; padding: 0 6px; background: var(--surface); white-space: nowrap; }
+
+/* ── Claude escreve ── */
+.ia { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding: 12px; background: var(--surface); border: 1.5px solid var(--accent); border-radius: 10px; }
+.ia-rot { font-weight: 700; }
+.ia textarea { width: 100%; min-height: 76px; resize: vertical; font: inherit; font-size: 16px; line-height: 1.45; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); }
+.ia textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.ia-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ia-estado { font-size: 14px; color: var(--muted); }
+.ia-estado.ok { color: var(--ok); font-weight: 700; }
+.ia-estado.mal { color: var(--err); font-weight: 700; }
+.ia-nota { margin: 0; font-size: 12.5px; color: var(--muted); }
+.ia-ideias { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: thin; }
+.ia-ideias button { flex: none; white-space: nowrap; border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px; padding: 4px 12px; font-size: 13.5px; cursor: pointer; color: var(--ink); }
+#descrever svg { width: 14px; height: 14px; }
+.c-err-claude { align-self: flex-start; }
+
+/* ── autocompletar ── */
+.simbolos.sugerindo > :not(.sug) { display: none; }
+.simbolos .sug { font-family: var(--mono); font-size: 14.5px; color: var(--ink); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.simbolos .sug:first-child { border-color: var(--accent); }
+.simbolos .sug small { font-family: var(--body); color: var(--muted); font-size: 11.5px; margin-left: 6px; }
+.bloco .app-console { padding: 0 12px 10px; }
+</style>
+<style id="cx-css">
+/*@APPCSS@*/
+</style>
+
+<header class="topo">
+  <div class="topo-in">
+    <div class="marca">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M16 2.5v5M16 24.5v5M2.5 16h5M24.5 16h5M6.5 6.5l3.5 3.5M22 22l3.5 3.5M25.5 6.5L22 10M10 22l-3.5 3.5"/></g><circle cx="16" cy="16" r="5.2" fill="currentColor"/></svg>
+      <span class="marca-nome">Cordel</span>
+      <span class="marca-ver" id="versao">v0.6.0</span>
+    </div>
+    <nav class="abas" role="tablist" aria-label="Seções">
+      <button class="aba" role="tab" id="aba-editor" aria-controls="vista-editor" aria-selected="true">Editor</button>
+      <button class="aba" role="tab" id="aba-guia" aria-controls="vista-guia" aria-selected="false">Guia</button>
+      <button class="aba" role="tab" id="aba-ref" aria-controls="vista-ref" aria-selected="false">Referência</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="vista-editor" role="tabpanel" aria-labelledby="aba-editor">
+    <div class="barra">
+      <div class="grupo-prog">
+        <label class="rot-prog" for="programa">Programa</label>
+        <select id="programa" class="sel sel-prog"></select>
+        <details class="menu" id="menu-prog">
+          <summary class="btn btn-icone" aria-label="Ações do programa" title="Ações do programa"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="1.5" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="13" cy="8" r="1.5" fill="currentColor"/></svg></summary>
+          <div class="menu-corpo">
+            <label class="menu-rot" for="prog-nome">Nome do programa</label>
+            <div class="menu-linha"><input id="prog-nome" autocomplete="off" maxlength="60"><button class="btn" id="prog-renomear" type="button">Renomear</button></div>
+            <button class="menu-item" type="button" data-acao="novo">Novo programa</button>
+            <button class="menu-item" type="button" data-acao="duplicar">Duplicar</button>
+            <button class="menu-item" type="button" data-acao="abrir">Abrir arquivo…</button>
+            <button class="menu-item so-baixar" type="button" data-acao="salvar">Salvar como arquivo</button>
+            <button class="menu-item" type="button" data-acao="copiar">Copiar código</button>
+            <button class="menu-item perigo" type="button" data-acao="apagar">Apagar programa</button>
+          </div>
+        </details>
+        <input type="file" id="prog-arquivo" accept=".cordel,.txt,text/plain" hidden>
+      </div>
+      <div class="grupo-acoes">
+        <button class="btn" id="formatar" type="button" title="Formatar o código (Shift+Alt+F)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.5h12M5 6.5h9M5 9.5h9M2 12.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Formatar</span></button>
+        <button class="btn" id="passos" type="button" title="Rodar passo a passo"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.4V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Passo a passo</span></button>
+        <button class="btn" id="descrever" type="button" hidden title="Descreva em português e o Claude escreve o programa"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.5 4.2 4.2 1.5-4.2 1.5L8 12.9 6.5 8.7 2.3 7.2l4.2-1.5z" fill="currentColor"/></svg><span>Descrever</span></button>
+        <button class="btn btn-rodar" id="rodar" type="button" title="Rodar (Ctrl+Enter)"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5l8 4.5-8 4.5z" fill="currentColor"/></svg><span>Rodar</span></button>
+      </div>
+    </div>
+    <div class="ia" id="ia" hidden>
+      <label class="ia-rot" for="ia-pedido">Descreva o programa, ou a mudança que você quer no código atual</label>
+      <textarea id="ia-pedido" rows="3" placeholder="Ex.: um app de controle de estoque com lista de produtos, busca por nome e um gráfico do valor por categoria"></textarea>
+      <div class="ia-ideias" id="ia-ideias"></div>
+      <div class="ia-acoes">
+        <button class="btn btn-rodar" id="ia-ir" type="button">Escrever em Cordel</button>
+        <button class="btn" id="ia-parar" type="button" hidden>Parar</button>
+        <button class="btn" id="ia-desfazer" type="button" hidden>Desfazer</button>
+        <span class="ia-estado" id="ia-estado" role="status" aria-live="polite"></span>
+      </div>
+      <p class="ia-nota">Usa a sua conta do Claude. Vão no pedido o código do editor e os nomes das colunas das planilhas, não os dados delas. O interpretador confere o que o Claude escreve e pede correção se achar erro.</p>
+    </div>
+    <div class="arquivos" id="arquivos">
+      <span class="arquivos-titulo">Arquivos</span>
+      <span id="arq-lista" style="display:contents"></span>
+      <label class="arq-add" for="arq-input">+ Planilha</label>
+      <input type="file" id="arq-input" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods" multiple hidden>
+      <span class="arquivos-nota">CSV ou Excel · lidos só neste aparelho, nada é enviado</span>
+      <div class="arquivos-erro" id="arq-erro" role="alert"></div>
+    </div>
+    <div class="oficina">
+      <div class="painel">
+        <div class="painel-topo"><strong>Código</strong><span class="prog-titulo" id="prog-titulo"></span></div>
+        <div class="editor">
+          <div class="gutter" aria-hidden="true"><pre id="gutter">1</pre></div>
+          <div class="area">
+            <div class="errband" id="errband" hidden></div>
+            <div class="passoband" id="passoband" hidden></div>
+            <pre aria-hidden="true"><code id="hl"></code></pre>
+            <textarea id="codigo" aria-label="Código Cordel" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" wrap="off"></textarea>
+          </div>
+        </div>
+        <div class="simbolos" id="simbolos" aria-label="Símbolos e palavras"></div>
+        <div class="status" id="status">
+          <span id="st-pos">Ln 1, Col 1</span>
+          <button type="button" class="st-prob" id="st-prob" title="Ver problemas"><span class="st-e" id="st-e">0</span><span class="st-a" id="st-a">0</span></button>
+          <span class="st-msg" id="st-msg" role="status" aria-live="polite"></span>
+          <span class="st-salvo" id="st-salvo"></span>
+        </div>
+      </div>
+      <div class="painel">
+        <div class="painel-topo topo-saida">
+          <div class="tabs-saida" role="tablist" aria-label="Saída e problemas">
+            <button class="tab-s" role="tab" id="tab-saida" aria-selected="true" aria-controls="console" type="button">Saída</button>
+            <button class="tab-s" role="tab" id="tab-prob" aria-selected="false" aria-controls="problemas" type="button">Problemas <span class="cont" id="cont-prob">0</span></button>
+          </div>
+          <span class="estado" id="estado"></span>
+        </div>
+        <div class="console" id="console" aria-live="polite"></div>
+        <div class="problemas" id="problemas" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vista-ref" role="tabpanel" aria-labelledby="aba-ref" hidden>
+    <div class="ref">
+      <nav class="ref-indice" id="ref-indice" aria-label="Nesta referência"></nav>
+      <div class="ref-corpo" id="ref-corpo"></div>
+    </div>
+  </section>
+
+  <section id="vista-guia" role="tabpanel" aria-labelledby="aba-guia" hidden>
+    <div class="guia">
+      <div class="abertura">
+        <div class="rotulo">Guia da linguagem</div>
+        <h1>Fácil de aprender numa tarde, séria o bastante para o trabalho.</h1>
+        <p>Cordel é uma linguagem de programação em português. Ela tira do caminho o que confunde quem começa e mantém o rigor que o trabalho de verdade exige: contas exatas, erros que explicam o problema e testes embutidos. Os resultados abaixo foram gerados agora, pela própria linguagem, nesta página.</p>
+      </div>
+      <div class="rotulo" style="margin-bottom:8px">O que a torna diferente</div>
+      <dl class="principios" id="principios"></dl>
+      <p class="nota-honesta">Nenhuma dessas ideias é inédita sozinha: frações exatas existem em Scheme e Julia, blocos terminados em <code>fim</code> lembram Lua e Ruby, e o Portugol já usava palavras em português. A novidade está em juntar tudo numa linguagem só, pensada para quem aprende em português e programa pelo celular.</p>
+      <div id="secoes"></div>
+      <section class="secao">
+        <h2>Palavras do Cordel</h2>
+        <div><p>Estas 25 palavras são reservadas e não podem virar nomes de variáveis.</p></div>
+        <div class="palavras reservadas" id="reservadas"></div>
+        <div><p>Estas só têm sentido especial dentro de uma instrução e continuam livres para usar como nomes:</p></div>
+        <div class="palavras" id="apoio"></div>
+      </section>
+      <section class="secao">
+        <h2>O que ainda falta</h2>
+        <div><p>Esta é a versão 0.5. A linguagem, as planilhas, as datas, os apps com páginas e gráficos, a máquina do tempo, a escrita com o Claude, o diagnóstico, o formatador e o pacote para computador (linha de comando e extensão do VS Code) estão prontos e cobertos por testes automáticos. Uma linguagem completa ainda precisa de:</p></div>
+        <ul class="falta">
+          <li>buscar dados na internet (APIs) e em outros sistemas, e mostrar imagens nos apps;</li>
+          <li>horas, além de datas (hoje "03/09/2026 14:30" chega como texto);</li>
+          <li>apps que várias pessoas usam ao mesmo tempo, com dados compartilhados;</li>
+          <li>ler PDFs e guardar arquivos entre uma visita e outra;</li>
+          <li>módulos, para dividir programas grandes em vários arquivos;</li>
+          <li>mais velocidade para cálculos pesados;</li>
+          <li>uso em produção por mais pessoas, que é o que leva uma linguagem da versão 0.x à 1.0.</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+</main>
+
+<script id="cordel-core">
+/*@CORE@*/
+</script>
+<script id="cordel-app">
+/*@APPJS@*/
+</script>
+<script>
+/*@CONTENT@*/
+</script>
+<script>
+/*@PLANILHA@*/
+</script>
+<script>
+(function () {
+'use strict';
+const $ = s => document.querySelector(s);
+const K = CONTEUDO;
+const norm = Cordel.norm;
+const KWN = new Set(K.palavras.map(norm));
+const CTX = new Set(['de', 'ate', 'passo', 'cada', 'em', 'vezes', 'entao', 'faca', 'como']);
+const CONST = new Set(['verdadeiro', 'falso']);
+const UIW = new Set([...Cordel.UI_WORDS, 'va', 'volte', 'use']);
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const DQ = '"“”„', SQ = "'‘’";
+const span = (c, t) => '<span class="' + c + '">' + esc(t) + '</span>';
+
+// ── destaque de sintaxe ──
+function hl(src) {
+  let out = '', i = 0; const n = src.length;
+  while (i < n) {
+    const c = src[i];
+    if (c === '#') { let j = src.indexOf('\n', i); if (j < 0) j = n; out += span('t-com', src.slice(i, j)); i = j; continue; }
+    if (DQ.includes(c) || SQ.includes(c)) {
+      const close = DQ.includes(c) ? DQ : SQ;
+      let j = i + 1, buf = c;
+      while (j < n && src[j] !== '\n') {
+        const ch = src[j];
+        if (ch === '\\' && j + 1 < n && src[j + 1] !== '\n') { buf += ch + src[j + 1]; j += 2; continue; }
+        if (ch === '{') {
+          let k = j + 1, d = 1;
+          while (k < n && src[k] !== '\n') { if (src[k] === '{') d++; else if (src[k] === '}') { d--; if (!d) break; } k++; }
+          out += span('t-str', buf); buf = '';
+          out += span('t-int', '{') + hl(src.slice(j + 1, k));
+          if (src[k] === '}') { out += span('t-int', '}'); j = k + 1; } else j = k;
+          continue;
+        }
+        buf += ch; j++;
+        if (close.includes(ch)) break;
+      }
+      if (buf) out += span('t-str', buf);
+      i = j; continue;
+    }
+    if (c >= '0' && c <= '9') {
+      let j = i;
+      while (j < n && (/[0-9_]/.test(src[j]) || (src[j] === '.' && /[0-9]/.test(src[j + 1] || '')))) j++;
+      out += span('t-num', src.slice(i, j)); i = j; continue;
+    }
+    if (/[\p{L}_]/u.test(c)) {
+      let j = i; while (j < n && /[\p{L}\p{N}\p{M}_]/u.test(src[j])) j++;
+      const w = src.slice(i, j), k = norm(w);
+      let cls = null;
+      if (w === 'é' || w === 'É') cls = 't-kw';
+      else if (UIW.has(k) && /^[ \t]*$/.test(src.slice(src.lastIndexOf('\n', i - 1) + 1, i)) && !/^\s*(=[^=>]|\.|\()/.test(src.slice(j))) cls = 't-kw';
+      else if (CONST.has(k)) cls = 't-num';
+      else if (KWN.has(k)) cls = 't-kw';
+      else if (CTX.has(k) && src[i - 1] !== '.') cls = 't-ctx';
+      else if (src[i - 1] === '.' || src[j] === '(') cls = 't-fn';
+      out += cls ? span(cls, w) : esc(w); i = j; continue;
+    }
+    out += esc(c); i++;
+  }
+  return out;
+}
+
+// ── editor ──
+const ta = $('#codigo'), code = $('#hl'), gut = $('#gutter'), band = $('#errband'), pband = $('#passoband');
+let passoLinha = null;
+let gutCount = 0, gutChave = '', problemasAtuais = [], errLine = null, LH = 24, PAD = 12;
+function measure() { const cs = getComputedStyle(ta); LH = parseFloat(cs.lineHeight) || 24; PAD = parseFloat(cs.paddingTop) || 12; }
+function refresh() {
+  code.innerHTML = hl(ta.value) + '\n';
+  refreshGutter();
+  sync();
+}
+function refreshGutter() {
+  const lines = ta.value.split('\n').length;
+  const marca = new Map();
+  for (const p of problemasAtuais) { const m = marca.get(p.linha); if (!m || p.nivel === 'erro') marca.set(p.linha, p.nivel); }
+  const chave = lines + '|' + [...marca].join(';');
+  if (chave === gutChave) return; gutChave = chave; gutCount = lines;
+  let h = ''; for (let i = 1; i <= lines; i++) { const m = marca.get(i); h += (m ? '<span class="gl ' + (m === 'erro' ? 'e' : 'a') + '">' + i + '</span>' : i) + (i < lines ? '\n' : ''); }
+  gut.innerHTML = h;
+}
+function sync() {
+  const x = ta.scrollLeft, y = ta.scrollTop;
+  code.style.transform = 'translate(' + (-x) + 'px,' + (-y) + 'px)';
+  gut.style.transform = 'translateY(' + (-y) + 'px)';
+  if (errLine) { band.hidden = false; band.style.transform = 'translateY(' + (PAD + (errLine - 1) * LH - y) + 'px)'; }
+  else band.hidden = true;
+  if (passoLinha) { pband.hidden = false; pband.style.transform = 'translateY(' + (PAD + (passoLinha - 1) * LH - y) + 'px)'; }
+  else pband.hidden = true;
+}
+ta.addEventListener('scroll', sync);
+
+function insertText(text) {
+  ta.focus();
+  let ok = false;
+  try { ok = document.execCommand('insertText', false, text); } catch (e) { ok = false; }
+  if (!ok) { ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, 'end'); onInput({}); }
+}
+function lineInfo() {
+  const v = ta.value, s = ta.selectionStart;
+  const ls = v.lastIndexOf('\n', s - 1) + 1;
+  return { v, s, ls, before: v.slice(ls, s), indent: v.slice(ls).match(/^[ \t]*/)[0] };
+}
+function insertSnippet(tpl) {
+  const { v, s, before, indent } = lineInfo();
+  const e = ta.selectionEnd, selected = v.slice(s, e);
+  let text = tpl.replace(/\n/g, '\n' + indent);
+  if (tpl.includes('\n') && before.trim()) text = '\n' + indent + text;
+  const mark = text.indexOf('§');
+  text = text.replace('§', selected);
+  insertText(text);
+  const pos = s + (mark >= 0 ? mark + selected.length : text.length);
+  ta.setSelectionRange(pos, pos);
+}
+const OPENERS = new Set(['se', 'senao', 'enquanto', 'para', 'repita', 'escolha', 'caso', 'teste', 'tente', 'falhou']);
+function opensBlock(line) {
+  const t = line.trim(); if (!t) return false;
+  const first = norm(t.split(/[\s(]/)[0]);
+  if (OPENERS.has(first)) return !/(^|\s)fim\s*$/i.test(t);
+  if (first === 'funcao') return !/\)\s*=/.test(t);
+  return false;
+}
+ta.addEventListener('keydown', ev => {
+  if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); rodarNovo(); return; }
+  if (ev.key === 'Tab' && !ev.shiftKey && !ev.ctrlKey && !ev.metaKey && !ev.altKey) { ev.preventDefault(); insertText('  '); return; }
+  if (ev.key === 'Enter' && !ev.shiftKey && !ev.isComposing && ta.selectionStart === ta.selectionEnd) {
+    const { before, indent } = lineInfo();
+    const ind = before.match(/^[ \t]*/)[0].length < indent.length ? before.match(/^[ \t]*/)[0] : indent;
+    ev.preventDefault();
+    insertText('\n' + ind + (opensBlock(before) ? '  ' : ''));
+  }
+});
+function maybeDedent() {
+  const v = ta.value, s = ta.selectionStart;
+  const ls = v.lastIndexOf('\n', s - 1) + 1;
+  let le = v.indexOf('\n', s); if (le < 0) le = v.length;
+  if (le !== s) return;
+  const m = /^( +)(fim|senão|senao|falhou)$/i.exec(v.slice(ls, s));
+  if (!m || m[1].length < 2) return;
+  const prev = v.slice(0, Math.max(0, ls - 1)).split('\n').reverse().find(l => l.trim());
+  if (!prev || prev.match(/^ */)[0].length < m[1].length) return;
+  ta.setSelectionRange(ls, ls + 2);
+  let ok = false; try { ok = document.execCommand('delete'); } catch (e) { ok = false; }
+  if (!ok) ta.setRangeText('', ls, ls + 2, 'end');
+  ta.setSelectionRange(s - 2, s - 2);
+}
+let saveT = null;
+function onInput(ev) {
+  if (ev && ev.inputType === 'insertText' && ev.data && ev.data.length === 1 && /[a-zA-Zãç]/.test(ev.data)) maybeDedent();
+  errLine = null; sairPassos(); refresh();
+  clearTimeout(saveT); saveT = setTimeout(salvar, 400);
+}
+ta.addEventListener('input', onInput);
+// ── meus programas (guardados neste aparelho) ──
+const LS_PROG = 'cordel.programas';
+const novoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function lerProgramas() { try { const d = JSON.parse(localStorage.getItem(LS_PROG) || 'null'); if (d && Array.isArray(d.lista)) return d; } catch (e) { /* sem memória */ } return { lista: [], atual: null }; }
+let progs = lerProgramas(), memoriaOk = true;
+(function migrarRascunho() {
+  try {
+    const r = localStorage.getItem('cordel.rascunho');
+    if (r && r.trim() && !progs.lista.length && !K.exemplos.some(e => e.codigo === r)) { const p = { id: novoId(), nome: 'Meu programa', codigo: r, em: Date.now() }; progs.lista.push(p); progs.atual = p.id; localStorage.setItem(LS_PROG, JSON.stringify(progs)); }
+    localStorage.removeItem('cordel.rascunho');
+  } catch (e) { /* sem memória */ }
+})();
+function gravarProgramas() { try { localStorage.setItem(LS_PROG, JSON.stringify(progs)); memoriaOk = true; } catch (e) { memoriaOk = false; } }
+let atual = { tipo: 'exemplo', id: K.exemplos[0].id };
+function progAtual() { return atual.tipo === 'programa' ? progs.lista.find(p => p.id === atual.id) : null; }
+function nomeAtual() {
+  if (atual.tipo === 'programa') { const p = progAtual(); return p ? p.nome : ''; }
+  if (atual.tipo === 'exemplo') { const e = K.exemplos.find(x => x.id === atual.id); return e ? e.nome : ''; }
+  return atual.nome || 'Trecho';
+}
+// Módulos: use "Nome" acha outro programa guardado aqui (pelo nome) ou um exemplo (pelo nome curto, como "regras").
+function modulosDisponiveis() {
+  const m = {};
+  for (const p of progs.lista) if (!(atual.tipo === 'programa' && p.id === atual.id) && !(p.nome in m)) m[p.nome] = p.codigo;
+  for (const e of K.exemplos) if (!(atual.tipo === 'exemplo' && e.id === atual.id)) { if (!(e.id in m)) m[e.id] = e.codigo; }
+  return m;
+}
+// Abre o programa ou exemplo de onde veio um erro (use "…"), na linha do erro.
+function abrirModulo(nome, linha) {
+  const k = Cordel.norm(nome);
+  const p = progs.lista.find(x => Cordel.norm(x.nome) === k), e = K.exemplos.find(x => Cordel.norm(x.id) === k);
+  if (p) abrirPrograma(p.id); else if (e) abrirExemplo(e.id); else return;
+  setTimeout(() => irParaLinha(linha), 50);
+}
+function nomeLivre(base) { let n = base, i = 2; while (progs.lista.some(p => p.nome === n)) n = base + ' (' + i++ + ')'; return n; }
+function criarPrograma(nome, codigo) {
+  const p = { id: novoId(), nome: nomeLivre(nome), codigo, em: Date.now() };
+  progs.lista.unshift(p); atual = { tipo: 'programa', id: p.id }; progs.atual = p.id; gravarProgramas(); montarSeletor(); return p;
+}
+function salvar(nomeSugerido) {
+  if (atual.tipo !== 'programa') {
+    const base = typeof nomeSugerido === 'string' && nomeSugerido ? nomeSugerido : atual.tipo === 'exemplo' ? 'Cópia de ' + nomeAtual() : nomeAtual();
+    criarPrograma(base, ta.value); stMsg('Salvo como “' + nomeAtual() + '”');
+  } else { const p = progAtual(); if (p) { p.codigo = ta.value; p.em = Date.now(); gravarProgramas(); } }
+  atualizarTitulo();
+}
+function setCode(src) { ta.value = src; ta.scrollTop = 0; ta.scrollLeft = 0; errLine = null; refresh(); }
+function irParaLinha(n) {
+  const lines = ta.value.split('\n'); if (n < 1 || n > lines.length) return;
+  let start = 0; for (let i = 0; i < n - 1; i++) start += lines[i].length + 1;
+  ta.focus({ preventScroll: true });
+  ta.setSelectionRange(start, start + lines[n - 1].length);
+  ta.scrollTop = Math.max(0, (n - 1) * LH - ta.clientHeight / 3);
+  sync();
+  ta.closest('.painel').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+// barra de símbolos
+const SIMBOLOS = [
+  ['"…"', '"§"'], ['( )', '(§)'], ['[ ]', '[§]'], ['{ }', '{§}'], ['=', '='], ['==', '=='], ['=>', '=>'], ['.', '.'], [',', ', '],
+  ['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['<', '<'], ['>', '>'], [':', ': '], ['#', '# '], ['⇥', '  '], null,
+  ['mostre', 'mostre §', 1], ['var', 'var § = ', 1], ['se', 'se §\n  \nfim', 1], ['senão', 'senão\n  §', 1], ['para', 'para cada § em \n  \nfim', 1],
+  ['repita', 'repita § vezes\n  \nfim', 1], ['função', 'função §()\n  \nfim', 1], ['devolva', 'devolva §', 1], ['fim', 'fim', 1], null,
+  ['tela', 'tela "§"\n  \nfim', 1], ['botão', 'botão "§"\n  \nfim', 1], ['campo', 'campo "§" em ', 1], ['página', 'página "§"\n  \nfim', 1], ['vá para', 'vá para "§"', 1], ['gráfico', 'gráfico "§" de ', 1],
+];
+const barra = $('#simbolos');
+for (const s of SIMBOLOS) {
+  if (!s) { const d = document.createElement('span'); d.className = 'sep'; barra.appendChild(d); continue; }
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = s[0]; if (s[2]) b.className = 'palavra';
+  b.setAttribute('aria-label', 'Inserir ' + s[0]);
+  b.addEventListener('pointerdown', ev => ev.preventDefault());
+  b.addEventListener('click', () => insertSnippet(s[1]));
+  barra.appendChild(b);
+}
+
+// ── autocompletar ──
+const METODOS = Cordel.metodos(), FUNCOES = Cordel.funcoes();
+const PALAVRAS_AC = [...new Set([...K.palavras, ...K.contexto.filter(w => w.length > 2)])];
+const RE_ID = '[\\p{L}_][\\p{L}\\p{N}\\p{M}_]*';
+function nomesDoCodigo(src) {
+  const nomes = new Set();
+  const add = n => { if (n && !Cordel.KW.has(norm(n))) nomes.add(n); };
+  for (const m of src.matchAll(new RegExp('(?:^|\\n)[ \\t]*(?:var[ \\t]+)?(' + RE_ID + ')[ \\t]*(?:=(?![=>])|[-+*/]=)', 'gu'))) add(m[1]);
+  for (const m of src.matchAll(new RegExp('função[ \\t]+(' + RE_ID + ')[ \\t]*\\(([^)]*)\\)', 'gu'))) { add(m[1]); m[2].split(',').forEach(x => add(x.trim())); }
+  for (const m of src.matchAll(new RegExp('para[ \\t]+(?:cada[ \\t]+)?(' + RE_ID + ')', 'gu'))) add(m[1]);
+  for (const m of src.matchAll(new RegExp('(' + RE_ID + ')[ \\t]*=>', 'gu'))) add(m[1]);
+  return [...nomes];
+}
+function camposConhecidos(src) {
+  const campos = new Set();
+  for (const m of src.matchAll(new RegExp('[{,][ \\t\\n]*(' + RE_ID + ')[ \\t]*:', 'gu'))) campos.add(m[1]);
+  for (const f of arquivos) { if (!f.campos) f.campos = Cordel.camposDeArquivo(f).map(c => c.toLocaleLowerCase('pt-BR')); f.campos.forEach(c => campos.add(c)); }
+  ['chave', 'quantidade', 'itens'].forEach(c => campos.add(c));
+  return [...campos];
+}
+function contextoCursor() {
+  if (ta.selectionStart !== ta.selectionEnd) return null;
+  const v = ta.value, s = ta.selectionStart;
+  const linha = v.slice(v.lastIndexOf('\n', s - 1) + 1, s);
+  const aspas = (linha.match(/["\u201c\u201d]/g) || []).length;
+  if (aspas % 2 === 1 || /#/.test(linha.replace(/"[^"]*"/g, ''))) return null;
+  const m = new RegExp('(' + RE_ID + ')$', 'u').exec(linha); const parcial = m ? m[1] : '';
+  const ini = s - parcial.length;
+  const membro = v[ini - 1] === '.' && (parcial.length > 0 || !/[0-9]/.test(v[ini - 2] || ''));
+  return { parcial, ini, membro };
+}
+function candidatos(ctx) {
+  const p = norm(ctx.parcial); const lista = [];
+  if (ctx.membro) {
+    for (const c of camposConhecidos(ta.value)) lista.push({ nome: c, dica: 'campo' });
+    for (const m of METODOS) lista.push({ nome: m.nome, dica: m.de, args: m.min > 0 });
+  } else {
+    if (!p) return [];
+    for (const n of nomesDoCodigo(ta.value)) lista.push({ nome: n, dica: '' });
+    for (const w of PALAVRAS_AC) lista.push({ nome: w, dica: '' });
+    for (const f of FUNCOES) lista.push({ nome: f.nome, dica: 'função', args: true });
+  }
+  const visto = new Set(); const out = [];
+  for (const c of lista) {
+    const k = norm(c.nome);
+    if (!k.startsWith(p) || k === p || visto.has(k)) continue;
+    visto.add(k); out.push(c); if (out.length >= 12) break;
+  }
+  return out;
+}
+let sugT = null, sugCtx = null, sugLista = [];
+function esconderSugestoes() { sugLista = []; sugCtx = null; barra.classList.remove('sugerindo'); barra.querySelectorAll('.sug').forEach(b => b.remove()); }
+function mostrarSugestoes() {
+  esconderSugestoes();
+  if (document.activeElement !== ta) return;
+  const ctx = contextoCursor();
+  if (!ctx || (!ctx.membro && !ctx.parcial)) return;
+  const cs = candidatos(ctx); if (!cs.length) return;
+  sugCtx = ctx; sugLista = cs;
+  barra.classList.add('sugerindo');
+  cs.forEach(c => {
+    const b = el('button', 'sug'); b.type = 'button';
+    b.innerHTML = esc(c.nome) + (c.dica ? '<small>' + esc(c.dica) + '</small>' : '');
+    b.addEventListener('pointerdown', ev => ev.preventDefault());
+    b.addEventListener('click', () => aceitarSugestao(c));
+    barra.appendChild(b);
+  });
+  barra.scrollLeft = 0;
+}
+function aceitarSugestao(c) {
+  const ctx = sugCtx || contextoCursor(); if (!ctx) return;
+  ta.focus(); ta.setSelectionRange(ctx.ini, ta.selectionStart);
+  insertText(c.nome + (c.args ? '()' : ''));
+  if (c.args) { const q = ta.selectionStart - 1; ta.setSelectionRange(q, q); }
+  esconderSugestoes();
+}
+const agendarSugestoes = () => { clearTimeout(sugT); sugT = setTimeout(mostrarSugestoes, 60); };
+ta.addEventListener('input', agendarSugestoes);
+ta.addEventListener('click', agendarSugestoes);
+ta.addEventListener('keyup', ev => { if (ev.key.startsWith('Arrow') || ev.key === 'Home' || ev.key === 'End') agendarSugestoes(); });
+ta.addEventListener('blur', () => { clearTimeout(sugT); sugT = setTimeout(() => { if (document.activeElement !== ta) esconderSugestoes(); }, 150); });
+ta.addEventListener('keydown', ev => {
+  if (!sugLista.length) return;
+  if (ev.key === 'Escape') { ev.preventDefault(); esconderSugestoes(); }
+  else if (ev.key === 'Tab' && !ev.shiftKey && sugCtx && (sugCtx.parcial || sugCtx.membro)) { ev.preventDefault(); ev.stopImmediatePropagation(); aceitarSugestao(sugLista[0]); }
+}, true);
+
+// ── execução ──
+const coreSrc = document.getElementById('cordel-core').textContent;
+let worker = null, semWorker = false, sessao = null, timer = null, lentoT = null, rodando = false;
+const btnRodar = $('#rodar');
+function criarWorker() {
+  try {
+    const blob = new Blob([coreSrc + '\nfunction buscarSync(u,c){try{var x=new XMLHttpRequest();x.open("GET",u,false);x.timeout=15000;for(var k in c)x.setRequestHeader(k,c[k]);x.send();if(x.responseText.length>10485760)return{erro:"grande"};return{status:x.status,tipo:x.getResponseHeader("content-type")||"",texto:x.responseText};}catch(err){return{erro:err&&err.name==="TimeoutError"?"tempo":"rede",segundos:15,detalhe:String(err&&err.message||err)};}}\nself.onmessage=function(e){var d=e.data;self.postMessage(Cordel.run(d.src,{answers:d.answers,seed:d.seed,files:d.files,trace:d.trace,modulos:d.modulos,buscar:buscarSync}));};'], { type: 'text/javascript' });
+    const w = new Worker(URL.createObjectURL(blob));
+    w.onmessage = e => terminar(e.data);
+    w.onerror = err => { if (err && err.preventDefault) err.preventDefault(); w.terminate(); worker = null; semWorker = true; if (rodando) executar(); };
+    return w;
+  } catch (e) { semWorker = true; return null; }
+}
+function rodarNovo() { abaSaida('saida'); sairPassos(); if (appAtual) { appAtual.desmontar(); appAtual = null; } if (ehApp(ta.value)) { if (rodando) parar(); rodarApp(); return; } sessao = { src: ta.value, answers: [], seed: (Math.random() * 2 ** 31) | 0, files: arquivos.map(f => f.sheets ? { name: f.name, sheets: f.sheets } : { name: f.name, text: f.text }), modulos: modulosDisponiveis() }; executar(); }
+function executar() {
+  rodando = true; setEstado('Rodando…', '');
+  clearTimeout(lentoT); lentoT = setTimeout(() => { if (rodando) { btnRodar.classList.add('parando'); btnRodar.querySelector('span').textContent = 'Parar'; } }, 250);
+  if (!semWorker && !worker) worker = criarWorker();
+  if (worker) { clearTimeout(timer); timer = setTimeout(() => parar('O programa demorou demais e foi interrompido.'), 20000); worker.postMessage(sessao); }
+  else setTimeout(() => terminar(Cordel.run(sessao.src, sessao)), 0);
+}
+function fimRodando() { rodando = false; clearTimeout(timer); clearTimeout(lentoT); btnRodar.classList.remove('parando'); btnRodar.querySelector('span').textContent = 'Rodar'; }
+function terminar(r) {
+  if (r.busca && sessao) {
+    setEstado('Buscando na internet…', '');
+    CordelApp.buscar(r.busca).then(resp => { if (!sessao) return; sessao.rede = Object.assign({}, sessao.rede, { [r.busca.chave]: resp }); executar(); });
+    return;
+  }
+  fimRodando();
+  if (sessao && sessao.trace && (r.ask === null || r.ask === undefined) && r.rastro) mostrarPassos(r);
+  else mostrarResultado($('#console'), r, true);
+}
+
+// ── máquina do tempo ──
+let mtTimer = null;
+const ICONE = {
+  primeiro: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M13 3.2L6 8l7 4.8z" fill="currentColor"/></svg>',
+  anterior: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.5 3L4.5 8l7 5z" fill="currentColor"/></svg>',
+  tocar: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5l9.5 5.5-9.5 5.5z" fill="currentColor"/></svg>',
+  pausar: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>',
+  proximo: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3l7 5-7 5z" fill="currentColor"/></svg>',
+};
+function pararTimer() { clearInterval(mtTimer); mtTimer = null; }
+function sairPassos() { pararTimer(); if (passoLinha !== null) { passoLinha = null; sync(); } }
+function rodarPassos() {
+  abaSaida('saida');
+  if (appAtual) { appAtual.desmontar(); appAtual = null; }
+  sairPassos();
+  if (ehApp(ta.value)) {
+    mostrarResultado($('#console'), { out: [{ kind: 'out', text: 'O passo a passo acompanha programas sem tela. Num app, use mostre dentro dos botões: a saída aparece abaixo do app.' }], error: null, ask: null, tests: null }, true);
+    return;
+  }
+  if (rodando) parar();
+  sessao = { src: ta.value, answers: [], seed: (Math.random() * 2 ** 31) | 0, files: arquivosAtuais(), trace: true, modulos: modulosDisponiveis() };
+  executar();
+}
+$('#passos').addEventListener('click', rodarPassos);
+function mostrarPassos(r) {
+  pararTimer();
+  const passos = r.rastro, n = passos.length;
+  const box = $('#console'); box.innerHTML = '';
+  const mt = el('div', 'mt');
+  mt.innerHTML = '<div class="mt-topo"><strong>Máquina do tempo</strong><button type="button" class="btn" data-a="sair">Rodar normal</button></div>'
+    + '<div class="mt-controles"><button type="button" data-a="primeiro" aria-label="Primeiro passo">' + ICONE.primeiro + '</button><button type="button" data-a="anterior" aria-label="Passo anterior">' + ICONE.anterior + '</button><button type="button" class="tocar" data-a="tocar" aria-label="Tocar">' + ICONE.tocar + '</button><button type="button" data-a="proximo" aria-label="Próximo passo">' + ICONE.proximo + '</button><input type="range" id="mt-passo" min="0" max="' + (n - 1) + '" value="0" aria-label="Escolha o passo"></div>'
+    + '<div class="mt-agora"><span class="mt-linha"></span><span class="mt-nota"></span><span class="mt-num"></span></div>'
+    + '<div class="mt-rot">Variáveis neste instante</div><div class="mt-vars"></div>'
+    + '<div class="mt-rot">Saída até aqui</div><div class="mt-saida"></div>'
+    + (r.rastroCortado ? '<p class="mt-aviso">O programa é longo: a máquina do tempo guardou os primeiros 3.000 passos.</p>' : '');
+  box.appendChild(mt);
+  const slider = mt.querySelector('input'), num = mt.querySelector('.mt-num'), lin = mt.querySelector('.mt-linha'), nota = mt.querySelector('.mt-nota'),
+    vars = mt.querySelector('.mt-vars'), saida = mt.querySelector('.mt-saida'), btTocar = mt.querySelector('[data-a=tocar]');
+  let i = 0;
+  function ir(k) {
+    i = Math.max(0, Math.min(n - 1, k)); slider.value = String(i);
+    const p = passos[i], ant = i > 0 ? new Map(passos[i - 1].vars) : new Map();
+    num.textContent = 'passo ' + (i + 1).toLocaleString('pt-BR') + ' de ' + n.toLocaleString('pt-BR');
+    lin.textContent = p.linha ? 'Linha ' + p.linha : '';
+    nota.textContent = p.nota || 'depois desta linha'; nota.classList.toggle('erro', !!p.erro);
+    if (!p.vars.length) vars.innerHTML = '<div class="mt-vazio">Nenhuma variável criada ainda.</div>';
+    else {
+      const t = document.createElement('table'); t.innerHTML = '<thead><tr><th>Nome</th><th>Valor</th></tr></thead>';
+      const tb = document.createElement('tbody');
+      for (const [nome, val] of p.vars) {
+        const tr = document.createElement('tr'); if (i > 0 && ant.get(nome) !== val) tr.className = 'mudou';
+        const a = document.createElement('td'); a.textContent = nome; const b = document.createElement('td'); b.textContent = val;
+        tr.appendChild(a); tr.appendChild(b); tb.appendChild(tr);
+      }
+      t.appendChild(tb); vars.innerHTML = ''; vars.appendChild(t);
+    }
+    mostrarResultado(saida, { out: r.out.slice(0, p.out), error: p.erro ? r.error : null, ask: null, tests: i === n - 1 ? r.tests : null, files: r.files }, false, true);
+    passoLinha = p.linha; errLine = null;
+    if (p.linha) { const alvo = (p.linha - 1) * LH; if (alvo < ta.scrollTop || alvo > ta.scrollTop + ta.clientHeight - LH * 2) ta.scrollTop = Math.max(0, alvo - ta.clientHeight / 3); }
+    sync();
+    setEstado(p.erro ? 'Passo a passo · com erro' : 'Passo a passo', p.erro ? 'erro' : '');
+  }
+  function tocar() {
+    if (mtTimer) { pararTimer(); btTocar.innerHTML = ICONE.tocar; btTocar.setAttribute('aria-label', 'Tocar'); return; }
+    if (i >= n - 1) ir(0);
+    btTocar.innerHTML = ICONE.pausar; btTocar.setAttribute('aria-label', 'Pausar');
+    mtTimer = setInterval(() => { if (i >= n - 1) tocar(); else ir(i + 1); }, 420);
+  }
+  mt.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-a]'); if (!b) return;
+    const a = b.dataset.a;
+    if (a === 'sair') rodarNovo(); else if (a === 'primeiro') ir(0); else if (a === 'anterior') ir(i - 1); else if (a === 'proximo') ir(i + 1); else if (a === 'tocar') tocar();
+  });
+  slider.addEventListener('input', () => { if (mtTimer) tocar(); ir(+slider.value); });
+  ir(0);
+}
+function parar(msg) {
+  if (worker) { worker.terminate(); worker = null; }
+  fimRodando();
+  mostrarResultado($('#console'), { out: [], ask: null, tests: null, error: { msg: msg || 'Você interrompeu o programa.', dica: 'Se ele não termina sozinho, confira se a condição de cada `enquanto` muda lá dentro.', line: null } }, true);
+}
+btnRodar.addEventListener('click', () => { if (rodando) parar(); else rodarNovo(); });
+
+// ── apps ──
+const appSrc = document.getElementById('cordel-app').textContent;
+const appCss = document.getElementById('cx-css').textContent;
+const ehApp = src => /^[ \t]*tela(?![\p{L}\p{N}_])/imu.test(src);
+const memApp = CordelApp.memoriaLocal('cordel.app:');
+let appAtual = null;
+const arquivosAtuais = () => arquivos.map(f => f.sheets ? { name: f.name, sheets: f.sheets } : { name: f.name, text: f.text });
+function slug(t) { return (Cordel.norm(t || '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'app').slice(0, 40); }
+const jsLit = v => JSON.stringify(v).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+function htmlDoApp(src, titulo, files) {
+  const alvo = Cordel.norm([src, ...Object.values(Cordel.modulosUsados(src, modulosDisponiveis()))].join('\n'));
+  const usados = files.filter(f => alvo.includes(Cordel.norm(f.name.replace(/\.[^.]+$/, ''))));
+  return '<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="generator" content="Cordel ' + Cordel.version + '">\n<title>' + esc(titulo) + '</title>\n<style>html,body{margin:0;min-height:100%}body{background:var(--cx-fundo)}\n' + appCss + '</style>\n</head>\n<body class="cx-host">\n<div id="app"></div>\n<script>' + coreSrc + '<\/script>\n<script>' + appSrc + '<\/script>\n<script>CordelApp.iniciar(document.getElementById("app"), ' + jsLit(src) + ', ' + jsLit({ chave: slug(titulo), arquivos: usados, modulos: Cordel.modulosUsados(src, modulosDisponiveis()) }) + ');<\/script>\n</body>\n</html>\n';
+}
+async function baixarApp(html, nome, btn) {
+  if (!downloads && !baixarDireto) return;
+  const rot = btn.textContent; btn.disabled = true;
+  try { await entregarArquivo(nome, html); btn.textContent = 'Baixado'; }
+  catch (e) {
+    const code = e && e.code;
+    btn.textContent = code === 'declined' ? rot : code === 'extension_not_enabled' ? 'Use Copiar HTML' : code === 'rate_limited' ? 'Aguarde' : 'Não deu';
+    if (code === 'unavailable' || code === 'not_granted' || code === 'capability_disabled' || code === 'capability_removed') document.body.classList.remove('pode-baixar');
+  } finally { btn.disabled = false; setTimeout(() => { btn.textContent = rot; }, 2600); }
+}
+function rodarApp() {
+  document.body.style.overflow = '';
+  const box = $('#console'); box.innerHTML = '';
+  const area = el('div', 'app-area'), acoes = el('div', 'app-acoes'), moldura = el('div', 'app-moldura'), cons = el('div', 'app-console');
+  acoes.appendChild(el('span', 'rotulo-app', 'Seu app'));
+  area.appendChild(acoes); area.appendChild(moldura); area.appendChild(cons); box.appendChild(area);
+  const src = ta.value, files = arquivosAtuais();
+  let log = [], testes = null;
+  errLine = null; sync();
+  appAtual = CordelApp.montar(moldura, src, { storage: memApp, files, modulos: modulosDisponiveis(), onSaida: (r, doEvento) => {
+    if (!doEvento) testes = r.tests;
+    log = log.concat(r.out || []).slice(-300);
+    if (!r.error && errLine) { errLine = null; sync(); }
+    mostrarResultado(cons, { out: log, error: r.error, ask: null, tests: testes, files: r.files, ms: r.ms }, true, true);
+  } });
+  const este = appAtual;
+  este.pronto.then(res => { if (appAtual === este) botoesDoApp(res, area, acoes, moldura, src, files); });
+}
+function botoesDoApp(res, area, acoes, moldura, src, files) {
+  const titulo = (res.ui && res.ui.title) || 'Meu app';
+  if (!res.ui) { moldura.hidden = true; }
+  const bb = el('button', 'btn btn-rodar so-baixar', 'Baixar app'); bb.type = 'button';
+  bb.addEventListener('click', () => baixarApp(htmlDoApp(src, titulo, files), slug(titulo) + '.html', bb));
+  const bc = el('button', 'btn', 'Copiar HTML'); bc.type = 'button';
+  bc.addEventListener('click', () => copiar(htmlDoApp(src, titulo, files), bc, 'Copiar HTML'));
+  const bl = el('button', 'btn', 'Apagar memória'); bl.type = 'button'; bl.title = 'Apaga o que o app guardou com guarde()';
+  bl.addEventListener('click', () => { memApp.limpar(); rodarNovo(); });
+  const bt = el('button', 'btn', 'Tela cheia'); bt.type = 'button';
+  bt.addEventListener('click', () => { const on = area.classList.toggle('cheia'); bt.textContent = on ? 'Sair da tela cheia' : 'Tela cheia'; document.body.style.overflow = on ? 'hidden' : ''; if (on) area.scrollTop = 0; });
+  area.addEventListener('keydown', ev => { if (ev.key === 'Escape' && area.classList.contains('cheia')) bt.click(); });
+  if (res.ui) { acoes.appendChild(bt); acoes.appendChild(bb); acoes.appendChild(bc); acoes.appendChild(bl); }
+}
+function setEstado(t, cls) { const e = $('#estado'); e.textContent = t; e.className = 'estado' + (cls ? ' ' + cls : ''); }
+
+const fmt = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+const celTexto = c => typeof c === 'string' ? c : c.dt !== undefined ? c.s : c.n !== undefined ? c.n : c.b ? 'verdadeiro' : 'falso';
+// De onde veio um valor (texto, e as linhas das planilhas que o formaram).
+function painelOrigem(res, fechar) {
+  const p = el('div', 'c-orig-painel'); p.setAttribute('role', 'region'); p.setAttribute('aria-label', 'De onde veio');
+  const topo = el('div', 'c-orig-topo'); topo.appendChild(el('strong', null, 'De onde veio'));
+  const x = el('button', 'c-orig-fechar', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Fechar'); x.addEventListener('click', fechar);
+  topo.appendChild(x); p.appendChild(topo);
+  p.appendChild(el('p', 'c-orig-texto', esc(res.texto)));
+  if (res.rows && res.rows.length) p.appendChild(tabelaHTML({ cols: ['Onde'].concat(res.cols || []), rows: res.rows.map((r, i) => [res.onde[i]].concat(r)), total: res.total }));
+  return p;
+}
+// Uma linha de saída em que os valores com origem viram botões.
+function linhaComOrigens(d, o) {
+  let pos = 0, painel = null, ativo = null;
+  const fechar = () => { if (painel) painel.remove(); painel = null; if (ativo) ativo.setAttribute('aria-expanded', 'false'); ativo = null; };
+  for (const g of o.origens.slice().sort((a, b) => a.ini - b.ini)) {
+    if (g.ini < pos || g.fim <= g.ini) continue;
+    if (g.ini > pos) d.appendChild(document.createTextNode(o.text.slice(pos, g.ini)));
+    const b = el('button', 'c-orig'); b.type = 'button'; b.textContent = o.text.slice(g.ini, g.fim);
+    b.title = 'De onde veio: ' + g.texto; b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', () => {
+      const era = ativo === b; fechar(); if (era) return;
+      painel = painelOrigem(g, fechar); d.after(painel); ativo = b; b.setAttribute('aria-expanded', 'true');
+    });
+    d.appendChild(b); pos = g.fim;
+  }
+  if (pos < o.text.length) d.appendChild(document.createTextNode(o.text.slice(pos)));
+}
+function tabelaHTML(o) {
+  const frag = document.createDocumentFragment();
+  const w = el('div', 'c-tab'); const t = document.createElement('table');
+  const ncols = o.cols ? o.cols.length : (o.rows[0] || []).length;
+  const numerica = Array.from({ length: ncols }, (_, i) => o.rows.every(r => r[i] === '' || (r[i] && r[i].n !== undefined)) && o.rows.some(r => r[i] && r[i].n !== undefined));
+  if (o.cols) {
+    const tr = document.createElement('tr');
+    o.cols.forEach((c, i) => { const th = document.createElement('th'); th.textContent = c; if (numerica[i]) th.className = 'n'; tr.appendChild(th); });
+    const th = document.createElement('thead'); th.appendChild(tr); t.appendChild(th);
+  }
+  const tb = document.createElement('tbody');
+  const n = o.total;
+  const nota = el('div', 'c-tab-nota', (o.rows.length < n ? 'Mostrando ' + o.rows.length + ' de ' + n.toLocaleString('pt-BR') + ' linhas' : n + (n === 1 ? ' linha' : ' linhas')) + (o.origens ? ' · toque numa linha para ver de onde ela veio' : ''));
+  let painel = null, sel = null;
+  const fechar = () => { if (painel) painel.remove(); painel = null; if (sel) { sel.classList.remove('sel'); sel.setAttribute('aria-expanded', 'false'); } sel = null; };
+  o.rows.forEach((r, ri) => {
+    const tr = document.createElement('tr');
+    r.forEach((c, i) => { const td = document.createElement('td'); td.textContent = celTexto(c); td.title = td.textContent; if (numerica[i]) td.className = 'n'; else if (typeof c !== 'string') td.className = 'b'; tr.appendChild(td); });
+    const g = o.origens && o.origens[ri];
+    if (g) {
+      tr.className = 'c-tr-orig'; tr.tabIndex = 0; tr.setAttribute('aria-expanded', 'false'); tr.setAttribute('aria-label', 'Linha ' + (ri + 1) + ': ver de onde veio');
+      const abrir = () => { const era = sel === tr; fechar(); if (era) return; painel = painelOrigem(g, fechar); nota.after(painel); sel = tr; tr.classList.add('sel'); tr.setAttribute('aria-expanded', 'true'); };
+      tr.addEventListener('click', abrir);
+      tr.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abrir(); } });
+    }
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb); w.appendChild(t); frag.appendChild(w);
+  frag.appendChild(nota);
+  return frag;
+}
+function paraTSV(f) {
+  const lines = []; const q = s => /[\t\n"]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  if (f.cols) lines.push(f.cols.map(q).join('\t'));
+  for (const r of f.rows) lines.push(r.map(c => q(typeof c === 'string' ? c : c.dt !== undefined ? c.s : c.n !== undefined ? c.n.replace('.', ',') : c.b ? 'verdadeiro' : 'falso')).join('\t'));
+  return lines.join('\n');
+}
+function arquivoSaida(o, f, interativo) {
+  const d = el('div', 'c-arq');
+  d.appendChild(el('span', 'c-arq-nome', esc(o.name)));
+  d.appendChild(el('span', 'c-arq-info', o.rows != null ? 'pronto · ' + o.rows + (o.rows === 1 ? ' linha' : ' linhas') : 'pronto'));
+  if (!f) return d;
+  if (!interativo) { d.appendChild(el('span', 'c-arq-info', '(abra no editor para baixar)')); return d; }
+  const acoes = el('div', 'c-arq-acoes');
+  const bb = el('button', 'btn btn-rodar so-baixar', 'Baixar'); bb.type = 'button';
+  bb.addEventListener('click', () => baixar(f, bb));
+  const bc = el('button', 'btn', f.ext === 'xlsx' ? 'Copiar tabela' : 'Copiar'); bc.type = 'button';
+  bc.addEventListener('click', () => copiar(f.ext === 'xlsx' || (f.ext === 'csv' && !document.body.classList.contains('pode-baixar')) ? paraTSV(f) : f.text, bc, bc.textContent));
+  acoes.appendChild(bb); acoes.appendChild(bc); d.appendChild(acoes);
+  return d;
+}
+function copiar(texto, btn, rotulo) {
+  const done = t => { btn.textContent = t; setTimeout(() => { btn.textContent = rotulo; }, 1600); };
+  const falhou = () => { const ta2 = document.createElement('textarea'); ta2.value = texto; ta2.style.position = 'fixed'; ta2.style.opacity = '0'; document.body.appendChild(ta2); ta2.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta2.remove(); done(ok ? 'Copiado' : 'Não deu'); };
+  try { navigator.clipboard.writeText(texto).then(() => done('Copiado'), falhou); } catch (e) { falhou(); }
+}
+let downloads = null;
+// Fora do Claude (a página num site próprio ou aberta direto no computador), o navegador baixa o arquivo sozinho.
+const baixarDireto = !(window.claude && typeof window.claude.use === 'function');
+if (baixarDireto) document.body.classList.add('pode-baixar');
+async function entregarArquivo(nome, data) {
+  if (downloads) return downloads.save({ filename: nome, data });
+  if (!baixarDireto) throw Object.assign(new Error('Baixar não está disponível aqui.'), { code: 'unavailable' });
+  const tipos = { html: 'text/html', csv: 'text/csv', json: 'application/json', md: 'text/markdown', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' };
+  const blob = new Blob([data], { type: (tipos[nome.split('.').pop()] || 'text/plain') + ';charset=utf-8' });
+  const url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+(async () => {
+  try { if (window.claude && typeof window.claude.use === 'function') downloads = await window.claude.use('downloads'); } catch (e) { downloads = null; }
+  if (downloads) document.body.classList.add('pode-baixar');
+})();
+async function baixar(f, btn) {
+  if (!downloads && !baixarDireto) return;
+  btn.disabled = true; const rot = btn.textContent;
+  try {
+    let data;
+    if (f.ext === 'xlsx') {
+      btn.textContent = 'Preparando…';
+      const X = await carregarXLSX();
+      const aoa = []; if (f.cols) aoa.push(f.cols);
+      const serial = iso => { const [dia, hora] = iso.split('T'); const [a, m, dd] = dia.split('-').map(Number); let v = (Date.UTC(a, m - 1, dd) - Date.UTC(1899, 11, 30)) / 86400000; if (hora) { const [h, mi, se] = hora.split(':').map(Number); v += (h * 3600 + mi * 60 + (se || 0)) / 86400; } return v; };
+      for (const r of f.rows) aoa.push(r.map(c => typeof c === 'string' ? c : c.dt !== undefined ? serial(c.dt) : c.n !== undefined ? Number(c.n) : c.b));
+      const ws = X.utils.aoa_to_sheet(aoa);
+      const off = f.cols ? 1 : 0;
+      f.rows.forEach((r, ri) => r.forEach((c, ci) => { if (c && typeof c === 'object' && c.dt !== undefined) { const ref = X.utils.encode_cell({ r: ri + off, c: ci }); if (ws[ref]) ws[ref].z = c.dt.includes('T') ? 'dd/mm/yyyy hh:mm' : 'dd/mm/yyyy'; } }));
+      ws['!cols'] = (aoa[0] || []).map((_, i) => ({ wch: Math.min(48, Math.max(8, ...aoa.slice(0, 200).map(r => String(r[i] == null ? '' : r[i]).length + 2))) }));
+      const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'Cordel');
+      data = X.write(wb, { type: 'array', bookType: 'xlsx' });
+    } else data = (f.ext === 'csv' ? '﻿' : '') + f.text;
+    await entregarArquivo(f.name, data);
+    btn.textContent = 'Baixado';
+  } catch (e) {
+    const code = e && e.code;
+    btn.textContent = code === 'declined' ? rot : code === 'rate_limited' ? 'Aguarde' : 'Não deu';
+    if (code === 'unavailable' || code === 'not_granted' || code === 'capability_disabled' || code === 'capability_removed') document.body.classList.remove('pode-baixar');
+    if (!code && /Excel/.test(e && e.message || '')) btn.textContent = 'Sem Excel';
+  } finally { btn.disabled = false; setTimeout(() => { if (btn.textContent !== rot) btn.textContent = rot; }, 2400); }
+}
+
+// ── leitor de Excel (carregado só quando precisa) ──
+let xlsxP = null;
+function carregarXLSX() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  if (!xlsxP) xlsxP = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = () => window.XLSX ? res(window.XLSX) : rej(new Error('Não consegui carregar o leitor de Excel.'));
+    s.onerror = () => { xlsxP = null; rej(new Error('Não consegui carregar o leitor de Excel. Confira a internet ou salve a planilha como CSV.')); };
+    document.head.appendChild(s);
+  });
+  return xlsxP;
+}
+
+// ── Claude escreve ──
+let sampleIA = null, iaCtl = null, iaAnterior = null;
+(async () => {
+  try { if (window.claude && typeof window.claude.use === 'function') sampleIA = await window.claude.use('sample'); } catch (e) { sampleIA = null; }
+  if (sampleIA) $('#descrever').hidden = false;
+})();
+const IDEIAS = ['Um app de controle de estoque com busca e gráfico por categoria', 'Uma calculadora de margem de lucro para móveis', 'Um app de metas da semana que lembra o que eu marquei', 'Um site de uma página para um restaurante de comida regional', 'Conferir na planilha de vendas as notas com desconto acima de 10%'];
+const ideias = $('#ia-ideias');
+for (const t of IDEIAS) { const b = el('button', null, esc(t)); b.type = 'button'; b.addEventListener('click', () => { $('#ia-pedido').value = t; $('#ia-pedido').focus(); }); ideias.appendChild(b); }
+$('#descrever').addEventListener('click', () => { const p = $('#ia'); p.hidden = !p.hidden; if (!p.hidden) $('#ia-pedido').focus(); });
+function iaEstado(t, cls) { const e = $('#ia-estado'); e.textContent = t; e.className = 'ia-estado' + (cls ? ' ' + cls : ''); }
+function extrairCodigo(texto, parcial) {
+  const m = /```(?:cordel)?[^\n]*\n([\s\S]*?)(```|$)/.exec(texto);
+  if (m) return m[2] === '```' || parcial ? m[1].replace(/\n$/, '') : m[1];
+  return parcial ? '' : texto.trim();
+}
+function descreverArquivos() {
+  if (!arquivos.length) return 'Nenhuma planilha adicionada.';
+  return arquivos.map(f => '- "' + f.name + '"' + (f.sheets && f.sheets.length > 1 ? ' (abas: ' + f.sheets.map(s => s.name).join(', ') + ')' : '') + ': ' + Cordel.camposComTipo(f).map(([n, t]) => n.toLocaleLowerCase('pt-BR') + ' (' + t + ')').join(', ')).join('\n');
+}
+function validarCodigo(codigo) {
+  const app = ehApp(codigo);
+  const s = Cordel.start(codigo, { app, files: arquivosAtuais(), modulos: modulosDisponiveis(), storage: { get: () => null, set: () => {} }, maxSteps: 3000000, seed: 1 });
+  return s.res.error ? { ok: false, erro: s.res.error } : { ok: true };
+}
+function mostrarNoEditor(c) { ta.value = c; errLine = null; sairPassos(); refresh(); diagnosticar(); }
+async function pedirAoClaude(conversa, rotulo, nomeNovo) {
+  if (!sampleIA) return;
+  if (iaCtl) iaCtl.abort();
+  const ctl = iaCtl = new AbortController();
+  $('#ia').hidden = false;
+  iaAnterior = ta.value;
+  $('#ia-ir').disabled = true; $('#ia-parar').hidden = false; $('#ia-desfazer').hidden = true;
+  iaEstado(rotulo || 'Pensando…');
+  let correcoes = 0;
+  try {
+    for (;;) {
+      let escrevendo = false;
+      const r = await sampleIA(conversa, { signal: ctl.signal, cache: false, onText: ({ text }) => {
+        const c = extrairCodigo(text, true);
+        if (c) { if (!escrevendo) { escrevendo = true; iaEstado(correcoes ? 'Reescrevendo…' : 'Escrevendo…'); } mostrarNoEditor(c); }
+      } });
+      const codigo = extrairCodigo(r.text, false);
+      mostrarNoEditor(codigo);
+      iaEstado('Conferindo o código…');
+      const v = validarCodigo(codigo);
+      if (v.ok || correcoes >= 2) {
+        salvar(nomeNovo); rodarNovo();
+        iaEstado(v.ok ? (correcoes ? 'Pronto, depois de ' + correcoes + (correcoes > 1 ? ' correções' : ' correção') + '. O programa está no editor e já rodou.' : 'Pronto. O programa está no editor e já rodou.') : 'O código ainda tem um erro na linha ' + v.erro.line + '. Veja a saída.', v.ok ? 'ok' : 'mal');
+        $('#ia-desfazer').hidden = false;
+        if (r.truncated) iaEstado('A resposta veio cortada; confira o final do código.', 'mal');
+        return;
+      }
+      correcoes++;
+      iaEstado('O interpretador achou um erro na linha ' + v.erro.line + '. Pedindo correção…');
+      conversa = conversa.concat([{ role: 'assistant', content: r.text }, { role: 'user', content: 'O interpretador da Cordel rodou esse programa e parou na linha ' + v.erro.line + ' com o erro: "' + v.erro.msg + '".' + (v.erro.dica ? ' Dica do interpretador: ' + v.erro.dica : '') + '\nCorrija e devolva o programa completo, no mesmo formato.' }]);
+    }
+  } catch (e) {
+    const code = e && e.code;
+    if (code !== 'cancelled' || iaCtl === ctl) mostrarNoEditor(iaAnterior);
+    if (code === 'cancelled') iaEstado('Parado. O código anterior foi mantido.');
+    else if (['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'].includes(code)) { iaEstado('O Claude não está disponível nesta página.', 'mal'); sampleIA = null; $('#descrever').hidden = true; }
+    else if (code === 'rate_limited') iaEstado('Muitos pedidos agora. Tente de novo daqui a pouco.', 'mal');
+    else if (code === 'refused') iaEstado('O Claude não atendeu esse pedido. Tente descrever de outro jeito.', 'mal');
+    else if (code === 'prompt_too_large') iaEstado('O código atual é grande demais para mandar junto. Apague partes e tente de novo.', 'mal');
+    else iaEstado('Não deu certo agora. Tente de novo.', 'mal');
+  } finally {
+    if (iaCtl === ctl) { iaCtl = null; $('#ia-ir').disabled = false; $('#ia-parar').hidden = true; }
+  }
+}
+function promptBase() { return K.manualIA + '\n\n## Planilhas adicionadas no editor (leia com tabela("nome"))\n' + descreverArquivos(); }
+$('#ia-ir').addEventListener('click', () => {
+  const pedido = $('#ia-pedido').value.trim();
+  if (!pedido) { iaEstado('Escreva primeiro o que você quer.', 'mal'); $('#ia-pedido').focus(); return; }
+  const atual = ta.value.trim();
+  const texto = promptBase() + '\n\n## Código que está no editor agora\n```cordel\n' + atual.slice(0, 12000) + '\n```\n\n## Pedido\n' + pedido + '\n\nSe o pedido muda ou completa o código atual, devolva o programa completo já modificado. Se é um programa novo, ignore o código atual.';
+  pedirAoClaude([{ role: 'user', content: texto }], 'Pensando…', 'Com o Claude: ' + (pedido.length > 40 ? pedido.slice(0, 40) + '…' : pedido));
+});
+$('#ia-pedido').addEventListener('keydown', ev => { if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); $('#ia-ir').click(); } });
+$('#ia-parar').addEventListener('click', () => { if (iaCtl) iaCtl.abort(); });
+$('#ia-desfazer').addEventListener('click', () => { if (iaAnterior === null) return; mostrarNoEditor(iaAnterior); salvar(); rodarNovo(); $('#ia-desfazer').hidden = true; iaEstado('Voltei o código de antes.'); });
+function corrigirComClaude(e) {
+  const texto = promptBase() + '\n\n## Programa com erro\n```cordel\n' + ta.value.slice(0, 12000) + '\n```\n\n## Erro\nO interpretador parou na linha ' + e.line + ': "' + e.msg + '".' + (e.dica ? ' Dica: ' + e.dica : '') + '\n\nCorrija o erro mudando o mínimo possível e devolva o programa completo.';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  pedirAoClaude([{ role: 'user', content: texto }], 'Pedindo a correção ao Claude…');
+}
+
+// ── arquivos ──
+const ARQS_EXEMPLO = K.arquivosExemplo.map(f => ({ name: f.name, text: f.text, exemplo: true }));
+let arquivos = ARQS_EXEMPLO.slice();
+function infoArquivo(f) {
+  const cheias = r => r.reduce((n, c) => n + (String(c).trim() !== '' ? 1 : 0), 0);
+  const conta = rows => {
+    rows = rows.filter(r => cheias(r) > 0); if (!rows.length) return 0;
+    let most = 0; for (const r of rows.slice(0, 30)) most = Math.max(most, cheias(r));
+    const need = most <= 1 ? 1 : Math.max(2, Math.ceil(most / 2));
+    return Math.max(0, rows.length - Math.max(0, rows.findIndex(r => cheias(r) >= need)) - 1);
+  };
+  if (f.sheets) { const n = f.sheets[0] ? conta(f.sheets[0].rows) : 0; return (f.sheets.length > 1 ? f.sheets.length + ' abas · ' : '') + n.toLocaleString('pt-BR') + ' linhas'; }
+  return conta(Cordel.parseCSV(f.text).rows).toLocaleString('pt-BR') + ' linhas';
+}
+function desenharArquivos() {
+  const lista = $('#arq-lista'); lista.innerHTML = '';
+  for (const f of arquivos) {
+    const chip = el('span', 'arq');
+    const usar = el('button', 'arq-usar'); usar.type = 'button';
+    usar.title = 'Inserir tabela("' + f.name + '") no código';
+    usar.appendChild(el('span', 'arq-nome', esc(f.name)));
+    usar.appendChild(el('span', 'arq-info', esc((f.exemplo ? 'exemplo · ' : '') + (f.info || (f.info = infoArquivo(f))))));
+    usar.addEventListener('pointerdown', ev => ev.preventDefault());
+    usar.addEventListener('click', () => insertSnippet('tabela("' + f.name + '")§'));
+    const tirar = el('button', 'arq-tirar', '×'); tirar.type = 'button'; tirar.setAttribute('aria-label', 'Remover ' + f.name);
+    tirar.addEventListener('click', () => { arquivos = arquivos.filter(x => x !== f); desenharArquivos(); });
+    chip.appendChild(usar); chip.appendChild(tirar); lista.appendChild(chip);
+  }
+}
+async function lerArquivo(file) {
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  const buf = await file.arrayBuffer();
+  if (['xlsx', 'xls', 'xlsm', 'ods'].includes(ext)) {
+    const X = await carregarXLSX();
+    return { name: file.name, sheets: planilhaParaAbas(X, buf) };
+  }
+  let text; try { text = new TextDecoder('utf-8', { fatal: true }).decode(buf); } catch (e) { text = new TextDecoder('windows-1252').decode(buf); }
+  return { name: file.name, text };
+}
+async function adicionarArquivos(lista) {
+  const erro = $('#arq-erro'); erro.textContent = '';
+  for (const file of lista) {
+    if (file.size > 40 * 1024 * 1024) { erro.textContent = file.name + ' é grande demais (mais de 40 MB).'; continue; }
+    try {
+      const f = await lerArquivo(file);
+      f.info = infoArquivo(f);
+      arquivos = arquivos.filter(x => x.name !== f.name).concat([f]);
+      desenharArquivos();
+    } catch (e) { erro.textContent = 'Não consegui ler ' + file.name + ': ' + (e && e.message ? e.message : 'formato não reconhecido') + '.'; }
+  }
+}
+$('#arq-input').addEventListener('change', ev => { adicionarArquivos([...ev.target.files]); ev.target.value = ''; });
+const zona = $('#vista-editor'), faixa = $('#arquivos');
+zona.addEventListener('dragover', ev => { if (ev.dataTransfer && [...ev.dataTransfer.types].includes('Files')) { ev.preventDefault(); faixa.classList.add('sobre'); } });
+zona.addEventListener('dragleave', ev => { if (!zona.contains(ev.relatedTarget)) faixa.classList.remove('sobre'); });
+zona.addEventListener('drop', ev => { if (ev.dataTransfer && ev.dataTransfer.files.length) { ev.preventDefault(); faixa.classList.remove('sobre'); adicionarArquivos([...ev.dataTransfer.files]); } });
+desenharArquivos();
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+function mostrarResultado(box, r, interativo, modoApp) {
+  box.innerHTML = '';
+  const nada = !modoApp && !r.out.length && !r.error && (r.ask === null || r.ask === undefined) && !r.tests;
+  if (nada) box.appendChild(el('div', 'c-vazio', 'O programa rodou sem mostrar nada. Use <code>mostre</code> para exibir valores.'));
+  for (const o of r.out) {
+    if (o.kind === 'table') { box.appendChild(tabelaHTML(o)); continue; }
+    if (o.kind === 'chart') { const w = el('div', 'cx-host'); w.appendChild(CordelApp.grafico(o)); box.appendChild(w); continue; }
+    if (o.kind === 'file') { box.appendChild(arquivoSaida(o, (r.files || []).find(f => f.name === o.name), interativo)); continue; }
+    const d = el('div', o.kind === 'out' ? 'c-out' : o.kind === 'ask' ? 'c-ask' : 'c-ans');
+    if (o.kind === 'out' && o.origens && o.text) linhaComOrigens(d, o); else d.textContent = o.text === '' ? ' ' : o.text;
+    box.appendChild(d);
+  }
+  let estado = modoApp ? ['App rodando', 'ok'] : ['Pronto' + (r.ms != null ? ' em ' + r.ms + ' ms' : ''), 'ok'];
+  if (r.ask !== null && r.ask !== undefined) {
+    if (interativo) {
+      const f = el('form', 'c-perg');
+      f.innerHTML = '<label for="resposta"></label><input id="resposta" autocomplete="off" autocapitalize="off" enterkeyhint="send"><button class="btn btn-rodar" type="submit">Responder</button>';
+      f.querySelector('label').textContent = r.ask || 'O programa espera uma resposta';
+      f.addEventListener('submit', ev => { ev.preventDefault(); sessao.answers.push(f.querySelector('input').value); executar(); });
+      box.appendChild(f);
+      if (sessao && sessao.answers.length) setTimeout(() => f.querySelector('input').focus({ preventScroll: true }), 0);
+      setTimeout(() => { box.scrollTop = box.scrollHeight; }, 0);
+    } else box.appendChild(el('div', 'c-ask', esc(r.ask)));
+    estado = ['Esperando sua resposta', ''];
+  }
+  if (r.error) {
+    const e = r.error, card = el('div', 'c-err'); card.setAttribute('role', 'alert');
+    const topo = el('div', 'c-err-topo'); topo.appendChild(el('strong', null, 'Erro'));
+    if (e.line) {
+      const rot = (e.arquivo ? 'no módulo “' + e.arquivo + '”, ' : '') + 'linha ' + e.line;
+      if (interativo) { const b = el('button', 'c-err-ir', esc(rot)); b.type = 'button'; b.addEventListener('click', () => e.arquivo ? abrirModulo(e.arquivo, e.line) : irParaLinha(e.line)); topo.appendChild(b); }
+      else topo.appendChild(el('span', null, esc(rot)));
+    }
+    card.appendChild(topo);
+    card.appendChild(el('p', 'c-err-msg', fmt(e.msg)));
+    if (e.line && e.lineText != null) {
+      const pad = String(e.line).length;
+      const src = el('pre', 'c-err-src');
+      src.innerHTML = '<span class="ln">' + e.line + '</span>' + esc(e.lineText) + '\n<span class="ln">' + ' '.repeat(pad) + '</span><span class="caret">' + ' '.repeat(Math.max(0, e.col - 1)) + '^</span>';
+      card.appendChild(src);
+    }
+    if (e.dica) card.appendChild(el('p', 'c-err-dica', '<b>Dica</b>' + fmt(e.dica)));
+    if (interativo && sampleIA && e.line && !e.arquivo) { const bc = el('button', 'btn c-err-claude', 'Corrigir com o Claude'); bc.type = 'button'; bc.addEventListener('click', () => corrigirComClaude(e)); card.appendChild(bc); }
+    box.appendChild(card);
+    if (interativo && e.line && !e.arquivo) { errLine = e.line; sync(); }
+    estado = ['Com erro', 'erro'];
+  }
+  if (r.tests && r.tests.length) {
+    const ok = r.tests.filter(t => t.ok).length, all = r.tests.length;
+    const w = el('div', 'c-testes');
+    const topo = el('div', 'c-testes-topo', '<strong>Testes</strong>');
+    topo.appendChild(el('span', 'pilula ' + (ok === all ? 'ok' : 'mal'), ok + ' de ' + all + ' passaram'));
+    w.appendChild(topo);
+    const ul = el('ul');
+    for (const t of r.tests) {
+      const li = el('li', t.ok ? 'ok' : 'mal');
+      li.appendChild(el('span', 'marca-t', t.ok ? '✓' : '✗'));
+      li.appendChild(el('span', null, esc(t.name)));
+      if (!t.ok) {
+        const p = el('div', 'porque', fmt(t.msg));
+        if (t.line && interativo) { const b = el('button', 'c-err-ir', ' linha ' + t.line); b.type = 'button'; b.style.fontSize = '13px'; b.addEventListener('click', () => irParaLinha(t.line)); p.appendChild(document.createTextNode(' · ')); p.appendChild(b); }
+        li.appendChild(p);
+      }
+      ul.appendChild(li);
+    }
+    w.appendChild(ul); box.appendChild(w);
+    if (!r.error && estado[1] === 'ok') estado = [ok === all ? 'Todos os testes passaram' : (all - ok) + (all - ok === 1 ? ' teste falhou' : ' testes falharam'), ok === all ? 'ok' : 'erro'];
+  }
+  if (interativo) setEstado(estado[0], estado[1]);
+}
+
+// ── seletor de programas e menu ──
+const selProg = $('#programa');
+function montarSeletor() {
+  selProg.innerHTML = '';
+  if (atual.tipo === 'trecho') selProg.appendChild(new Option('Trecho do guia: ' + atual.nome, 't:'));
+  const g1 = document.createElement('optgroup'); g1.label = 'Meus programas';
+  if (!progs.lista.length) { const o = new Option('Nenhum ainda: edite um exemplo ou crie um novo', ''); o.disabled = true; g1.appendChild(o); }
+  for (const p of progs.lista) g1.appendChild(new Option(p.nome, 'p:' + p.id));
+  const g2 = document.createElement('optgroup'); g2.label = 'Exemplos';
+  for (const e of K.exemplos) g2.appendChild(new Option(e.nome, 'e:' + e.id));
+  selProg.appendChild(g1); selProg.appendChild(g2);
+  selProg.value = atual.tipo === 'programa' ? 'p:' + atual.id : atual.tipo === 'exemplo' ? 'e:' + atual.id : 't:';
+  atualizarTitulo();
+}
+function atualizarTitulo() {
+  const t = $('#prog-titulo'), sv = $('#st-salvo');
+  if (atual.tipo === 'programa') { t.textContent = nomeAtual(); sv.textContent = memoriaOk ? 'Salvo neste aparelho' : 'Não foi possível salvar'; }
+  else { t.textContent = nomeAtual() + (atual.tipo === 'exemplo' ? ' · exemplo' : ' · trecho do guia'); sv.textContent = 'Editar cria uma cópia sua'; }
+}
+function abrirPrograma(id) { const p = progs.lista.find(x => x.id === id); if (!p) return; atual = { tipo: 'programa', id }; progs.atual = id; gravarProgramas(); setCode(p.codigo); montarSeletor(); diagnosticarJa(); rodarNovo(); }
+function abrirExemplo(id) { const e = K.exemplos.find(x => x.id === id) || K.exemplos[0]; atual = { tipo: 'exemplo', id: e.id }; progs.atual = null; gravarProgramas(); setCode(e.codigo); montarSeletor(); diagnosticarJa(); rodarNovo(); }
+function abrirTrecho(g) { atual = { tipo: 'trecho', nome: g.titulo }; setCode(g.codigo); montarSeletor(); diagnosticarJa(); }
+selProg.addEventListener('change', () => { const v = selProg.value; if (v.startsWith('p:')) abrirPrograma(v.slice(2)); else if (v.startsWith('e:')) abrirExemplo(v.slice(2)); });
+const menu = $('#menu-prog'), btApagar = menu.querySelector('[data-acao=apagar]');
+function fecharMenu() { menu.open = false; btApagar.classList.remove('confirmar'); btApagar.textContent = 'Apagar programa'; }
+document.addEventListener('click', ev => { if (menu.open && !menu.contains(ev.target)) fecharMenu(); });
+menu.addEventListener('keydown', ev => { if (ev.key === 'Escape') { fecharMenu(); menu.querySelector('summary').focus(); } });
+menu.querySelector('summary').addEventListener('click', () => { if (!menu.open) { $('#prog-nome').value = nomeAtual(); btApagar.hidden = atual.tipo !== 'programa'; } });
+function renomear() {
+  const n = $('#prog-nome').value.trim().slice(0, 60); if (!n) return;
+  if (atual.tipo !== 'programa') criarPrograma(n, ta.value); else { progAtual().nome = n; gravarProgramas(); }
+  montarSeletor(); stMsg('Nome salvo'); fecharMenu();
+}
+$('#prog-renomear').addEventListener('click', renomear);
+$('#prog-nome').addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); renomear(); } });
+menu.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-acao]'); if (!b) return;
+  const a = b.dataset.acao;
+  if (a === 'novo') { criarPrograma('Novo programa', '# Escreva seu programa aqui\nmostre "Olá!"\n'); setCode(progAtual().codigo); montarSeletor(); diagnosticarJa(); rodarNovo(); fecharMenu(); ta.focus(); }
+  else if (a === 'duplicar') { criarPrograma('Cópia de ' + nomeAtual(), ta.value); stMsg('Cópia criada'); fecharMenu(); }
+  else if (a === 'abrir') { fecharMenu(); $('#prog-arquivo').click(); }
+  else if (a === 'salvar') { fecharMenu(); salvarArquivo(); }
+  else if (a === 'copiar') { fecharMenu(); copiarCodigo(); }
+  else if (a === 'apagar') {
+    if (!b.classList.contains('confirmar')) { b.classList.add('confirmar'); b.textContent = 'Toque de novo para apagar “' + nomeAtual() + '”'; return; }
+    const id = atual.id; progs.lista = progs.lista.filter(p => p.id !== id); gravarProgramas(); fecharMenu();
+    if (progs.lista.length) abrirPrograma(progs.lista[0].id); else abrirExemplo(K.exemplos[0].id);
+    stMsg('Programa apagado');
+  }
+});
+$('#prog-arquivo').addEventListener('change', async ev => {
+  const f = ev.target.files[0]; ev.target.value = ''; if (!f) return;
+  if (f.size > 2 * 1024 * 1024) { stMsg('Arquivo grande demais para um programa.'); return; }
+  const texto = await f.text();
+  criarPrograma(f.name.replace(/\.(cordel\.txt|cordel|txt)$/i, '') || 'Programa', texto);
+  setCode(texto); montarSeletor(); diagnosticarJa(); rodarNovo(); stMsg('Arquivo aberto: ' + f.name);
+});
+async function salvarArquivo() {
+  if (!downloads && !baixarDireto) { copiarCodigo(); return; }
+  // o recurso de baixar do Claude só aceita algumas extensões; fora dele, o arquivo sai como .cordel
+  try { await entregarArquivo(slug(nomeAtual()) + (downloads ? '.cordel.txt' : '.cordel'), ta.value); stMsg('Arquivo salvo'); }
+  catch (e) { stMsg(e && e.code === 'declined' ? '' : 'Não foi possível salvar o arquivo.'); }
+}
+function copiarCodigo() {
+  const ok = () => stMsg('Código copiado'), falha = () => { ta.focus(); ta.select(); stMsg('Código selecionado: use o copiar do sistema'); };
+  try { navigator.clipboard.writeText(ta.value).then(ok, falha); } catch (e) { falha(); }
+}
+let stT = null;
+function stMsg(t) { const e = $('#st-msg'); e.textContent = t || ''; clearTimeout(stT); if (t) stT = setTimeout(() => { e.textContent = ''; }, 3500); }
+
+// ── guia ──
+const MODULOS_EXEMPLOS = Object.fromEntries(K.exemplos.map(e => [e.id, e.codigo]));
+const dl = $('#principios');
+for (const [t, d] of K.principios) { const w = el('div', 'principio'); w.appendChild(el('dt', null, esc(t))); w.appendChild(el('dd', null, d)); dl.appendChild(w); }
+const secoes = $('#secoes');
+for (const g of K.guia) {
+  const s = el('section', 'secao'); s.id = 'guia-' + g.id;
+  s.appendChild(el('h2', null, esc(g.titulo)));
+  s.appendChild(el('div', null, g.texto));
+  if (g.codigo) {
+  const par = el('div', 'par');
+  const b1 = el('div', 'bloco');
+  const t1 = el('div', 'bloco-topo', 'Código');
+  const abrir = el('button', null, 'Abrir no editor'); abrir.type = 'button';
+  abrir.addEventListener('click', () => { abrirTrecho(g); mostrarAba('editor'); rodarNovo(); window.scrollTo({ top: 0 }); });
+  t1.appendChild(abrir); b1.appendChild(t1);
+  b1.appendChild(el('pre', null, hl(g.codigo)));
+  const b2 = el('div', 'bloco');
+  if (g.internet) {
+    b2.appendChild(el('div', 'bloco-topo', 'Resultado'));
+    b2.appendChild(el('div', 'console', '<div class="c-vazio">Este trecho usa a internet. Toque em <b>Abrir no editor</b> para rodar; o resultado depende do site responder.</div>'));
+  } else if (ehApp(g.codigo)) {
+    b2.appendChild(el('div', 'bloco-topo', 'App (pode tocar)'));
+    const mold = el('div', 'app-moldura'), cons = el('div', 'app-console'); b2.appendChild(mold); b2.appendChild(cons);
+    const mem = new Map();
+    CordelApp.montar(mold, g.codigo, { storage: { get: k => mem.has(k) ? mem.get(k) : null, set: (k, v) => mem.set(k, v) }, files: ARQS_EXEMPLO, modulos: MODULOS_EXEMPLOS,
+      onSaida: r => mostrarResultado(cons, { out: [], error: r.error, ask: null, tests: null, files: [] }, false, true) });
+  } else {
+    b2.appendChild(el('div', 'bloco-topo', 'Resultado'));
+    const cons = el('div', 'console'); b2.appendChild(cons);
+    mostrarResultado(cons, Cordel.run(g.codigo, { seed: 7, files: ARQS_EXEMPLO, modulos: MODULOS_EXEMPLOS }), false);
+  }
+  par.appendChild(b1); par.appendChild(b2); s.appendChild(par);
+  }
+  if (g.acoes) {
+    const a = el('dl', 'acoes');
+    for (const [n, d] of g.acoes) { a.appendChild(el('dt', null, esc(n))); a.appendChild(el('dd', null, esc(d))); }
+    s.appendChild(a);
+  }
+  secoes.appendChild(s);
+}
+$('#reservadas').innerHTML = K.palavras.map(p => '<code>' + esc(p) + '</code>').join('');
+$('#apoio').innerHTML = K.contexto.map(p => '<code>' + esc(p) + '</code>').join('');
+
+// ── referência ──
+let refPronta = false;
+function tabelaRef(cab, linhas, classes) {
+  const w = el('div', 'ref-rolagem'); const t = el('table', 'ref-tab');
+  t.innerHTML = '<thead><tr>' + cab.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead>';
+  const tb = document.createElement('tbody');
+  for (const l of linhas) { const tr = document.createElement('tr'); l.forEach((c, i) => { const td = document.createElement('td'); if (classes && classes[i]) td.className = classes[i]; td.innerHTML = c; tr.appendChild(td); }); tb.appendChild(tr); }
+  t.appendChild(tb); w.appendChild(t); return w;
+}
+function montarReferencia() {
+  if (refPronta) return; refPronta = true;
+  const R = K.ref, corpo = $('#ref-corpo'), indice = $('#ref-indice');
+  const cab = el('header', 'ref-cab');
+  cab.innerHTML = '<div class="rotulo">Referência da linguagem</div><h1>Cordel ' + esc(Cordel.version) + '</h1><div class="meta"><span><b>Arquivos</b> .cordel, texto UTF-8</span><span><b>Execução</b> interpretador em JavaScript, no navegador ou no computador</span><span><b>Licença</b> MIT</span></div>';
+  corpo.appendChild(cab);
+  const sec = (id, titulo, ...nos) => { const s = el('section', 'ref-sec'); s.id = 'ref-' + id; s.appendChild(el('h2', null, esc(titulo))); nos.forEach(n => s.appendChild(typeof n === 'string' ? el('div', null, n) : n)); corpo.appendChild(s); const a = el('a', null, esc(titulo)); a.href = '#ref-' + id; a.addEventListener('click', ev => { ev.preventDefault(); s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); indice.appendChild(a); };
+  const code = t => '<code>' + esc(t) + '</code>';
+  sec('lexica', 'Estrutura léxica', `<ul class="ref-lista">
+<li>Uma instrução por linha; <code>;</code> separa instruções na mesma linha. Quebras de linha dentro de <code>( )</code>, <code>[ ]</code> e <code>{ }</code> são ignoradas.</li>
+<li>Comentários vão de <code>#</code> até o fim da linha.</li>
+<li>Nomes têm letras (com acentos), dígitos e <code>_</code>, e não começam com dígito. A comparação de nomes ignora acentos e maiúsculas.</li>
+<li>Números: dígitos, <code>_</code> como separador visual (<code>1_000_000</code>) e ponto decimal (<code>3.5</code>). Não há notação científica.</li>
+<li>Textos entre <code>"…"</code>, <code>'…'</code> ou aspas curvas. <code>{expressão}</code> encaixa um valor; escapes: <code>\\n</code>, <code>\\t</code>, <code>\\"</code>, <code>\\{</code>, <code>\\\\</code>.</li>
+<li>Os sinais <code>≠ ≤ ≥ × ÷ −</code> são aceitos como sinônimos de <code>!= <= >= * / -</code>, e a palavra <code>é</code> equivale a <code>==</code>.</li>
+</ul>`);
+  const pr = el('div', 'palavras reservadas'); pr.innerHTML = K.palavras.map(code).join('');
+  const pc = el('div', 'palavras'); pc.innerHTML = K.contexto.map(code).join('');
+  sec('palavras', 'Palavras', el('h3', null, 'Reservadas (' + K.palavras.length + ')'), pr, el('h3', null, 'De contexto (livres para usar como nomes)'), pc);
+  const gram = el('pre', 'ref-gram'); gram.textContent = R.gramatica;
+  sec('gramatica', 'Gramática', el('p', null, 'Notação EBNF: <code>{ }</code> repete zero ou mais vezes, <code>[ ]</code> é opcional, <code>|</code> separa alternativas.'), gram);
+  sec('precedencia', 'Precedência de operadores', tabelaRef(['Nível', 'Operadores', 'Significado', 'Associatividade'], R.precedencia.map(l => [esc(l[0]), '<code>' + esc(l[1]) + '</code>', esc(l[2]), esc(l[3])]), ['num']));
+  sec('tipos', 'Tipos', tabelaRef(['Tipo', 'Exemplo', 'Descrição'], R.tipos.map(l => [esc(l[0]), code(l[1]), esc(l[2])]), ['', 'sig']));
+  sec('escopo', 'Nomes e escopo', R.escopo);
+  sec('funcoes', 'Funções prontas', tabelaRef(['Assinatura', 'Descrição'], Cordel.funcoes().map(f => { const d = K.docFuncoes[f.nome] || [f.nome + '()', '']; return [esc(d[0]), esc(d[1])]; }), ['sig']));
+  const metodosSec = [];
+  for (const [de, titulo] of [['lista', 'Listas'], ['texto', 'Textos'], ['número', 'Números'], ['data', 'Datas'], ['registro', 'Registros']]) {
+    metodosSec.push(el('h3', null, titulo));
+    metodosSec.push(tabelaRef(['Ação', 'Descrição'], Cordel.metodos().filter(m => m.de === de).map(m => { const d = K.docMetodos[de + ':' + m.nome] || ['', '']; return [esc('.' + m.nome + d[0]), esc(d[1])]; }), ['sig']));
+  }
+  sec('metodos', 'Ações por tipo', el('p', null, 'Ações sem parênteses devolvem um valor derivado (<code>lista.tamanho</code>); as que recebem valores usam parênteses (<code>lista.filtre(x => x > 0)</code>). Nenhuma ação altera o valor original, exceto as indicadas.'), ...metodosSec);
+  if (R.modulos) sec('modulos', 'Módulos', R.modulos);
+  sec('telas', 'Telas', R.telas);
+  sec('planilhas', 'Planilhas', R.planilhas);
+  sec('origem', 'Origem dos valores', R.origem);
+  sec('conciliacao', 'Conciliação', R.conciliacao);
+  sec('internet', 'Internet', R.internet);
+  sec('indices', 'Índices e cotações', R.indices);
+  sec('diagnostico', 'Diagnóstico', el('p', null, 'O editor verifica o programa enquanto você digita, sem rodá-lo. Erros impedem a execução correta; avisos apontam código provavelmente indesejado.'), tabelaRef(['Nível', 'Verificação', 'Observação'], R.diagnostico.map(l => ['<span class="nivel ' + l[0] + '">' + l[0] + '</span>', esc(l[1]), esc(l[2])])));
+  sec('limites', 'Limites', tabelaRef(['Recurso', 'Limite'], R.limites.map(l => [esc(l[0]), esc(l[1])]), ['', 'num']));
+  sec('atalhos', 'Atalhos do editor', tabelaRef(['Teclas', 'Ação'], R.atalhos.map(l => [l[0].split(' + ').map(k => '<span class="kbd">' + esc(k) + '</span>').join(' + '), esc(l[1])])));
+  sec('versoes', 'Histórico de versões', tabelaRef(['Versão', 'Data', 'Mudanças'], R.novidades.map(l => ['<b>' + esc(l[0]) + '</b>', esc(l[1]), esc(l[2])]), ['num', 'num']));
+  sec('licenca', 'Licença', '<p>Cordel é distribuída sob a licença MIT: pode ser usada, copiada, modificada e distribuída livremente, inclusive em uso comercial, mantendo o aviso de direitos autorais. © 2026 Antônio Duarte Neto.</p>');
+}
+
+// ── abas ──
+function mostrarAba(nome) {
+  if (!['editor', 'guia', 'ref'].includes(nome)) nome = 'editor';
+  for (const [n, vista, aba] of [['editor', '#vista-editor', '#aba-editor'], ['guia', '#vista-guia', '#aba-guia'], ['ref', '#vista-ref', '#aba-ref']]) {
+    $(vista).hidden = n !== nome; $(aba).setAttribute('aria-selected', String(n === nome));
+  }
+  try { history.replaceState(null, '', '#' + (nome === 'ref' ? 'referencia' : nome)); } catch (e) { /* sem histórico */ }
+  if (nome === 'ref') montarReferencia();
+  if (nome === 'editor') { measure(); sync(); }
+}
+$('#aba-editor').addEventListener('click', () => mostrarAba('editor'));
+$('#aba-guia').addEventListener('click', () => { mostrarAba('guia'); window.scrollTo({ top: 0 }); });
+$('#aba-ref').addEventListener('click', () => { mostrarAba('ref'); window.scrollTo({ top: 0 }); });
+
+// ── diagnóstico ao vivo ──
+let diagT = null;
+function diagnosticarJa() {
+  clearTimeout(diagT);
+  let r; try { r = Cordel.verificar(ta.value, { modulos: modulosDisponiveis() }); } catch (e) { r = { problemas: [] }; }
+  problemasAtuais = r.problemas; desenharProblemas(); refreshGutter();
+}
+function diagnosticar() { clearTimeout(diagT); diagT = setTimeout(diagnosticarJa, 350); }
+ta.addEventListener('input', diagnosticar);
+function desenharProblemas() {
+  const ne = problemasAtuais.filter(p => p.nivel === 'erro').length, na = problemasAtuais.length - ne;
+  $('#st-e').textContent = ne; $('#st-a').textContent = na;
+  $('#st-prob').title = ne + (ne === 1 ? ' erro' : ' erros') + ' e ' + na + (na === 1 ? ' aviso' : ' avisos') + ': ver problemas';
+  const c = $('#cont-prob'); c.textContent = problemasAtuais.length; c.className = 'cont' + (ne ? ' com-erro' : na ? ' com-aviso' : '');
+  const box = $('#problemas'); box.innerHTML = '';
+  if (!problemasAtuais.length) { box.appendChild(el('div', 'prob-vazio', 'Nenhum problema encontrado.')); return; }
+  for (const p of problemasAtuais) {
+    const b = el('button', 'prob ' + p.nivel); b.type = 'button';
+    b.appendChild(el('span', 'prob-ic')); b.appendChild(el('span', 'prob-msg', fmt(p.msg))); b.appendChild(el('span', 'prob-lin', 'linha ' + p.linha));
+    if (p.dica) b.appendChild(el('span', 'prob-dica', fmt(p.dica)));
+    b.addEventListener('click', () => irParaLinha(p.linha));
+    box.appendChild(b);
+  }
+}
+function abaSaida(qual) {
+  const prob = qual === 'problemas';
+  $('#console').hidden = prob; $('#problemas').hidden = !prob;
+  $('#tab-saida').setAttribute('aria-selected', String(!prob)); $('#tab-prob').setAttribute('aria-selected', String(prob));
+}
+$('#tab-saida').addEventListener('click', () => abaSaida('saida'));
+$('#tab-prob').addEventListener('click', () => abaSaida('problemas'));
+$('#st-prob').addEventListener('click', () => { abaSaida('problemas'); $('#problemas').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+function posCursor() {
+  const v = ta.value, s = ta.selectionStart, antes = v.slice(0, s);
+  $('#st-pos').textContent = 'Ln ' + antes.split('\n').length + ', Col ' + (s - antes.lastIndexOf('\n'));
+}
+['input', 'click', 'keyup', 'select', 'focus'].forEach(e => ta.addEventListener(e, posCursor));
+document.addEventListener('selectionchange', () => { if (document.activeElement === ta) posCursor(); });
+
+// ── formatador ──
+function formatarCodigo() {
+  const antes = ta.value;
+  let r; try { r = Cordel.verificar(antes, { modulos: modulosDisponiveis() }); } catch (e) { r = { problemas: [] }; }
+  if (r.problemas.some(p => p.sintaxe)) { stMsg('Corrija os erros de sintaxe antes de formatar.'); abaSaida('problemas'); return; }
+  const novo = Cordel.formatar(antes);
+  if (novo === antes) { stMsg('O código já está no formato oficial.'); return; }
+  const linha = antes.slice(0, ta.selectionStart).split('\n').length;
+  ta.focus(); ta.select(); insertText(novo);
+  const ls = novo.split('\n'); let pos = 0; for (let i = 0; i < Math.min(linha - 1, ls.length - 1); i++) pos += ls[i].length + 1;
+  ta.setSelectionRange(pos, pos); posCursor();
+  stMsg('Código formatado.');
+}
+$('#formatar').addEventListener('click', formatarCodigo);
+document.addEventListener('keydown', ev => {
+  if ((ev.ctrlKey || ev.metaKey) && !ev.shiftKey && !ev.altKey && ev.key.toLowerCase() === 's') { ev.preventDefault(); salvar(); stMsg('Salvo neste aparelho'); }
+  else if (ev.shiftKey && ev.altKey && ev.code === 'KeyF') { ev.preventDefault(); formatarCodigo(); }
+});
+
+// ── início ──
+{
+  const inicial = progs.atual && progs.lista.find(p => p.id === progs.atual);
+  if (inicial) { atual = { tipo: 'programa', id: inicial.id }; ta.value = inicial.codigo; }
+  else { atual = { tipo: 'exemplo', id: K.exemplos[0].id }; ta.value = K.exemplos[0].codigo; }
+}
+montarSeletor();
+$('#versao').textContent = 'v' + Cordel.version;
+mostrarAba(location.hash === '#guia' ? 'guia' : location.hash === '#referencia' ? 'ref' : 'editor');
+measure(); refresh(); diagnosticarJa(); posCursor();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); sync(); });
+window.addEventListener('resize', () => { measure(); sync(); });
+rodarNovo();
+})();
+</script>

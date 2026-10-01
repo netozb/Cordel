@@ -1,0 +1,24 @@
+== ao abrir
+<tela> barra="Entrega" cor=null pagina=null paginas=[] title="Entrega" voltar=false
+  <campo> id=0 label="Saída do caminhão" tipo="datahora" value="2026-09-03T08:00"
+  <campo> id=1 label="Dia" tipo="data" value="2026-09-03"
+  <texto> text="Chega às 12:30 de quinta-feira"
+  <texto> text="data"
+== muda a hora (0, "2026-09-03T21:45")
+<tela> barra="Entrega" cor=null pagina=null paginas=[] title="Entrega" voltar=false
+  <campo> id=0 label="Saída do caminhão" tipo="datahora" value="2026-09-03T21:45"
+  <campo> id=1 label="Dia" tipo="data" value="2026-09-03"
+  <texto> text="Chega às 02:15 de sexta-feira"
+  <texto> text="data"
+== hora inválida (0, "amanhã cedo") [nada mudou]
+<tela> barra="Entrega" cor=null pagina=null paginas=[] title="Entrega" voltar=false
+  <campo> id=0 label="Saída do caminhão" tipo="datahora" value="2026-09-03T21:45"
+  <campo> id=1 label="Dia" tipo="data" value="2026-09-03"
+  <texto> text="Chega às 02:15 de sexta-feira"
+  <texto> text="data"
+== muda o dia (1, "2026-09-05")
+<tela> barra="Entrega" cor=null pagina=null paginas=[] title="Entrega" voltar=false
+  <campo> id=0 label="Saída do caminhão" tipo="datahora" value="2026-09-03T21:45"
+  <campo> id=1 label="Dia" tipo="data" value="2026-09-05"
+  <texto> text="Chega às 02:15 de sexta-feira"
+  <texto> text="data"

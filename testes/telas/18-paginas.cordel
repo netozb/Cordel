@@ -1,0 +1,23 @@
+produtos = [{nome: "Sofá", preço: 2499.9}, {nome: "Rack", preço: 399}]
+var escolhido = produtos[1]
+tela "Loja"
+  abas
+  página "Produtos"
+    para cada p em produtos
+      botão p.nome
+        escolhido = p
+        vá para "Detalhes"
+      fim
+    fim
+  fim
+  página "Detalhes"
+    título escolhido.nome
+    mostre escolhido.preço.dinheiro
+    botão "Voltar à lista"
+      volte
+    fim
+  fim
+  página "Sobre"
+    mostre "Loja de exemplo"
+  fim
+fim

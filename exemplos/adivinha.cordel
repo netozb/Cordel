@@ -1,0 +1,18 @@
+# O programa sorteia; você chuta
+segredo = aleatório(1, 20)
+var tentativas = 0
+var acertou = falso
+
+enquanto não acertou
+  palpite = número(pergunte("Chute um número de 1 a 20"))
+  tentativas += 1
+  se palpite == segredo
+    acertou = verdadeiro
+  senão se palpite < segredo
+    mostre "Mais alto!"
+  senão
+    mostre "Mais baixo!"
+  fim
+fim
+
+mostre "Acertou em {tentativas} tentativas!"

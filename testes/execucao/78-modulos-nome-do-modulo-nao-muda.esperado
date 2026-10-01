@@ -1,0 +1,2 @@
+[erro 2:1] `taxa` vem do módulo "regras" e não pode mudar aqui.
+[dica] Crie um nome seu com o valor: var meu_taxa = taxa

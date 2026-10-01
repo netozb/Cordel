@@ -1,0 +1,5 @@
+tela "x"
+  botao "ir"
+    vá para "B"
+  fim
+fim

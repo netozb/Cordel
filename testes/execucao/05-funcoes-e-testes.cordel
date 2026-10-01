@@ -1,0 +1,20 @@
+função dobro(x) = x * 2
+
+função fatorial(n)
+  se n <= 1
+    devolva 1
+  fim
+  devolva n * fatorial(n - 1)
+fim
+
+mostre fatorial(30)
+
+teste "dobro funciona"
+  confira dobro(21) == 42
+fim
+teste "fatorial de 5"
+  confira fatorial(5) == 120
+fim
+teste "um teste que falha"
+  confira dobro(3) == 7
+fim

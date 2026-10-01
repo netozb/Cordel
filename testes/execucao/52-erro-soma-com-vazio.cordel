@@ -1,0 +1,2 @@
+est = tabela("Estoque.xlsx")
+mostre est.soma(x => x.saldo)

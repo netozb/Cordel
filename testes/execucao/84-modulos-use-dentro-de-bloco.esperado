@@ -1,0 +1,2 @@
+[erro 2:3] `use` fica no nível principal do programa, fora de blocos e funções.
+[dica] Coloque os use no começo do programa.

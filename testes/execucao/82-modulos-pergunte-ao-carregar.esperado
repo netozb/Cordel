@@ -1,0 +1,2 @@
+[erro pergunta 1:16] Um módulo não pode usar `pergunte` enquanto é carregado.
+[dica] Deixe as perguntas no programa principal, ou dentro de funções do módulo.

@@ -1,0 +1,32 @@
+# Consulta a situação de fornecedores na Receita Federal pela BrasilAPI,
+# um serviço público e gratuito. Precisa de internet.
+var cnpj = "00000000000191"
+var resposta = "Digite um CNPJ e toque em Consultar."
+var consultados = guardado("consultados", [])
+
+função só_números(valor) = valor.letras.filtre(c => "0123456789".contém(c)).junte("")
+
+tela "Consulta de CNPJ"
+  cor "anil"
+  guarde("consultados", consultados)
+  campo "CNPJ" em cnpj
+  botão "Consultar"
+    tente
+      empresa = busque("https://brasilapi.com.br/api/cnpj/v1/" + só_números(cnpj))
+      resposta = "{empresa.razao_social}: {empresa.descricao_situacao_cadastral}"
+      consultados.adicione({cnpj: só_números(cnpj), empresa: empresa.razao_social, situação: empresa.descricao_situacao_cadastral, consulta: agora()})
+    falhou erro
+      resposta = "Não deu: {erro}"
+    fim
+  fim
+  cartão
+    mostre resposta
+  fim
+  se não consultados.vazia
+    subtítulo "Consultados neste aparelho"
+    mostre consultados
+    botão "Limpar a lista"
+      consultados.limpe()
+    fim
+  fim
+fim

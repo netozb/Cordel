@@ -1,0 +1,4 @@
+use "regras"
+use "contas"
+mostre com_taxa(100), taxa, arredonda(10 / 3)
+mostre total_com_taxa([10, 20])

@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      acoes:
+        patterns: ['*']
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    ignore:
+      # a versão corrigida do leitor de Excel não está no npm (veja o README, Segurança e limites)
+      - dependency-name: xlsx
+  - package-ecosystem: npm
+    directory: /editores/vscode
+    schedule:
+      interval: monthly
+    groups:
+      extensao:
+        patterns: ['*']

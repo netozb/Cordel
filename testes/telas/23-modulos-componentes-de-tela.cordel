@@ -1,0 +1,9 @@
+use "componentes"
+use "regras"
+produtos = [{nome: "Sofá", preço: 2499.9}, {nome: "Rack", preço: 399}]
+tela "Loja"
+  para cada p em produtos
+    cartão_de_produto(p)
+  fim
+  mostre "Com taxa: {arredonda(com_taxa(produtos[1].preço)).dinheiro}"
+fim

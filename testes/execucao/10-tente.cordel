@@ -1,0 +1,18 @@
+tente
+  x = número("abc")
+falhou erro
+  mostre "Deu ruim: {erro}"
+fim
+função saque(saldo, valor)
+  se valor > saldo
+    falhe "Saldo insuficiente"
+  fim
+  devolva saldo - valor
+fim
+tente
+  mostre saque(100, 30)
+  mostre saque(100, 300)
+falhou e2
+  mostre "Erro: {e2}"
+fim
+mostre número("1.234,56"), número("R$ 10,50"), número("1.500")

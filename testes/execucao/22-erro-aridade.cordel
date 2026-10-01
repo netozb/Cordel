@@ -1,0 +1,2 @@
+função dobro(x) = x * 2
+mostre dobro(1, 2)

@@ -1,0 +1,32 @@
+Totais que não batem: 2
+Descontos acima de 15%: 2
+Notas repetidas: ["004215"]
+[tabela 5 de 5] filial | notas | total
+  Crato | 11 | 30695.4
+  Juazeiro do Norte | 7 | 24351.84
+  Iguatu | 9 | 22436.63
+  Quixadá | 10 | 21558.33
+  Sobral | 5 | 7316.13
+[arquivo resumo.csv, 5 linhas]
+[arquivo resumo.xlsx, 5 linhas]
+[arquivo notas.txt]
+[arquivo dados.json]
+[conteúdo de resumo.csv]
+  filial;notas;total
+  Iguatu;9;22436,63
+  Crato;11;30695,4
+  Juazeiro do Norte;7;24351,84
+  Quixadá;10;21558,33
+  Sobral;5;7316,13
+[conteúdo de resumo.xlsx] filial | notas | total + 5 linhas
+[conteúdo de notas.txt]
+  004187
+  004203
+[conteúdo de dados.json]
+  [
+    {
+      "filial": "Iguatu",
+      "notas": 9,
+      "total": 22436.63
+    }
+  ]

@@ -1,0 +1,2 @@
+[erro 2:8] `_segredo` é privado do módulo "regras".
+[dica] Nomes que começam com _ só existem dentro do módulo que os criou. Tire o _ do nome lá no módulo para usar aqui.

@@ -1,0 +1,2 @@
+[erro 2:32] Não dá para comparar um texto vazio com um número.
+[dica] Texto vazio costuma ser uma célula vazia da planilha. Filtre antes: lista.filtre(v => v.campo != "")

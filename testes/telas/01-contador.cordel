@@ -1,0 +1,11 @@
+var cliques = 0
+tela "Contador"
+  título "Contador"
+  mostre "Você tocou {cliques} vezes"
+  botão "Somar 1"
+    cliques += 1
+  fim
+  se cliques >= 2
+    mostre "Já são dois!"
+  fim
+fim

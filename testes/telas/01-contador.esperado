@@ -1,0 +1,16 @@
+== ao abrir
+<tela> barra="Contador" cor=null pagina=null paginas=[] title="Contador" voltar=false
+  <titulo> text="Contador"
+  <texto> text="Você tocou 0 vezes"
+  <botao> id=0 text="Somar 1"
+== toca (0)
+<tela> barra="Contador" cor=null pagina=null paginas=[] title="Contador" voltar=false
+  <titulo> text="Contador"
+  <texto> text="Você tocou 1 vezes"
+  <botao> id=0 text="Somar 1"
+== toca (0)
+<tela> barra="Contador" cor=null pagina=null paginas=[] title="Contador" voltar=false
+  <titulo> text="Contador"
+  <texto> text="Você tocou 2 vezes"
+  <botao> id=0 text="Somar 1"
+  <texto> text="Já são dois!"

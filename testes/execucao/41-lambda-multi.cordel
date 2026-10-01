@@ -1,0 +1,8 @@
+soma = (a, b) => a + b
+mostre soma(2, 3)
+mostre [3,1,2].ordenada, ["b","á","a"].ordenada
+mostre tipo(soma), tipo([]), tipo("x"), tipo(1), tipo(verdadeiro), tipo({})
+mostre intervalo(1, 5).transforme(x => x * x)
+mostre "banana".troque("a", "o"), "a,b,c".divida(","), "  oi  ".aparado.tamanho
+mostre [1,2,3].contém(2), [1,2,3].todos(x => x > 0), [1,2,3].conte(x => x.ímpar)
+mostre 7.par, 7.ímpar, (-3.7).inteiro, (-3.5).arredondado

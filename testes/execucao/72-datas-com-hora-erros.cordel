@@ -1,0 +1,31 @@
+tente
+  mostre data("03/09/2026 25:00")
+falhou erro
+  mostre "1:", erro
+fim
+tente
+  mostre data(2026, 9, 3, 14)
+falhou erro
+  mostre "2:", erro
+fim
+tente
+  mostre data(2026, 9, 3, 24, 0)
+falhou erro
+  mostre "3:", erro
+fim
+tente
+  mostre data("03/09/2026").minutos_até("amanhã")
+falhou erro
+  mostre "4:", erro
+fim
+tente
+  mostre data(data("03/09/2026"), "meio-dia")
+falhou erro
+  mostre "5:", erro
+fim
+tente
+  mostre data("03/09/2026 10:00") + 0.5
+falhou erro
+  mostre "6:", erro
+fim
+mostre data("31/12/9999 23:00").mais_horas(2)

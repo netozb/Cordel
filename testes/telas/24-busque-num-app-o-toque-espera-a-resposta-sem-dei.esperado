@@ -1,0 +1,34 @@
+== ao abrir
+<tela> barra="Consulta de CNPJ" cor=null pagina=null paginas=[] title="Consulta de CNPJ" voltar=false
+  <campo> id=0 label="CNPJ" num=false value="11222333000181"
+  <botao> id=1 text="Consultar"
+  <texto> text="Digite um CNPJ e toque em Consultar"
+  <texto> text="0 consulta(s) · histórico: "
+== consulta um CNPJ que existe (1)
+[buscou] https://api.exemplo.com/cnpj/11222333000181
+<tela> barra="Consulta de CNPJ" cor=null pagina=null paginas=[] title="Consulta de CNPJ" voltar=false
+  <campo> id=0 label="CNPJ" num=false value="11222333000181"
+  <botao> id=1 text="Consultar"
+  <texto> text="MÓVEIS MANDACARU LTDA (ATIVA)"
+  <texto> text="1 consulta(s) · histórico: 11222333000181"
+== consulta de novo (resposta lembrada) (1)
+<tela> barra="Consulta de CNPJ" cor=null pagina=null paginas=[] title="Consulta de CNPJ" voltar=false
+  <campo> id=0 label="CNPJ" num=false value="11222333000181"
+  <botao> id=1 text="Consultar"
+  <texto> text="MÓVEIS MANDACARU LTDA (ATIVA)"
+  <texto> text="2 consulta(s) · histórico: 11222333000181, 11222333000181"
+== digita um CNPJ que não existe (0, "00000000000000")
+<tela> barra="Consulta de CNPJ" cor=null pagina=null paginas=[] title="Consulta de CNPJ" voltar=false
+  <campo> id=0 label="CNPJ" num=false value="00000000000000"
+  <botao> id=1 text="Consultar"
+  <texto> text="MÓVEIS MANDACARU LTDA (ATIVA)"
+  <texto> text="2 consulta(s) · histórico: 11222333000181, 11222333000181"
+== consulta e dá erro (1) [nada mudou]
+[buscou] https://api.exemplo.com/cnpj/00000000000000
+[erro 11:21] O endereço respondeu com erro 404 (não encontrado).
+[dica] Confira o endereço: talvez o código (CNPJ, CEP…) não exista.
+<tela> barra="Consulta de CNPJ" cor=null pagina=null paginas=[] title="Consulta de CNPJ" voltar=false
+  <campo> id=0 label="CNPJ" num=false value="00000000000000"
+  <botao> id=1 text="Consultar"
+  <texto> text="MÓVEIS MANDACARU LTDA (ATIVA)"
+  <texto> text="3 consulta(s) · histórico: 11222333000181, 11222333000181, 00000000000000"

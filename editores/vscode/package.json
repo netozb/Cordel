@@ -1,0 +1,153 @@
+{
+  "name": "cordel",
+  "displayName": "Cordel",
+  "version": "0.7.0",
+  "publisher": "cordel",
+  "license": "MIT",
+  "description": "Linguagem Cordel: destaque de sintaxe, erros e avisos enquanto você digita, formatação oficial, explicações e comando para rodar.",
+  "author": "Antônio Duarte Neto",
+  "icon": "icones/cordel.png",
+  "galleryBanner": {
+    "color": "#15171A",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Linters",
+    "Snippets"
+  ],
+  "keywords": [
+    "cordel",
+    "português",
+    "portugues",
+    "ensino",
+    "planilhas",
+    "brasil"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:cordel"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "cordel",
+        "aliases": [
+          "Cordel",
+          "cordel"
+        ],
+        "extensions": [
+          ".cordel"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icones/arquivo.png",
+          "dark": "./icones/arquivo.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cordel",
+        "scopeName": "source.cordel",
+        "path": "./syntaxes/cordel.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "cordel",
+        "path": "./snippets/cordel.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "cordel.rodar",
+        "title": "Rodar programa",
+        "category": "Cordel",
+        "icon": "$(play)"
+      },
+      {
+        "command": "cordel.rodarNoTerminal",
+        "title": "Rodar no terminal",
+        "category": "Cordel",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "cordel.gerarApp",
+        "title": "Gerar app (.html)",
+        "category": "Cordel",
+        "icon": "$(browser)"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "cordel.rodar",
+          "when": "resourceLangId == cordel",
+          "group": "navigation@0"
+        },
+        {
+          "command": "cordel.rodarNoTerminal",
+          "when": "resourceLangId == cordel",
+          "group": "navigation@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "cordel.rodar",
+          "when": "editorLangId == cordel"
+        },
+        {
+          "command": "cordel.rodarNoTerminal",
+          "when": "editorLangId == cordel"
+        },
+        {
+          "command": "cordel.gerarApp",
+          "when": "editorLangId == cordel"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "cordel.rodar",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "editorTextFocus && editorLangId == cordel"
+      }
+    ],
+    "configuration": {
+      "title": "Cordel",
+      "properties": {
+        "cordel.diagnostico.ativo": {
+          "type": "boolean",
+          "default": true,
+          "description": "Mostrar erros e avisos enquanto você digita."
+        },
+        "cordel.origens": {
+          "type": "boolean",
+          "default": false,
+          "description": "No comando Rodar programa, mostrar de onde veio cada valor (células das planilhas, endereços da internet, índices do Banco Central)."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[cordel]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.defaultFormatter": "cordel.cordel"
+      }
+    }
+  },
+  "scripts": {
+    "test": "node testes/rodar.js"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.9.2",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.2.0"
+  }
+}

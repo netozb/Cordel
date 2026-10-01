@@ -1,0 +1,2 @@
+[erro 1:4] A condição do `se` precisa ser verdadeira ou falsa, mas é um número (5).
+[dica] Exemplos de condição: x > 10 · nome == "Ana" · lista.vazia

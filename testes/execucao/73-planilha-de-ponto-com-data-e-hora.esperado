@@ -1,0 +1,27 @@
+data 04/09/2026 17:05:30
+Ana 08:02 17:10 9.13
+Bruno 09:15 18:00 8.75
+Carla 07:58 12:00 4.03
+Davi 08:00 17:05:30 9.09
+[tabela 1 de 1] Funcionário | Entrada | Saída | Observação
+  Bruno | 03/09/2026 09:15 | 03/09/2026 18:00 | atraso
+[tabela 2 de 2] dia | pessoas | horas
+  03/09/2026 | 3 | 21.9
+  04/09/2026 | 1 | 9.1
+[arquivo ponto.csv, 4 linhas]
+[arquivo ponto.json]
+[conteúdo de ponto.csv]
+  Funcionário;Entrada;Saída;Observação
+  Ana;03/09/2026 08:02;03/09/2026 17:10;
+  Bruno;03/09/2026 09:15;03/09/2026 18:00;atraso
+  Carla;03/09/2026 07:58;03/09/2026 12:00;meio período
+  Davi;04/09/2026 08:00;04/09/2026 17:05:30;
+[conteúdo de ponto.json]
+  [
+    {
+      "Funcionário": "Ana",
+      "Entrada": "2026-09-03T08:02:00",
+      "Saída": "2026-09-03T17:10:00",
+      "Observação": ""
+    }
+  ]

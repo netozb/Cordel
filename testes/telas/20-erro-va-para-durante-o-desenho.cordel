@@ -1,0 +1,5 @@
+tela "a"
+  página "A"
+    vá para "B"
+  fim
+fim

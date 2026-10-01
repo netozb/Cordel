@@ -1,0 +1,6 @@
+exemplo.com.br/cnpj/11222333000181: capital_social
+exemplo.com.br/cnpj/11222333000181: qsa[2].cotas
+exemplo.com.br/cnpj/11222333000181: qsa[1].cotas e qsa[2].cotas
+2 valores de exemplo.com.br/vendas.json (campo total; itens 1 e 2)
+exemplo.com.br/vendas.json, item 2
+2 células de exemplo.com.br/dados/vendas.csv (coluna Total; linhas 2 e 4)

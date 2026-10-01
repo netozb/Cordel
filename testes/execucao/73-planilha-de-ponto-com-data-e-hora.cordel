@@ -1,0 +1,14 @@
+ponto = tabela("ponto.csv")
+mostre tipo(ponto[1].entrada), ponto[4].saída
+para cada p em ponto
+  mostre p.funcionário, p.entrada.horário, p.saída.horário, p.entrada.horas_até(p.saída).arredondado(2)
+fim
+mostre ponto.filtre(p => p.entrada.hora >= 9)
+por_dia = ponto.agrupe(p => p.entrada.sem_hora).transforme(g => {
+  dia: g.chave,
+  pessoas: g.quantidade,
+  horas: g.itens.soma(p => p.entrada.horas_até(p.saída)).arredondado(1),
+})
+mostre por_dia
+salve("ponto.csv", ponto)
+salve("ponto.json", ponto.pegue(1))

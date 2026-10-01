@@ -1,0 +1,7 @@
+1: Não entendi a data "03/09/2026 25:00".
+2: `data` recebe um texto, uma data e uma hora, ou números: ano, mês e dia, e também hora e minuto.
+3: Essa hora não existe: use hora de 0 a 23 e minuto de 0 a 59.
+4: `minutos_até` recebe outra data, mas recebeu um texto.
+5: O segundo valor de `data` é a hora, como "14:30".
+6: Com datas, some ou subtraia um número inteiro de dias.
+[erro 31:33] A data ficou fora do calendário.
