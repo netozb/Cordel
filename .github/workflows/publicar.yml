@@ -81,11 +81,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+        # a versão pode já existir, criada pela página do GitHub (Releases › Draft a new release):
+        # nesse caso ela ganha o título, as notas e os arquivos
         run: |
           previa=""
           case "$GITHUB_REF_NAME" in *-*) previa="--prerelease";; esac
-          gh release create "$GITHUB_REF_NAME" --title "Cordel ${GITHUB_REF_NAME#v}" --notes-file dist/notas-${GITHUB_REF_NAME#v}.md $previa \
-            dist/*.zip dist/*.vsix dist/*.tgz dist/cordel.html dist/SHA256SUMS.txt
+          v="${GITHUB_REF_NAME#v}"
+          arquivos="dist/*.zip dist/*.vsix dist/*.tgz dist/cordel.html dist/SHA256SUMS.txt"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --title "Cordel $v" --notes-file "dist/notas-$v.md" $previa
+            gh release upload "$GITHUB_REF_NAME" --clobber $arquivos
+          else
+            gh release create "$GITHUB_REF_NAME" --title "Cordel $v" --notes-file "dist/notas-$v.md" $previa $arquivos
+          fi
 
   npm:
     name: npm

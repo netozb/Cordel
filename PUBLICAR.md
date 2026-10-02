@@ -136,6 +136,8 @@ git tag vx.y.z
 git push origin main vx.y.z
 ```
 
+Sem computador por perto, dá para criar a etiqueta pela página do GitHub, depois de enviar o commit: **Releases › Draft a new release**, em *Choose a tag* digite `vx.y.z` e escolha *Create new tag on publish* (alvo: `main`), e toque em **Publish release** (título e notas podem ficar em branco). O fluxo preenche a versão com o título, as notas e os arquivos.
+
 Na aba **Actions**, o fluxo **Publicar** confere se a etiqueta bate com a versão, roda todos os testes, monta os pacotes e publica: a versão no GitHub (com as notas tiradas do `CHANGELOG.md`) e os destinos que você ligou. Se você criou o ambiente `publicacao` com aprovação, o GitHub espera o seu clique antes do npm e das lojas.
 
 Versões de teste (`npm run versao -- x.y.z-beta.1`, etiqueta `vx.y.z-beta.1`) vão para o GitHub como pré-lançamento e para o npm com a etiqueta `proxima` (`npm install -g cordel@proxima`). O Marketplace, o Open VSX e o site só recebem versões finais.
