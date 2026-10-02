@@ -65,8 +65,9 @@ Se passar, inclua `package.json` e `package-lock.json` no commit e ajuste o item
 
 1. **Settings › Pages › Build and deployment › Source**: escolha **GitHub Actions**.
 2. **Settings › Secrets and variables › Actions › Variables › New repository variable**: `PUBLICAR_SITE` com o valor `sim`.
+3. **Settings › Environments › github-pages › Deployment branches and tags › Add deployment branch or tag rule**: tipo **Tag**, padrão `v*`. Sem isso o GitHub só deixa publicar a partir da `main` e recusa as etiquetas de versão ("is not allowed to deploy to github-pages due to environment protection rules"). O ambiente `github-pages` aparece depois do passo 1.
 
-A cada versão, o editor fica em `https://usuario.github.io/cordel/`, com o `.zip` da versão ao lado. Fora do Claude, o botão Descrever some e os arquivos (apps, planilhas) são baixados direto pelo navegador. `busque(…)` funciona com qualquer serviço que permita acesso de outros sites (CORS).
+A cada versão, o editor fica em `https://usuario.github.io/cordel/`, com o `.zip` da versão ao lado. Se ligar o Pages depois de lançar uma versão, não precisa lançar outra: em **Actions › Publicar › Run workflow**, escolha a etiqueta da versão (aba **Tags** em *Use workflow from*) e rode; só o site é publicado. Fora do Claude, o botão Descrever some e os arquivos (apps, planilhas) são baixados direto pelo navegador. `busque(…)` funciona com qualquer serviço que permita acesso de outros sites (CORS).
 
 ## 5. npm
 

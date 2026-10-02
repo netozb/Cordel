@@ -9,10 +9,15 @@ name: Publicar
 #   PUBLICAR_OPENVSX=sim       publica no Open VSX (segredo OVSX_PAT)
 #   PUBLICAR_SITE=sim          põe o editor no ar pelo GitHub Pages
 # A versão no GitHub (Releases), com o .zip, o .vsix, o .tgz e o editor, é criada sempre.
+#
+# Para pôr no ar uma versão que já saiu (por exemplo, depois de ligar o GitHub Pages):
+# Actions › Publicar › Run workflow, escolhendo a etiqueta em "Use workflow from".
+# Rodado à mão, só o site é publicado; GitHub, npm e lojas ficam como estão.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -37,6 +42,10 @@ jobs:
       - name: A etiqueta bate com a versão
         run: |
           versao="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            echo "::error::Rode a partir de uma etiqueta de versão (em Use workflow from, aba Tags), não de $GITHUB_REF_NAME."
+            exit 1
+          fi
           if [ "$versao" != "$GITHUB_REF_NAME" ]; then
             echo "::error::A etiqueta é $GITHUB_REF_NAME, mas package.json diz $versao. Use npm run versao antes de criar a etiqueta."
             exit 1
@@ -59,6 +68,7 @@ jobs:
   github:
     name: Versão no GitHub
     needs: conferir
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -80,7 +90,7 @@ jobs:
   npm:
     name: npm
     needs: conferir
-    if: vars.PUBLICAR_NPM == 'sim'
+    if: github.event_name == 'push' && vars.PUBLICAR_NPM == 'sim'
     runs-on: ubuntu-latest
     environment: publicacao
     permissions:
@@ -109,7 +119,7 @@ jobs:
     name: Visual Studio Marketplace
     needs: conferir
     # o Marketplace e o Open VSX não aceitam versões como 0.7.0-beta.1: essas vão só para o GitHub e o npm
-    if: vars.PUBLICAR_MARKETPLACE == 'sim' && !contains(github.ref_name, '-')
+    if: github.event_name == 'push' && vars.PUBLICAR_MARKETPLACE == 'sim' && !contains(github.ref_name, '-')
     runs-on: ubuntu-latest
     environment: publicacao
     permissions:
@@ -145,7 +155,7 @@ jobs:
   openvsx:
     name: Open VSX
     needs: conferir
-    if: vars.PUBLICAR_OPENVSX == 'sim' && !contains(github.ref_name, '-')
+    if: github.event_name == 'push' && vars.PUBLICAR_OPENVSX == 'sim' && !contains(github.ref_name, '-')
     runs-on: ubuntu-latest
     environment: publicacao
     steps:
